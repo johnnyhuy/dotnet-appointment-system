@@ -17,15 +17,20 @@ namespace Rmit.Asr.Application.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Web Development Technologies -  Assginement 2";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Contact Us.";
 
+            return View();
+        }
+
+        public IActionResult Faq()
+        {
             return View();
         }
 
