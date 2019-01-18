@@ -1,4 +1,4 @@
-# Appointment Scheduling Reservation - WDT Assignment 1
+# Appointment Scheduling Reservation - WDT Assignment 2
 
 ## Contribution
 
