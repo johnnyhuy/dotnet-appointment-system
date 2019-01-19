@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Data
 {
@@ -9,5 +10,7 @@ namespace Rmit.Asr.Application.Data
             : base(options)
         {
         }
+        
+        public DbSet<Student> Student { get; set; }
     }
 }

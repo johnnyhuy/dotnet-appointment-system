@@ -12,9 +12,9 @@ namespace Rmit.Asr.Application.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly StudentContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public StudentController(StudentContext context)
+        public StudentController(ApplicationDbContext context)
         {
             _context = context;
         }

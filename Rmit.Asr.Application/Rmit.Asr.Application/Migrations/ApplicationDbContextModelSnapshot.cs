@@ -227,6 +227,32 @@ namespace Rmit.Asr.Application.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
+            
+            modelBuilder
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Student", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<DateTime>("CreatedAt");
+
+                b.Property<string>("Email");
+
+                b.Property<string>("FirstName");
+
+                b.Property<string>("LastName");
+
+                b.Property<DateTime>("UpdatedAt");
+
+                b.HasKey("Id");
+
+                b.ToTable("Student");
+            });
 #pragma warning restore 612, 618
         }
     }

@@ -9,7 +9,7 @@ using Rmit.Asr.Application.Data;
 
 namespace Rmit.Asr.Application.Migrations
 {
-    [DbContext(typeof(StudentContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20190119042932_StudentCreate")]
     partial class StudentCreate
     {
