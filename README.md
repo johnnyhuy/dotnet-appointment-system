@@ -24,7 +24,8 @@ This is a list I've compiled, which has influenced code change and design patter
 
 ### Concepts & design choices
 
-- Test reference
+- [Using multiple DB contexts](https://stackoverflow.com/questions/52276128/net-core-2-1-multiple-dbcontext-for-same-database)
+- [Creating multiple user identities](https://stackoverflow.com/questions/42163390/can-i-create-multiple-identity-tables-in-asp-net-mvc)
 
 ### Troubleshooting
 
