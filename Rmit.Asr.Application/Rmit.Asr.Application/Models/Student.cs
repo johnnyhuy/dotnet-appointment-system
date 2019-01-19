@@ -5,8 +5,6 @@ namespace Rmit.Asr.Application.Models
 {
     public class Student : ApplicationUser
     {
-        public new int Id { get; set; }
-        
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
