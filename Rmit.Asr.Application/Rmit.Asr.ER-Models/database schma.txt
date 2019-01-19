@@ -1,0 +1,10 @@
+
+Room(RoomID)
+     ------
+
+User(UserID,Name,Email)
+     ------
+
+Slot(RoomID*,StartTime,StaffID*,BookedInStudentID*)
+     ------- ---------
+
