@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Rmit.Asr.Application.Areas.Identity.Models;
 
-namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
+namespace Rmit.Asr.Application.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class StaffLogoutModel : PageModel
+    public class LogoutModel : PageModel
     {
-        private readonly SignInManager<Models.Staff> _signInManager;
-        private readonly ILogger<StaffLogoutModel> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<LogoutModel> _logger;
 
-        public StaffLogoutModel(SignInManager<Models.Staff> signInManager, ILogger<StaffLogoutModel> logger)
+        public LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

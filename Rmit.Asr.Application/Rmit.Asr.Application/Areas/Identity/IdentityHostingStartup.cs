@@ -21,11 +21,13 @@ namespace Rmit.Asr.Application.Areas.Identity
                 services.AddDefaultIdentity<ApplicationUser>()
                     .AddEntityFrameworkStores<IdentityDataContext>()
                     .AddDefaultTokenProviders();
+                
+                services.AddScoped<SignInManager<ApplicationUser>>();
                 services.AddScoped<SignInManager<Student>>();
                 services.AddScoped<SignInManager<Staff>>();
-                services.AddScoped<UserManager<Student>>();
-                services.AddScoped<SignInManager<ApplicationUser>>();
+                
                 services.AddScoped<UserManager<ApplicationUser>>();
+                services.AddScoped<UserManager<Student>>();
                 services.AddScoped<UserManager<Staff>>();
             });
         }

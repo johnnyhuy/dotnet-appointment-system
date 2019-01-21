@@ -7,21 +7,22 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Rmit.Asr.Application.Areas.Identity.Models;
 
-namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
+namespace Rmit.Asr.Application.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class StudentRegisterModel : PageModel
+    public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Models.Student> _signInManager;
-        private readonly UserManager<Models.Student> _userManager;
-        private readonly ILogger<StudentRegisterModel> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public StudentRegisterModel(
-            UserManager<Models.Student> userManager,
-            SignInManager<Models.Student> signInManager,
-            ILogger<StudentRegisterModel> logger,
+        public RegisterModel(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -64,7 +65,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Models.Student { UserName = Input.Email, Email = Input.Email };
+                var user = new Student { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

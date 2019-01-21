@@ -15,4 +15,18 @@
     <Folder Include="Migrations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Logout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Logout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+  </ItemGroup>
+
 </Project>

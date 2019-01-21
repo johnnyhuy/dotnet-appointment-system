@@ -10,7 +10,7 @@ using Rmit.Asr.Application.Areas.Identity.Data;
 namespace Rmit.Asr.Application.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20190121123123_InitialIdentity")]
+    [Migration("20190121124545_InitialIdentity")]
     partial class InitialIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
