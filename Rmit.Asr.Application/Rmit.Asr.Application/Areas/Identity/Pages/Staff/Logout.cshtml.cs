@@ -10,10 +10,10 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
     [AllowAnonymous]
     public class StaffLogoutModel : PageModel
     {
-        private readonly SignInManager<Data.Staff> _signInManager;
+        private readonly SignInManager<Models.Staff> _signInManager;
         private readonly ILogger<StaffLogoutModel> _logger;
 
-        public StaffLogoutModel(SignInManager<Data.Staff> signInManager, ILogger<StaffLogoutModel> logger)
+        public StaffLogoutModel(SignInManager<Models.Staff> signInManager, ILogger<StaffLogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

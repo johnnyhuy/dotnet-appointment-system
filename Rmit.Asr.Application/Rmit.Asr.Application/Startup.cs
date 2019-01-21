@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Rmit.Asr.Application.Data;
-using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application
 {
@@ -33,20 +29,7 @@ namespace Rmit.Asr.Application
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            
-            // Identity features
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
-                .AddDefaultTokenProviders();;
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddScoped<SignInManager<ApplicationUser>>();
-            services.AddScoped<UserManager<ApplicationUser>>();
         }
 
         /// <summary>

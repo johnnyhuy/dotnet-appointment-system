@@ -13,14 +13,14 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
     [AllowAnonymous]
     public class StudentRegisterModel : PageModel
     {
-        private readonly SignInManager<Data.Student> _signInManager;
-        private readonly UserManager<Data.Student> _userManager;
+        private readonly SignInManager<Models.Student> _signInManager;
+        private readonly UserManager<Models.Student> _userManager;
         private readonly ILogger<StudentRegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public StudentRegisterModel(
-            UserManager<Data.Student> userManager,
-            SignInManager<Data.Student> signInManager,
+            UserManager<Models.Student> userManager,
+            SignInManager<Models.Student> signInManager,
             ILogger<StudentRegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -64,7 +64,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Data.Student { UserName = Input.Email, Email = Input.Email };
+                var user = new Models.Student { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

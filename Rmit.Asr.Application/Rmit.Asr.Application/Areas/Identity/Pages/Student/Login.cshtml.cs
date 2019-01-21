@@ -14,10 +14,10 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
     [AllowAnonymous]
     public class StudentLoginModel : PageModel
     {
-        private readonly SignInManager<Data.Student> _signInManager;
+        private readonly SignInManager<Models.Student> _signInManager;
         private readonly ILogger<StudentLoginModel> _logger;
 
-        public StudentLoginModel(SignInManager<Data.Student> signInManager, ILogger<StudentLoginModel> logger)
+        public StudentLoginModel(SignInManager<Models.Student> signInManager, ILogger<StudentLoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

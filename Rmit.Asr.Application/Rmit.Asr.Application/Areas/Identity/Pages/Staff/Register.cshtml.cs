@@ -13,14 +13,14 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
     [AllowAnonymous]
     public class StaffRegisterModel : PageModel
     {
-        private readonly SignInManager<Data.Staff> _signInManager;
-        private readonly UserManager<Data.Staff> _userManager;
+        private readonly SignInManager<Models.Staff> _signInManager;
+        private readonly UserManager<Models.Staff> _userManager;
         private readonly ILogger<StaffRegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public StaffRegisterModel(
-            UserManager<Data.Staff> userManager,
-            SignInManager<Data.Staff> signInManager,
+            UserManager<Models.Staff> userManager,
+            SignInManager<Models.Staff> signInManager,
             ILogger<StaffRegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -64,7 +64,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Data.Staff { UserName = Input.Email, Email = Input.Email };
+                var user = new Models.Staff { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
