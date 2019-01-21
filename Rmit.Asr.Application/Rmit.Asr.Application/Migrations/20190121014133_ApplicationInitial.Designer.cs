@@ -10,7 +10,7 @@ using Rmit.Asr.Application.Data;
 namespace Rmit.Asr.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190119062852_ApplicationInitial")]
+    [Migration("20190121014133_ApplicationInitial")]
     partial class ApplicationInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,8 @@ namespace Rmit.Asr.Application.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime>("CreatedAt");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
@@ -177,6 +179,8 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<DateTime>("UpdatedAt");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -199,9 +203,6 @@ namespace Rmit.Asr.Application.Migrations
                 {
                     b.HasBaseType("Rmit.Asr.Application.Models.ApplicationUser");
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime>("UpdatedAt");
 
                     b.ToTable("Student");
 
