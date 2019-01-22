@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
 {
@@ -34,6 +35,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
         public class InputModel
         {
             [Required]
+            [StaffId]
             [Display(Name = "Staff ID")]
             public string Id { get; set; }
             
@@ -70,16 +72,17 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
 
             string email = $"{Input.Id}@{Models.Staff.EmailSuffix}";
             var user = new Models.Staff { Id = Input.Id, UserName = email, Email = email };
+
             IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
-            
+                
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-
+    
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);
             }
-            
+                
             foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
