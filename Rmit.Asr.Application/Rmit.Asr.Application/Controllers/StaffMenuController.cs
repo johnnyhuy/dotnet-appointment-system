@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using Rmit.Asr.Application.Models;
+
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Rmit.Asr.Application.Controllers
@@ -15,5 +17,19 @@ namespace Rmit.Asr.Application.Controllers
         {
             return View();
         }
+
+
+        public IActionResult CreateSlot()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSlot(Slot slot)
+        {
+            return View(slot);
+        }
+
     }
 }
