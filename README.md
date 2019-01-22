@@ -1,5 +1,7 @@
 # Appointment Scheduling Reservation - WDT Assignment 2
 
+[![Build Status](https://travis-ci.com/johnnyhuy/wdt-assignment-two.svg?token=ub2yBqp1vBAx6s5o2ewE&branch=master)](https://travis-ci.com/johnnyhuy/wdt-assignment-two)
+
 ## Contribution
 
 GROUP Assignment 1 for RMIT Web Development Technologies.
