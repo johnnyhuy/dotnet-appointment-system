@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Rmit.Asr.Application.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Areas.Identity.Models
 {
@@ -7,9 +7,9 @@ namespace Rmit.Asr.Application.Areas.Identity.Models
     {
         public const string EmailSuffix = "rmit.edu.au";
         
-        [Key]
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
+        [StaffId]
+        [Display(Name = "Staff ID")]
+        public override string Id { get; set; }
 
         public override string Email => $"{Id}@{EmailSuffix}";
     }
