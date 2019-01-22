@@ -54,5 +54,45 @@ namespace Rmit.Asr.Application.Tests
             Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
             Assert.False(results);
         }
+        
+        [Fact]
+        public void SetStaff_WithEmptyFirstName_ValidationFails()
+        {
+            // Arrange
+            var student = new Staff();
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(student) { MemberName = nameof(student.FirstName) };
+
+            // Act
+            student.FirstName = null;
+            
+            bool results = Validator.TryValidateProperty(student.FirstName, validationContext, validationResults);
+
+            // Assert
+            const string expectedMessage = "The First Name field is required.";
+            
+            Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
+            Assert.False(results);
+        }
+        
+        [Fact]
+        public void SetStaff_WithEmptyLastName_ValidationFails()
+        {
+            // Arrange
+            var student = new Staff();
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(student) { MemberName = nameof(student.LastName) };
+
+            // Act
+            student.LastName = null;
+            
+            bool results = Validator.TryValidateProperty(student.LastName, validationContext, validationResults);
+
+            // Assert
+            const string expectedMessage = "The Last Name field is required.";
+            
+            Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
+            Assert.False(results);
+        }
     }
 }
