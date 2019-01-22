@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Rmit.Asr.Application.ValidationAttributes
 {
+    /// <summary>
+    /// Validation attribute copied from the first WDT assignment
+    ///
+    /// Author: Johnny Huynh <s3604367@student.rmit.edu.au>
+    /// </summary>
     public class HoursBetweenAttribute : ValidationAttribute
     {
         private readonly int _startHour;
