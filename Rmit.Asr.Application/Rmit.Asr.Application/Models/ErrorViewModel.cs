@@ -1,5 +1,3 @@
-using System;
-
 namespace Rmit.Asr.Application.Models
 {
     public class ErrorViewModel
