@@ -12,8 +12,5 @@
   <ItemGroup>
     <Folder Include="Views\StaffMenu\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Views\StaffMenu\CreateSlot.cshtml" />
-    <Content Remove="Views\StaffMenu\Indexa.cshtml" />
-  </ItemGroup>
+
 </Project>
