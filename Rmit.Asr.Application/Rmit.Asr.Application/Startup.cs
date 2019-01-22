@@ -28,7 +28,7 @@ namespace Rmit.Asr.Application
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -52,7 +52,7 @@ namespace Rmit.Asr.Application
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-//            app.UseCookiePolicy();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
 

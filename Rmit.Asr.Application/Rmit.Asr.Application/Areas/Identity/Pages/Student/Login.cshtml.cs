@@ -8,17 +8,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Rmit.Asr.Application.Areas.Identity.Models;
 
-namespace Rmit.Asr.Application.Areas.Identity.Pages.Account
+namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 {
     [AllowAnonymous]
-    public class LoginModel : PageModel
+    public class StudentLoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly SignInManager<Models.Student> _signInManager;
+        private readonly ILogger<StudentLoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public StudentLoginModel(SignInManager<Models.Student> signInManager, ILogger<StudentLoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

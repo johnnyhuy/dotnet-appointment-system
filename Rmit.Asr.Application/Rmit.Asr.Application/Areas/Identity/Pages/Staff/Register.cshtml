@@ -1,7 +1,7 @@
 @page
-@model RegisterModel
+@model StaffRegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Staff Registration";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -13,9 +13,19 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <label asp-for="Input.Id"></label>
+                <input asp-for="Input.Id" class="form-control" />
+                <span asp-validation-for="Input.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>

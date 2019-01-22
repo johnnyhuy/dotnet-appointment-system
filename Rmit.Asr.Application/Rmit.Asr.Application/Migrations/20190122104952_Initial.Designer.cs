@@ -10,8 +10,8 @@ using Rmit.Asr.Application.Areas.Identity.Data;
 namespace Rmit.Asr.Application.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20190121124545_InitialIdentity")]
-    partial class InitialIdentity
+    [Migration("20190122104952_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,11 +87,9 @@ namespace Rmit.Asr.Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -122,11 +120,9 @@ namespace Rmit.Asr.Application.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -137,15 +133,12 @@ namespace Rmit.Asr.Application.Migrations
 
             modelBuilder.Entity("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -178,8 +171,6 @@ namespace Rmit.Asr.Application.Migrations
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<DateTime>("UpdatedAt");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
