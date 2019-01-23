@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations" />
+    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,5 +41,8 @@
 
   <ItemGroup>
     <Content Remove="Views\StaffMenu\RoomAvail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20190122104952_Initial.cs" />
   </ItemGroup>
 </Project>
