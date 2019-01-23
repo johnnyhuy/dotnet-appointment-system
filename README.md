@@ -22,6 +22,8 @@ GROUP Assignment 1 for RMIT Web Development Technologies.
 
 The RMIT appointing scheduling application allows external authentication to utilize student and staff features. In our case we are currently using the Google+ API to authenticate users using the **OAuth2** protocol.
 
+[![SocialMediaAuth](./Images/SocialMediaAuth.jpg?raw=true)](Images/SocialMediaAuth.jpg)
+
 ### Advantages & disadvantages offered by a social media login instead of the local login
 
 Using a social media login provides security through the reliability of the social networking site and its infrastructure. They have the sole responsibility of storing the users confidential credentials.
