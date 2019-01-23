@@ -18,17 +18,34 @@ namespace Rmit.Asr.Application.Controllers
             return View();
         }
 
-
+        
         public IActionResult CreateSlot()
         {
             return View();
         }
+        
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateSlot(Slot slot)
+        //{
+        //    return View(slot);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSlot(Slot slot)
+        public IActionResult ListStaff()
         {
-            return View(slot);
+            return View();
+        }
+
+
+        public IActionResult RemoveSlot()
+        {
+            return View();
+        }
+
+
+        public IActionResult RoomAvail()
+        {
+            return View();
         }
 
     }

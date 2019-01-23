@@ -13,4 +13,7 @@
     <Folder Include="Views\StaffMenu\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\StaffMenu\RoomAvail.cshtml" />
+  </ItemGroup>
 </Project>
