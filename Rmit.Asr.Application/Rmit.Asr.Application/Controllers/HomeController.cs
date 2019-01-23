@@ -13,7 +13,7 @@ namespace Rmit.Asr.Application.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Web Development Technologies -  Assginement 2";
+            ViewData["Message"] = "Need an assignment demonstration to be booked at a certain time? So no more!";
 
             return View();
         }
