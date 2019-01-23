@@ -20,25 +20,23 @@ namespace Rmit.Asr.Application.Controllers
             _context = context;
         }
 
+        //** STAFF MENU HOME PAGE **//
+
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
 
-        
+        /** CREATE SLOTS **/
+
+        // GET:
         public IActionResult CreateSlot()
         {
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult CreateSlot(Slot slot)
-        //{
-        //    return View(slot);
-        //}
-
+        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSlot([Bind("RoomID,StartTime,StaffID")] Slot slot)
@@ -52,37 +50,41 @@ namespace Rmit.Asr.Application.Controllers
             return View(slot);
         }
 
-
-        public IActionResult ListStaff()
+        /** LIST STAFF **/
+       
+        // GET:
+        public async Task<IActionResult> ListStaff()
         {
-            return View();
+            return View(await _context.Staff.ToListAsync());
         }
 
 
-        public async Task<IActionResult> RemoveSlotAsync(int? id)
+        /** ROOMS AVAILABLE **/
+       
+         // GET:
+        public async Task<IActionResult> RoomAvail()
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var slot = await _context.Slots.FirstOrDefaultAsync(x => x.RoomID == id );
-
-            //if (slot == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(slot);
-            return View();
-
+            return View(await _context.Room.ToListAsync());
         }
 
 
-        public IActionResult RoomAvail()
-        {
-            return View();
-        }
+
+        //public async Task<IActionResult> RemoveSlotAsync(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var slot = await _context.Slots.FirstOrDefaultAsync(x => x.RoomID == id );
+        //    if (slot == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(slot);
+        //    return View();
+        //}
+
+
 
     }
 }
