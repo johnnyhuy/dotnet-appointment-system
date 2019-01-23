@@ -20,7 +20,7 @@ namespace Rmit.Asr.Application.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Contact Us.";
+            ViewData["Message"] = "Interested in improving this application? Get in touch!";
 
             return View();
         }
