@@ -7,7 +7,7 @@ namespace Rmit.Asr.Application.Data
     public class ApplicationDataContext : DbContext
     {
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<Student> Staffs { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Slot> Slots { get; set; }
 
