@@ -1,0 +1,29 @@
+@using Microsoft.AspNetCore.Identity
+@using Rmit.Asr.Application.Areas.Identity.Models
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+     <form asp-area="Identity" asp-page="/Student/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+         <ul class="nav navbar-nav navbar-right">
+             <li>
+                 <a asp-area="Identity" asp-page="/Account/Student/Manage" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+             </li>
+             <li>
+                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+             </li>
+         </ul>
+     </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="Identity" asp-page="/Staff/Register">Staff Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Staff/Login">Staff Login</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="Identity" asp-page="/Student/Register">Student Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Student/Login">Student Login</a></li>
+    </ul>
+}
