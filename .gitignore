@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 
 **/*.DS_Store
+
+Rmit.Asr.Application/Rmit.Asr.Application/appsettings.Development.json
