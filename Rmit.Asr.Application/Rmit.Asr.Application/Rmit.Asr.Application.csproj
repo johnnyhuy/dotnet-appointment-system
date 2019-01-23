@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations" />
+    <Folder Include="wwwroot\images" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,10 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_ManageNav.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_StatusMessage.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Identity\Pages\Student\Manage\Index.cshtml" />
   </ItemGroup>
 
 </Project>
