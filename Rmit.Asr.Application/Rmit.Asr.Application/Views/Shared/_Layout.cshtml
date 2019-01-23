@@ -20,7 +20,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Rmit.Asr.Application</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">RMIT Appointment Scheduling Reservation</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,13 +41,12 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container mt-4">
-        @RenderBody()
-        <hr />
-        <footer>
+            @RenderBody()
+        <footer class="border-top pt-4 mt-4">
             <p>&copy; 2019 - RMIT Appointment Scheduling Reservation</p>
             <p>Shawn Taylor : S3545751</p>
             <p>Johnny Huy : S3604367</p>
-            <p>Github : https://github.com/johnnyhuy/wdt-assignment-two : *private* </p>
+            <a target="_blank" href="https://github.com/johnnyhuy/wdt-assignment-two">Github</a>
         </footer>
     </div>
 
