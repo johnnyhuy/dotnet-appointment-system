@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Rmit.Asr.Application.Areas.Identity.Models
-@inject SignInManager<Student> SignInManager
-@inject UserManager<Student> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

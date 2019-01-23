@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.Areas.Identity.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 {
@@ -31,7 +32,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 
         public string ReturnUrl { get; set; }
 
-        public class InputModel : Models.Student
+        public class InputModel : RegisterStudent
         {
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]

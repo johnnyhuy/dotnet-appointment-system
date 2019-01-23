@@ -8,6 +8,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" PrivateAssets="All" />
   </ItemGroup>
 
@@ -32,6 +34,11 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ManageNav.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_StatusMessage.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_ManageNav.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Manage\_ViewImports.cshtml" />
   </ItemGroup>
 
 </Project>
