@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Areas.Identity.Models;
 
-namespace Rmit.Asr.Application.Areas.Identity.Data
+namespace Rmit.Asr.Application.Data
 {
-    public class IdentityDataContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Student> Students { get; set; }
         
         public DbSet<Staff> Staff { get; set; }
-        
-        public IdentityDataContext(DbContextOptions<IdentityDataContext> options)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
