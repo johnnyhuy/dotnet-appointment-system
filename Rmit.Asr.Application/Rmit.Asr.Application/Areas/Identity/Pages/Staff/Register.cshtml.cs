@@ -58,15 +58,25 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             if (!ModelState.IsValid) return Page();
 
             string email = $"{Input.Id}@{Models.Staff.EmailSuffix}";
-            var user = new Models.Staff { Id = Input.Id, UserName = email, Email = email };
+            var user = new Models.Staff
+            {
+                Id = Input.Id,
+                FirstName = Input.FirstName,
+                LastName = Input.LastName,
+                UserName = email,
+                Email = email
+            };
 
             IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
                 
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
+                
+                await _userManager.AddToRoleAsync(user, "Staff");
     
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                
                 return LocalRedirect(returnUrl);
             }
                 
