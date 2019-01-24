@@ -6,6 +6,9 @@ namespace Rmit.Asr.Application.Areas.Identity.Models
     {
         public const string EmailSuffix = "student.rmit.edu.au";
         
+        /// <summary>
+        /// Identification string of the student.
+        /// </summary>
         [Display(Name = "Student ID")]
         public override string Id { get; set; }
     }

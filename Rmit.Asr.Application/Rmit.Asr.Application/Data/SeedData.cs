@@ -5,8 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Rmit.Asr.Application.Data
 {
+    /// <summary>
+    /// This is the data seeding class used to populate data upon startup.
+    /// </summary>
     public static class SeedData
     {
+        /// <summary>
+        /// General seeding of data
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
         public static async Task Seed(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
