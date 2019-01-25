@@ -51,6 +51,17 @@ namespace Rmit.Asr.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Room",
+                columns: table => new
+                {
+                    RoomID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room", x => x.RoomID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -156,6 +167,38 @@ namespace Rmit.Asr.Application.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Slot",
+                columns: table => new
+                {
+                    RoomID = table.Column<string>(nullable: false),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    StaffID = table.Column<string>(nullable: true),
+                    StudentID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Slot", x => new { x.RoomID, x.StartTime });
+                    table.ForeignKey(
+                        name: "FK_Slot_Room_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Room",
+                        principalColumn: "RoomID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Slot_AspNetUsers_StaffID",
+                        column: x => x.StaffID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Slot_AspNetUsers_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +237,16 @@ namespace Rmit.Asr.Application.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Slot_StaffID",
+                table: "Slot",
+                column: "StaffID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Slot_StudentID",
+                table: "Slot",
+                column: "StudentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -214,7 +267,13 @@ namespace Rmit.Asr.Application.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Slot");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Room");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

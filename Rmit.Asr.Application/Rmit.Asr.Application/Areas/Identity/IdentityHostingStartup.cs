@@ -14,7 +14,7 @@ namespace Rmit.Asr.Application.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ApplicationDbContext>(options =>
+                services.AddDbContext<ApplicationDataContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
                 
@@ -26,19 +26,19 @@ namespace Rmit.Asr.Application.Areas.Identity
                         options.Password.RequireLowercase = false;
                         options.Password.RequireUppercase = false;
                     })
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>()
                     .AddDefaultTokenProviders();
                 
                 services.AddIdentityCore<Student>()
                     .AddRoles<IdentityRole>()
                     .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Student, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>()
                     .AddDefaultTokenProviders();
                 
                 services.AddIdentityCore<Staff>()
                     .AddRoles<IdentityRole>()
                     .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Staff, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>()
                     .AddDefaultTokenProviders();
                 
                 services.AddScoped<SignInManager<ApplicationUser>>();

@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rmit.Asr.Application.Data;
 
 namespace Rmit.Asr.Application.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190124073524_InitialApplication")]
-    partial class InitialApplication
+    [DbContext(typeof(ApplicationDataContext))]
+    partial class ApplicationDataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +129,7 @@ namespace Rmit.Asr.Application.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Rmit.Asr.Application.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -192,9 +190,38 @@ namespace Rmit.Asr.Application.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Rmit.Asr.Application.Areas.Identity.Models.Staff", b =>
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Room", b =>
                 {
-                    b.HasBaseType("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser");
+                    b.Property<string>("RoomID")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("RoomID");
+
+                    b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Slot", b =>
+                {
+                    b.Property<string>("RoomID");
+
+                    b.Property<DateTime>("StartTime");
+
+                    b.Property<string>("StaffID");
+
+                    b.Property<string>("StudentID");
+
+                    b.HasKey("RoomID", "StartTime");
+
+                    b.HasIndex("StaffID");
+
+                    b.HasIndex("StudentID");
+
+                    b.ToTable("Slot");
+                });
+
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Staff", b =>
+                {
+                    b.HasBaseType("Rmit.Asr.Application.Models.ApplicationUser");
 
 
                     b.ToTable("Staff");
@@ -202,9 +229,9 @@ namespace Rmit.Asr.Application.Migrations
                     b.HasDiscriminator().HasValue("Staff");
                 });
 
-            modelBuilder.Entity("Rmit.Asr.Application.Areas.Identity.Models.Student", b =>
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Student", b =>
                 {
-                    b.HasBaseType("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser");
+                    b.HasBaseType("Rmit.Asr.Application.Models.ApplicationUser");
 
 
                     b.ToTable("Student");
@@ -222,7 +249,7 @@ namespace Rmit.Asr.Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser")
+                    b.HasOne("Rmit.Asr.Application.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -230,7 +257,7 @@ namespace Rmit.Asr.Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser")
+                    b.HasOne("Rmit.Asr.Application.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -243,7 +270,7 @@ namespace Rmit.Asr.Application.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser")
+                    b.HasOne("Rmit.Asr.Application.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -251,10 +278,26 @@ namespace Rmit.Asr.Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Rmit.Asr.Application.Areas.Identity.Models.ApplicationUser")
+                    b.HasOne("Rmit.Asr.Application.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Rmit.Asr.Application.Models.Slot", b =>
+                {
+                    b.HasOne("Rmit.Asr.Application.Models.Room", "Room")
+                        .WithMany("Slots")
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Rmit.Asr.Application.Models.Staff", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffID");
+
+                    b.HasOne("Rmit.Asr.Application.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentID");
                 });
 #pragma warning restore 612, 618
         }

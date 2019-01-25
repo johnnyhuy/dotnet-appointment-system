@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rmit.Asr.Application.Data;
 using static Rmit.Asr.Application.Data.SeedData;
 
 namespace Rmit.Asr.Application
@@ -37,6 +39,10 @@ namespace Rmit.Asr.Application
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
             
+
+            services.AddDbContext<ApplicationDataContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

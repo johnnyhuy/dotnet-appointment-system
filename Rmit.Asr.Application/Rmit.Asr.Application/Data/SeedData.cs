@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Data
 {
@@ -28,6 +31,57 @@ namespace Rmit.Asr.Application.Data
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
+            }
+
+            using (var context = new ApplicationDataContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDataContext>>()))
+            {
+                if (context.Room.Any() || context.Slot.Any())
+                {
+                    return;
+                }
+
+                context.Room.AddRange(
+                    new Room
+                    {
+                        RoomID = "A"
+                    },
+
+                    new Room
+                    {
+                        RoomID = "B"
+                    },
+
+                    new Room
+                    {
+                        RoomID = "C"
+                    },
+
+                    new Room
+                    {
+                        RoomID = "D"
+                    }
+                );
+
+                // Doesn't work - no staff table in database or somthing
+                context.Staff.AddRange(
+                    new Staff
+                    {
+                        Id = "e12345",
+                        FirstName = "Shawn",
+                        LastName = "Taylor",
+                        Email = "e12345@rmit.edu.au"
+                    },
+
+                    new Staff
+                    {
+                        Id = "e54321",
+                        FirstName = "Bob",
+                        LastName = "Doe",
+                        Email = "e54321@rmit.edu.au"
+                    }
+                );
+
+                context.SaveChanges();
             }
         }
     }
