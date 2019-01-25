@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Rmit.Asr.Application.Models.Slot>
+
+@if (Model.Any() )
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RoomID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentID)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffID)
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <p>Staff haven't made any slots available for this day</p>
+}
