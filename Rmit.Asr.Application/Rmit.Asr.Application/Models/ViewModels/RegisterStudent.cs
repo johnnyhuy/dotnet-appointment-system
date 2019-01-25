@@ -1,4 +1,4 @@
-using Rmit.Asr.Application.ValidationAttributes;
+using Rmit.Asr.Application.Models.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models.ViewModels
 {

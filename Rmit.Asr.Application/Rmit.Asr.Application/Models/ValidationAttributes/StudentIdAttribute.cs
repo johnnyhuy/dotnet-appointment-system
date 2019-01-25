@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Rmit.Asr.Application.ValidationAttributes
+namespace Rmit.Asr.Application.Models.ValidationAttributes
 {
     /// <summary>
     /// Validation attribute copied from the first WDT assignment

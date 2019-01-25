@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Rmit.Asr.Application.ValidationAttributes;
+using Rmit.Asr.Application.Models.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models
 {

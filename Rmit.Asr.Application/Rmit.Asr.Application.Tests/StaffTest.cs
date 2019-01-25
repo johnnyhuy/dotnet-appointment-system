@@ -11,7 +11,7 @@ namespace Rmit.Asr.Application.Tests
         [InlineData("e12345")]
         [InlineData("e32145")]
         [InlineData("e23222")]
-        public void SetStaffId_WithValidInput_ValidationSuccess(string input)
+        public void RegisterStaffId_WithValidInput_ValidationSuccess(string input)
         {
             // Arrange
             var staff = new RegisterStaff();
@@ -35,7 +35,7 @@ namespace Rmit.Asr.Application.Tests
         [InlineData("e12345@rmit.edu.au")]
         [InlineData("@#&(!@*#&")]
         [InlineData("this is a wacky string!")]
-        public void SetStaffId_WithInvalidInput_ValidationFails(string input)
+        public void RegisterStaffId_WithInvalidInput_ValidationFails(string input)
         {
             // Arrange
             var staff = new RegisterStaff();
@@ -56,7 +56,7 @@ namespace Rmit.Asr.Application.Tests
         }
         
         [Fact]
-        public void SetStaff_WithEmptyFirstName_ValidationFails()
+        public void RegisterStaff_WithEmptyFirstName_ValidationFails()
         {
             // Arrange
             var student = new RegisterStaff();
@@ -76,7 +76,7 @@ namespace Rmit.Asr.Application.Tests
         }
         
         [Fact]
-        public void SetStaff_WithEmptyLastName_ValidationFails()
+        public void RegisterStaff_WithEmptyLastName_ValidationFails()
         {
             // Arrange
             var student = new RegisterStaff();
