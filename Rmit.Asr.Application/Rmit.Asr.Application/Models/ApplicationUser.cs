@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace Rmit.Asr.Application.Areas.Identity.Models
+namespace Rmit.Asr.Application.Models
 {
     public class ApplicationUser : IdentityUser
     {

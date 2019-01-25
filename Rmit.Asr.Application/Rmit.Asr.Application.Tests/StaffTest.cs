@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Rmit.Asr.Application.Areas.Identity.Models.ViewModels;
+using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Rmit.Asr.Application.Areas.Identity.Models;
 using Rmit.Asr.Application.Data;
+using Rmit.Asr.Application.Models;
 
 [assembly: HostingStartup(typeof(Rmit.Asr.Application.Areas.Identity.IdentityHostingStartup))]
 namespace Rmit.Asr.Application.Areas.Identity

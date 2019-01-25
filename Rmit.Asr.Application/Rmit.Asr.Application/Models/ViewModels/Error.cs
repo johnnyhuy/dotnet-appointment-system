@@ -1,6 +1,6 @@
-namespace Rmit.Asr.Application.Models
+namespace Rmit.Asr.Application.Models.ViewModels
 {
-    public class ErrorViewModel
+    public class Error
     {
         public string RequestId { get; set; }
 

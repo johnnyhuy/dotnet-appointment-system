@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Rmit.Asr.Application.Areas.Identity.Models
+namespace Rmit.Asr.Application.Models
 {
     public class Staff : ApplicationUser
     {

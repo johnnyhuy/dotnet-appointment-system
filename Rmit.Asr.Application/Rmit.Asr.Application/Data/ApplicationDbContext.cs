@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Data
 {
