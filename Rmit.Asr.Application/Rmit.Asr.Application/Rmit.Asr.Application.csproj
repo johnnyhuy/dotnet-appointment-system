@@ -1,12 +1,47 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-WebApplication2-1C991D52-1437-40B5-B1E5-DBDB3D708056</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations" />
+    <Folder Include="Data\" />
+    <Folder Include="Models\ViewModel" />
+    <Folder Include="Models\ViewModel\" />
+    <Folder Include="Views\StaffMenu\" />
+    <Folder Include="wwwroot\images" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Logout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Logout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Student\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ManageNav.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Identity\Pages\Student\Manage\Index.cshtml" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,27 @@
+﻿
+
+@model IEnumerable<Rmit.Asr.Application.Models.Room>
+
+
+<p> showing all roooms - will soon be only showing available rooms</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomID)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomID)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
