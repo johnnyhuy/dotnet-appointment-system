@@ -20,6 +20,7 @@
     <Folder Include="Models\ViewModel\" />
     <Folder Include="Views\StaffMenu\" />
     <Folder Include="wwwroot\images" />
+    <Folder Include="Views\StudentMenu\" />
   </ItemGroup>
 
   <ItemGroup>
