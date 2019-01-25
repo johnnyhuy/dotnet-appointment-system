@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rmit.Asr.Application.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "Room",
                 columns: table => new
                 {
                     RoomID = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomID);
+                    table.PrimaryKey("PK_Room", x => x.RoomID);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,7 +45,7 @@ namespace Rmit.Asr.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Slots",
+                name: "Slot",
                 columns: table => new
                 {
                     RoomID = table.Column<string>(nullable: false),
@@ -55,21 +55,21 @@ namespace Rmit.Asr.Application.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Slots", x => new { x.RoomID, x.StartTime });
+                    table.PrimaryKey("PK_Slot", x => new { x.RoomID, x.StartTime });
                     table.ForeignKey(
-                        name: "FK_Slots_Rooms_RoomID",
+                        name: "FK_Slot_Room_RoomID",
                         column: x => x.RoomID,
-                        principalTable: "Rooms",
+                        principalTable: "Room",
                         principalColumn: "RoomID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Slots_Staff_StaffID",
+                        name: "FK_Slot_Staff_StaffID",
                         column: x => x.StaffID,
                         principalTable: "Staff",
                         principalColumn: "StaffID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Slots_Student_StudentID",
+                        name: "FK_Slot_Student_StudentID",
                         column: x => x.StudentID,
                         principalTable: "Student",
                         principalColumn: "StudentID",
@@ -77,23 +77,23 @@ namespace Rmit.Asr.Application.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slots_StaffID",
-                table: "Slots",
+                name: "IX_Slot_StaffID",
+                table: "Slot",
                 column: "StaffID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slots_StudentID",
-                table: "Slots",
+                name: "IX_Slot_StudentID",
+                table: "Slot",
                 column: "StudentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Slots");
+                name: "Slot");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Room");
 
             migrationBuilder.DropTable(
                 name: "Staff");

@@ -10,8 +10,8 @@ using Rmit.Asr.Application.Data;
 namespace Rmit.Asr.Application.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    [Migration("20190123023214_Initial")]
-    partial class Initial
+    [Migration("20190124021213_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.HasKey("RoomID");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("Rmit.Asr.Application.Models.Slot", b =>
@@ -48,7 +48,7 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Slots");
+                    b.ToTable("Slot");
                 });
 
             modelBuilder.Entity("Rmit.Asr.Application.Models.Staff", b =>

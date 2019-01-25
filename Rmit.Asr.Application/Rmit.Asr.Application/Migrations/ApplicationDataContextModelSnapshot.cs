@@ -26,7 +26,7 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.HasKey("RoomID");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("Rmit.Asr.Application.Models.Slot", b =>
@@ -46,7 +46,7 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Slots");
+                    b.ToTable("Slot");
                 });
 
             modelBuilder.Entity("Rmit.Asr.Application.Models.Staff", b =>

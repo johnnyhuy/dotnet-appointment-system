@@ -44,5 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20190122104952_Initial.cs" />
+    <Compile Remove="Migrations\20190123023214_Initial.cs" />
   </ItemGroup>
 </Project>

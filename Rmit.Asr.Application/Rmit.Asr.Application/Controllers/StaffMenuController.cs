@@ -60,15 +60,40 @@ namespace Rmit.Asr.Application.Controllers
 
 
         /** ROOMS AVAILABLE **/
-       
-         // GET:
-        public async Task<IActionResult> RoomAvail()
+
+        //public IActionResult RoomsAvail()
+        //{
+        //    return View();
+        //}
+
+        // GET:
+        [HttpGet]
+        public IActionResult RoomsAvail(DateTime day)
         {
-            return View(await _context.Room.ToListAsync());
+            if (ModelState.IsValid)
+            {
+                // checks count for how many bookings this room 
+                // is in for a certain day is less than 2
+                var rooms = _context.Room
+                    .Include(r => r.Slots)
+                    .Where(r => !r.Slots.Any() || (r.Slots.Any(s => s.StartTime.Date == day.Date) && r.Slots.Any()));
+
+                var room1 = _context.Room
+                    .Include(r => r.Slots)
+                    .Where(r => (r.Slots.Any(s => s.StartTime.Date == day.Date) && r.Slots.Any())).ToList();
+
+                var test = rooms.ToList();
+
+
+                return View(rooms);
+            }
+
+
+            return View();
         }
 
 
-
+       
         //public async Task<IActionResult> RemoveSlotAsync(int? id)
         //{
         //    if (id == null)

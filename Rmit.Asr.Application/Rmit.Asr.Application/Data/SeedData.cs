@@ -42,21 +42,21 @@ namespace Rmit.Asr.Application.Models
                 );
 
                 // Doesn't work - no staff table in database or somthing
-                //context.Staff.AddRange(
-                //    new Staff
-                //    {
-                //        StaffID = "e12345",
-                //        Name = "shawn",
-                //        Email = "e12345@rmit.edu.au"
-                //    },
+                context.Staff.AddRange(
+                    new Staff
+                    {
+                        StaffID = "e12345",
+                        Name = "shawn",
+                        Email = "e12345@rmit.edu.au"
+                    },
 
-                //    new Staff
-                //    {
-                //        StaffID = "e54321",
-                //        Name = "bob",
-                //        Email = "e54321@rmit.edu.au"
-                //    }
-                //);
+                    new Staff
+                    {
+                        StaffID = "e54321",
+                        Name = "bob",
+                        Email = "e54321@rmit.edu.au"
+                    }
+                );
 
                 context.SaveChanges();
             }
