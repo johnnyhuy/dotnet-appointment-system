@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests
@@ -14,7 +14,7 @@ namespace Rmit.Asr.Application.Tests
         public void SetStudentId_WithValidInput_ValidationSuccess(string input)
         {
             // Arrange
-            var student = new Student();
+            var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(student) { MemberName = nameof(student.Id) };
 
@@ -38,7 +38,7 @@ namespace Rmit.Asr.Application.Tests
         public void SetStudentId_WithInvalidInput_ValidationFails(string input)
         {
             // Arrange
-            var student = new Student();
+            var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(student) { MemberName = nameof(student.Id) };
 
@@ -59,7 +59,7 @@ namespace Rmit.Asr.Application.Tests
         public void SetStudent_WithEmptyFirstName_ValidationFails()
         {
             // Arrange
-            var student = new Student();
+            var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(student) { MemberName = nameof(student.FirstName) };
 
@@ -79,7 +79,7 @@ namespace Rmit.Asr.Application.Tests
         public void SetStudent_WithEmptyLastName_ValidationFails()
         {
             // Arrange
-            var student = new Student();
+            var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(student) { MemberName = nameof(student.LastName) };
 

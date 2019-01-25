@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
-using Rmit.Asr.Application.Models.ViewModel;
+using Rmit.Asr.Application.Models.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,7 +49,7 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomID} does not exist.");
             }
 
-            if (!_context.Staff.Any(r => r.StaffID == slot.StaffID))
+            if (!_context.Staff.Any(r => r.Id == slot.StaffID))
             {
                 ModelState.AddModelError("StaffID", $"Staff {slot.StaffID} does not exist.");
             }

@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 {
@@ -31,7 +32,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 
         public string ReturnUrl { get; set; }
 
-        public class InputModel : Models.Student
+        public class InputModel : RegisterStudent
         {
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -57,14 +58,25 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             if (!ModelState.IsValid) return Page();
             
             string email = $"{Input.Id}@{Models.Student.EmailSuffix}";
-            var user = new Models.Student { Id = Input.Id, UserName = email, Email = email };
-            IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
+            var user = new Models.Student
+            {
+                Id = Input.Id,
+                FirstName = Input.FirstName,
+                LastName = Input.LastName,
+                UserName = email,
+                Email = email
+            };
             
+            IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
 
+                await _userManager.AddToRoleAsync(user, "Student");
+                
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                
                 return LocalRedirect(returnUrl);
             }
             

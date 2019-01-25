@@ -9,7 +9,8 @@ namespace Rmit.Asr.Application.Models
     {
         [Required]
         public string RoomID { get; set; }
-        public virtual Room Room { get; set; }
+        
+        public Room Room { get; set; }
 
         [Required]
         [HoursBetween(9, 14)]
@@ -19,10 +20,12 @@ namespace Rmit.Asr.Application.Models
 
         [RegularExpression("^e[0-9]{5}$")]
         public string StaffID { get; set; }
-        public virtual Staff Staff { get; set; }
+        
+        public Staff Staff { get; set; }
 
         [RegularExpression("^s[0 - 9]{7}$")]
         public string StudentID { get; set; }
-        public virtual Student Student { get; set; }
+        
+        public Student Student { get; set; }
     }
 }
