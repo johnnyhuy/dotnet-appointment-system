@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Rmit.Asr.Application.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -9,6 +10,8 @@ namespace Rmit.Asr.Application.Models
         public string RoomID { get; set; }
         public virtual Room Room { get; set; }
 
+        [HoursBetween(9, 14)]
+        [HourIntervals]
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
 
