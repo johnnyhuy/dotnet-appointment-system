@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +57,6 @@ namespace Rmit.Asr.Application.Controllers
             return View(await _context.Staff.ToListAsync());
         }
 
-
         /** ROOMS AVAILABLE **/
 
         //public IActionResult RoomsAvail()
@@ -66,33 +64,27 @@ namespace Rmit.Asr.Application.Controllers
         //    return View();
         //}
 
-        // GET:
+        /// <summary>
+        /// Get the available rooms.
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult RoomsAvail(DateTime day)
         {
-            if (ModelState.IsValid)
-            {
-                // checks count for how many bookings this room 
-                // is in for a certain day is less than 2
-                var rooms = _context.Room
-                    .Include(r => r.Slots)
-                    .Where(r => !r.Slots.Any() || (r.Slots.Any(s => s.StartTime.Date == day.Date) && r.Slots.Any()));
+            if (!ModelState.IsValid) return View();
+            
+            // Get unavailable rooms
+            IQueryable<Room> unavailableRooms = _context.Room
+                .Include(r => r.Slots)
+                .Where(r => r.Slots.Any(s => s.StartTime.Date == day.Date) && r.Slots.Count >= 2);
 
-                var room1 = _context.Room
-                    .Include(r => r.Slots)
-                    .Where(r => (r.Slots.Any(s => s.StartTime.Date == day.Date) && r.Slots.Any())).ToList();
-
-                var test = rooms.ToList();
-
-
-                return View(rooms);
-            }
-
-
-            return View();
+            // Compare unavailable rooms and exclude
+            IQueryable<Room> rooms = _context.Room
+                .Where(r => unavailableRooms.All(x => x.RoomID != r.RoomID));
+                
+            return View(rooms);
         }
-
-
        
         //public async Task<IActionResult> RemoveSlotAsync(int? id)
         //{
