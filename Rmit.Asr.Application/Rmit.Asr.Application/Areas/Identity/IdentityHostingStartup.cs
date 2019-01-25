@@ -18,14 +18,23 @@ namespace Rmit.Asr.Application.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
                 
-                services.AddIdentity<ApplicationUser, IdentityRole>()
+                services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                    {
+                        options.Password.RequiredLength = 3;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireUppercase = false;
+                    })
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
+                
                 services.AddIdentityCore<Student>()
                     .AddRoles<IdentityRole>()
                     .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Student, IdentityRole>>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
+                
                 services.AddIdentityCore<Staff>()
                     .AddRoles<IdentityRole>()
                     .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Staff, IdentityRole>>()
