@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Rmit.Asr.Application.Areas.Identity.Models;
+using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
 {

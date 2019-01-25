@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Rmit.Asr.Application.Areas.Identity.Data;
+using Rmit.Asr.Application.Data;
 
 namespace Rmit.Asr.Application.Migrations
 {
-    [DbContext(typeof(IdentityDataContext))]
-    [Migration("20190122104952_Initial")]
-    partial class Initial
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20190124073524_InitialApplication")]
+    partial class InitialApplication
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,9 +148,11 @@ namespace Rmit.Asr.Application.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired();
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired();
 
                     b.Property<bool>("LockoutEnabled");
 

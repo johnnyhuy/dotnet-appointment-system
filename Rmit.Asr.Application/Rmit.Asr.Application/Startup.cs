@@ -1,9 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static Rmit.Asr.Application.Data.SeedData;
 
 namespace Rmit.Asr.Application
 {
@@ -43,7 +45,10 @@ namespace Rmit.Asr.Application
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="serviceProvider"></param>
+        /// ReSharper isn't playing nice with overloaded methods >:(
+        // ReSharper disable once UnusedMember.Global
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -68,6 +73,8 @@ namespace Rmit.Asr.Application
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            Seed(serviceProvider).Wait();
         }
     }
 }
