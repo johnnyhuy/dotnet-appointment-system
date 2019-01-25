@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Models;
 
@@ -25,7 +24,7 @@ namespace Rmit.Asr.Application.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomID, x.StartTime });
+            modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomId, x.StartTime });
         }
 
     }

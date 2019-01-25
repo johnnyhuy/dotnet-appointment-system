@@ -8,17 +8,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomID)
+                @Html.DisplayNameFor(model => model.RoomId)
 
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StaffID)
+                @Html.DisplayNameFor(model => model.StaffId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentID)
+                @Html.DisplayNameFor(model => model.StudentId)
             </th>
 
             <th></th>
@@ -29,16 +29,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoomID)
+                    @Html.DisplayFor(modelItem => item.RoomId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StaffID)
+                    @Html.DisplayFor(modelItem => item.StaffId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StudentID)
+                    @Html.DisplayFor(modelItem => item.StudentId)
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Edit</a> |*@
@@ -46,7 +46,7 @@
                     @*<a asp-action="Details" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Details</a> |*@
                     <form asp-action="RemoveSlot">
                         <input type="hidden" asp-for="@item" class="form-control" />
-                        <input type="hidden" asp-for="@item.RoomID" name="RoomID" class="form-control" />
+                        <input type="hidden" asp-for="@item.RoomId" name="RoomID" class="form-control" />
                         <input type="hidden" asp-for="@item.StartTime" name="StartTime" class="form-control" />
                         <input type="submit" value="Delete" class="btn btn-default" />
                     </form>

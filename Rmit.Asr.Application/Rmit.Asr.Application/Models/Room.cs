@@ -5,9 +5,15 @@ namespace Rmit.Asr.Application.Models
 {
     public class Room
     {
+        /// <summary>
+        /// Room name.
+        /// </summary>
         [Required]
-        public string RoomID { get; set; }
+        public string RoomId { get; set; }
 
-        public virtual ICollection<Slot> Slots { get; set; }
+        /// <summary>
+        /// Slots related to the room.
+        /// </summary>
+        public ICollection<Slot> Slots { get; set; }
     }
 }

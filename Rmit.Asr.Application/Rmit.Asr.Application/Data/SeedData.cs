@@ -43,22 +43,22 @@ namespace Rmit.Asr.Application.Data
                 context.Room.AddRange(
                     new Room
                     {
-                        RoomID = "A"
+                        RoomId = "A"
                     },
 
                     new Room
                     {
-                        RoomID = "B"
+                        RoomId = "B"
                     },
 
                     new Room
                     {
-                        RoomID = "C"
+                        RoomId = "C"
                     },
 
                     new Room
                     {
-                        RoomID = "D"
+                        RoomId = "D"
                     }
                 );
 

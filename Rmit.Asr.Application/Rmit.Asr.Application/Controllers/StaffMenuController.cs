@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
@@ -44,42 +43,42 @@ namespace Rmit.Asr.Application.Controllers
         {
             if (!ModelState.IsValid) return View(slot);
 
-            if (!_context.Room.Any(r => r.RoomID == slot.RoomID))
+            if (!_context.Room.Any(r => r.RoomId == slot.RoomId))
             {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomID} does not exist.");
+                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} does not exist.");
             }
 
-            if (!_context.Staff.Any(r => r.Id == slot.StaffID))
+            if (!_context.Staff.Any(r => r.Id == slot.StaffId))
             {
-                ModelState.AddModelError("StaffID", $"Staff {slot.StaffID} does not exist.");
+                ModelState.AddModelError("StaffID", $"Staff {slot.StaffId} does not exist.");
             }
 
-            if (GetAvailableRooms(slot.StartTime).All(r => r.RoomID != slot.RoomID))
+            if (GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
             {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomID} has reached a maximum booking of 2 per day.");
+                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
             }
 
-            var staffSlotCount = _context.Slot.Count(s => s.StartTime.Date == slot.StartTime.Date && s.StaffID == slot.StaffID);
+            var staffSlotCount = _context.Slot.Count(s => s.StartTime.Date == slot.StartTime.Date && s.StaffId == slot.StaffId);
             if(staffSlotCount >= 4)
             {
-                ModelState.AddModelError("StartTime", $"Staff {slot.StaffID} has a maxmimum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maxmimum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
             }
-            var staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomID == slot.RoomID && s.StartTime == slot.StartTime && s.StaffID != slot.StaffID);
+            var staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);
             if (staffSlotExists != null)
             {
-                ModelState.AddModelError("StaffID", $"Slot for staff {staffSlotExists.StaffID} at room {slot.RoomID} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
+                ModelState.AddModelError("StaffID", $"Slot for staff {staffSlotExists.StaffId} at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
             }
 
-            var slotExist = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime);
+            var slotExist = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
             if (slotExist)
             {
                 ModelState.AddModelError("StaffID", $"Slot already exists.");
             }
 
-            var staffSlot = _context.Slot.FirstOrDefault(x => x.StaffID == slot.StaffID && x.StartTime == slot.StartTime);
+            var staffSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
             if (staffSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"Staff {staffSlot.StaffID} has already been booked at room {staffSlot.RoomID} {staffSlot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("StaffID", $"Staff {staffSlot.StaffId} has already been booked at room {staffSlot.RoomId} {staffSlot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
             if (ModelState.IsValid)
@@ -123,7 +122,7 @@ namespace Rmit.Asr.Application.Controllers
 
             // Compare unavailable rooms and exclude
             IQueryable<Room> rooms = _context.Room
-                .Where(r => unavailableRooms.All(x => x.RoomID != r.RoomID));
+                .Where(r => unavailableRooms.All(x => x.RoomId != r.RoomId));
 
             return rooms;
         }
@@ -134,7 +133,7 @@ namespace Rmit.Asr.Application.Controllers
         {
             if (!ModelState.IsValid) return View(slot);
 
-            var studentBookedIn = _context.Slot.Any(s => s.RoomID == slot.RoomID && s.StartTime == slot.StartTime && s.StudentID != null);
+            var studentBookedIn = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId != null);
             if (studentBookedIn)
             {
                 ModelState.AddModelError("StudentID", "Cannot remove slot as student has been booked into it.");
@@ -143,8 +142,7 @@ namespace Rmit.Asr.Application.Controllers
 
             if (ModelState.IsValid)
             {
-                var deleteSlot = _context.Slot.Where(s => s.RoomID == slot.RoomID && s.StartTime == slot.StartTime).FirstOrDefault();
-                //_context.Slot.Attach(deleteSlot);
+                var deleteSlot = _context.Slot.Where(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime).FirstOrDefault();
                 _context.Slot.Remove(deleteSlot);
 
                 await _context.SaveChangesAsync();

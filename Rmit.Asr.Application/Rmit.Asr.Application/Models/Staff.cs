@@ -4,11 +4,12 @@ namespace Rmit.Asr.Application.Models
 {
     public class Staff : ApplicationUser
     {
+        /// <summary>
+        /// Constant suffix used for staff emails.
+        /// </summary>
         public const string EmailSuffix = "rmit.edu.au";
         
-        /// <summary>
-        /// Identification string of the staff.
-        /// </summary>
+        /// <inheritdoc />
         [Display(Name = "Staff ID")]
         public override string Id { get; set; }
     }
