@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.ViewModel;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -101,16 +103,6 @@ namespace Rmit.Asr.Application.Controllers
 
         /** ROOMS AVAILABLE **/
 
-        //public IActionResult RoomsAvail()
-        //{
-        //    return View();
-        //}
-
-        /// <summary>
-        /// Get the available rooms.
-        /// </summary>
-        /// <param name="day"></param>
-        /// <returns></returns>
         [HttpGet]
         public IActionResult RoomsAvail(DateTime day)
         {
@@ -136,14 +128,38 @@ namespace Rmit.Asr.Application.Controllers
             return rooms;
         }
 
-
-        public async Task<IActionResult> RemoveSlot()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveSlot([Bind("RoomID,StartTime")] RemoveSlot slot)
         {
+            if (!ModelState.IsValid) return View(slot);
 
-            return View();
+            var studentBookedIn = _context.Slot.Any(s => s.RoomID == slot.RoomID && s.StartTime == slot.StartTime && s.StudentID != null);
+            if (studentBookedIn)
+            {
+                ModelState.AddModelError("StudentID", "Cannot remove slot as student has been booked into it.");
+
+            }
+
+            if (ModelState.IsValid)
+            {
+                var deleteSlot = _context.Slot.Where(s => s.RoomID == slot.RoomID && s.StartTime == slot.StartTime).FirstOrDefault();
+                //_context.Slot.Attach(deleteSlot);
+                _context.Slot.Remove(deleteSlot);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("ShowSlots");
+            }
+
+            return View(slot);
+
         }
 
 
-
+        public IActionResult ShowSlots()
+        {
+            return View(_context.Slot);
+        }
     }
 }

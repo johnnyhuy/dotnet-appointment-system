@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models
@@ -10,12 +11,12 @@ namespace Rmit.Asr.Application.Models
         public string RoomID { get; set; }
         public virtual Room Room { get; set; }
 
+        [Required]
         [HoursBetween(9, 14)]
         [HourIntervals]
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
 
-        [Required]
         [RegularExpression("^e[0-9]{5}$")]
         public string StaffID { get; set; }
         public virtual Staff Staff { get; set; }

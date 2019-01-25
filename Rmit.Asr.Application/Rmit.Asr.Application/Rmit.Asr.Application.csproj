@@ -14,6 +14,8 @@
   <ItemGroup>
     <Folder Include="Migrations" />
     <Folder Include="Data\" />
+    <Folder Include="Models\ViewModel\" />
+    <Folder Include="Views\StaffMenu\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,17 +35,5 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ManageNav.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_StatusMessage.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ViewImports.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\StaffMenu\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\StaffMenu\RoomAvail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Migrations\20190122104952_Initial.cs" />
-    <Compile Remove="Migrations\20190123023214_Initial.cs" />
   </ItemGroup>
 </Project>

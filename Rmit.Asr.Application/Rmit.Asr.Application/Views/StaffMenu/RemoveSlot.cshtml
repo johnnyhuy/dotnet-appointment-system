@@ -1,1 +1,14 @@
-﻿<p>Remove Slot</p>
+﻿@model Rmit.Asr.Application.Models.Slot
+
+<p>Error removing slot</p>
+
+<span asp-validation-for="RoomID" class="text-danger"></span>
+<span asp-validation-for="StaffID" class="text-danger"></span>
+<span asp-validation-for="StartTime" class="text-danger"></span>
+<span asp-validation-for="StudentID" class="text-danger"></span>
+
+<p>
+    <a asp-area="" asp-controller="StaffMenu" asp-action="ShowSlots">
+        Back to show Slots
+    </a>
+</p>
