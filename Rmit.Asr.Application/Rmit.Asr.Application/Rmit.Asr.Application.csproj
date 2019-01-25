@@ -45,4 +45,7 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\Identity\Pages\Student\Manage\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\StudentMenu\ListStudents.cshtml" />
+  </ItemGroup>
 </Project>
