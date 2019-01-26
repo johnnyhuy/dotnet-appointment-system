@@ -73,9 +73,9 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                await _userManager.AddToRoleAsync(user, "Student");
+                await _userManager.AddToRoleAsync(user, user.RoleName);
                 
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, false);
                 
                 return LocalRedirect(returnUrl);
             }

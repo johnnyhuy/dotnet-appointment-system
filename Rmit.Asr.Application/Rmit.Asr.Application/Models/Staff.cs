@@ -10,6 +10,9 @@ namespace Rmit.Asr.Application.Models
         public const string EmailSuffix = "rmit.edu.au";
         
         /// <inheritdoc />
+        public override string RoleName => "Staff";
+        
+        /// <inheritdoc />
         [Display(Name = "Staff ID")]
         public override string Id { get; set; }
     }
