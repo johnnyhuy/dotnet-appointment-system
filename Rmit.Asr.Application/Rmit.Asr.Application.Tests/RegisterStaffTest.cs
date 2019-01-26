@@ -5,8 +5,29 @@ using Xunit;
 
 namespace Rmit.Asr.Application.Tests
 {
-    public class StaffTest
+    public class RegisterStaffTest
     {
+        [Fact]
+        public void RegisterStaff_WithValidInput_ValidationSuccess()
+        {
+            // Arrange
+            var validationResults = new List<ValidationResult>();
+            var staff = new RegisterStaff
+            {
+                Id = "e12345",
+                FirstName = "John",
+                LastName = "Doe"
+            };
+            var validationContext = new ValidationContext(staff);
+
+            // Act
+            bool results = Validator.TryValidateObject(staff, validationContext, validationResults, true);
+
+            // Assert
+            Assert.Empty(validationResults);
+            Assert.True(results);
+        }
+        
         [Theory]
         [InlineData("e12345")]
         [InlineData("e32145")]
@@ -70,26 +91,6 @@ namespace Rmit.Asr.Application.Tests
 
             // Assert
             const string expectedMessage = "The First Name field is required.";
-            
-            Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
-            Assert.False(results);
-        }
-        
-        [Fact]
-        public void RegisterStaff_WithEmptyLastName_ValidationFails()
-        {
-            // Arrange
-            var student = new RegisterStaff();
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(student) { MemberName = nameof(student.LastName) };
-
-            // Act
-            student.LastName = null;
-            
-            bool results = Validator.TryValidateProperty(student.LastName, validationContext, validationResults);
-
-            // Assert
-            const string expectedMessage = "The Last Name field is required.";
             
             Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
             Assert.False(results);
