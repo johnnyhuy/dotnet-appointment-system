@@ -96,11 +96,10 @@ namespace Rmit.Asr.Application.Controllers
 
             if (ModelState.IsValid)
             {
-                // make sure the staff id is added to the slot before updating 
-                // to prevent the slot in the database being overridden with no staff id
-                slot.StaffID = _context.Slot.FirstOrDefault(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime).StaffID;
-               
-                 _context.Slot.Update(slot);
+                // add student id to the slot in database
+                _context.Slot.FirstOrDefault(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime).StudentID = slot.StudentID;
+                // track this slot to update
+                _context.Slot.Update(_context.Slot.FirstOrDefault(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime));
 
                 await _context.SaveChangesAsync();
 
