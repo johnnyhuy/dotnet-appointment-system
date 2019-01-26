@@ -23,7 +23,7 @@ namespace Rmit.Asr.Application.Models
         
         public Staff Staff { get; set; }
 
-        [RegularExpression("^s[0 - 9]{7}$")]
+        [RegularExpression("^s[0-9]{7}$")]
         public string StudentID { get; set; }
         
         public Student Student { get; set; }
