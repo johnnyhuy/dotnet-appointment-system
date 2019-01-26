@@ -88,8 +88,8 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("StudentID", $"No slot exist in {slot.RoomID} at {slot.StartTime:dd-MM-yyyy HH:mm}");
             }
 
-            var slotBooked = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime && x.StudentID == null);
-            if (!slotBooked)
+            var slotBooked = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime && x.StudentID != null);
+            if (slotBooked)
             {
                 ModelState.AddModelError("StudentID", $"A student is already booked into this slot");
             }
@@ -103,6 +103,63 @@ namespace Rmit.Asr.Application.Controllers
                  _context.Slot.Update(slot);
 
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(slot);
+        }
+    
+        public IActionResult CancelBooking()
+        {
+            return View();
+        }
+
+        // POST:
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelBooking([Bind("RoomID,StartTime,StudentID")] Slot slot)
+        {
+            if (!ModelState.IsValid) return View(slot);
+
+
+            if (!_context.Room.Any(r => r.RoomID == slot.RoomID))
+            {
+                ModelState.AddModelError("RoomID", $"Room {slot.RoomID} does not exist.");
+            }
+
+            if (!_context.Student.Any(r => r.Id == slot.StudentID))
+            {
+                ModelState.AddModelError("StudentID", $"Student {slot.StudentID} does not exist.");
+            }
+
+            var slotExist = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime);
+            if (!slotExist)
+            {
+                ModelState.AddModelError("StartTime", $"No slot exist in {slot.RoomID} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+            }
+
+            var slotEmpty = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime && x.StudentID == null);
+            if (slotEmpty)
+            {
+                ModelState.AddModelError("StudentID", $"No students booked into this slot");
+            }
+
+            var sameStudent = _context.Slot.Any(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime && x.StudentID == slot.StudentID);
+            if (!sameStudent)
+            {
+                ModelState.AddModelError("StudentID", $"The student ID for this slot does not match, cannot cancel this booking.");
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                // remove the student id from the slot
+                _context.Slot.FirstOrDefault(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime).StudentID = null;
+               
+               _context.Slot.Update(_context.Slot.FirstOrDefault(x => x.RoomID == slot.RoomID && x.StartTime == slot.StartTime) );
+               
+                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
