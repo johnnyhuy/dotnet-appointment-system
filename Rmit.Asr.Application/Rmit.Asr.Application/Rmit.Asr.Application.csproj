@@ -19,6 +19,7 @@
     <Folder Include="Models\ViewModel" />
     <Folder Include="Models\ViewModel\" />
     <Folder Include="Views\StaffMenu\" />
+    <Folder Include="wwwroot\favicon" />
     <Folder Include="wwwroot\images" />
   </ItemGroup>
 
