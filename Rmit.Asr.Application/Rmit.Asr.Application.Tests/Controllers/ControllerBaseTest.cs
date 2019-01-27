@@ -9,15 +9,14 @@ namespace Rmit.Asr.Application.Tests.Controllers
     public class ControllerBaseTest : IDisposable
     {
         protected readonly ApplicationDataContext Context;
-        private readonly DbContextOptions _options;
 
         protected ControllerBaseTest()
         {
-            _options = new DbContextOptionsBuilder<DbContext>()
-                .UseInMemoryDatabase("SomeDatabase")
+            DbContextOptions options = new DbContextOptionsBuilder<DbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            Context = new ApplicationDataContext(_options);
+            Context = new ApplicationDataContext(options);
 
             Seed();
         }

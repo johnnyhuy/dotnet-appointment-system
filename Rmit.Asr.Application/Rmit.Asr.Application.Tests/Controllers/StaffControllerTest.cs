@@ -151,7 +151,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             {
                 RoomId = "D",
                 StaffId = "e12345",
-                StartTime = new DateTime(2019, 1, 2, 13, 2, 2)
+                StartTime = new DateTime(2019, 1, 1, 13, 2, 2)
             };
 
             Context.Slot.AddRange(
@@ -159,25 +159,25 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 {
                     RoomId = "A",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 2, 12, 0, 0)
+                    StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "A",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 2, 14, 0, 0)
+                    StartTime = new DateTime(2019, 1, 1, 14, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 2, 10, 0, 0)
+                    StartTime = new DateTime(2019, 1, 1, 10, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 2, 9, 0, 0)
+                    StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 }
             );
 
