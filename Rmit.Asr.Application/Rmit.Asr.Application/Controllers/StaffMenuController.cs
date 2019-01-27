@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
@@ -17,16 +18,17 @@ namespace Rmit.Asr.Application.Controllers
     public class StaffMenuController : Controller
     {
         private readonly ApplicationDataContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StaffMenuController(ApplicationDataContext context)
+        public StaffMenuController(ApplicationDataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         //** STAFF MENU HOME PAGE **//
 
         // GET: /<controller>/
-        [Authorize(Roles = Staff.RoleName)]
         public IActionResult Index()
         {
             return View();
@@ -35,7 +37,6 @@ namespace Rmit.Asr.Application.Controllers
         /** CREATE SLOTS **/
 
         // GET:
-        [Authorize(Roles = Staff.RoleName)]
         public IActionResult CreateSlot()
         {
             return View();
@@ -48,7 +49,6 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> CreateSlot([Bind("RoomID,StartTime")] Slot slot)
         {
             if (!ModelState.IsValid) return View(slot);
@@ -102,7 +102,6 @@ namespace Rmit.Asr.Application.Controllers
         /** LIST STAFF **/
        
         // GET:
-        [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> ListStaff()
         {
             return View(await _context.Staff.ToListAsync());
@@ -111,7 +110,6 @@ namespace Rmit.Asr.Application.Controllers
         /** ROOMS AVAILABLE **/
 
         [HttpGet]
-        [Authorize(Roles = Staff.RoleName)]
         public IActionResult RoomsAvail(DateTime day)
         {
 
@@ -124,7 +122,6 @@ namespace Rmit.Asr.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> RemoveSlot([Bind("RoomID,StartTime")] RemoveSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
@@ -150,7 +147,6 @@ namespace Rmit.Asr.Application.Controllers
 
         }
 
-        [Authorize(Roles = Staff.RoleName)]
         public IActionResult ShowSlots()
         {
             return View(_context.Slot);
