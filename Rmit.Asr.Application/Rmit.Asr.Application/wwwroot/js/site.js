@@ -6,5 +6,6 @@
 $("#dateTimePicker").flatpickr({
     enableTime: true,
     dateFormat: "Y-m-d H:i",
-    allowInput: true
+    allowInput: true,
+    inline: true
 });
