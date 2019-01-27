@@ -58,7 +58,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             if (!ModelState.IsValid) return Page();
 
             string email = $"{Input.Id}@{Models.Staff.EmailSuffix}";
-            var user = new ApplicationUser
+            var user = new Models.Staff
             {
                 Id = Input.Id,
                 FirstName = Input.FirstName,
@@ -66,20 +66,28 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
                 UserName = email,
                 Email = email
             };
+            
+            ApplicationUser findUser = await _userManager.FindByIdAsync(user.Id);
+
+            if (findUser != null)
+            {
+                ModelState.AddModelError(string.Empty, $"User {user.Id} already exists.");
+                
+                return Page();
+            }
 
             IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
                 
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-                
+                    
                 await _userManager.AddToRoleAsync(user, Models.Staff.RoleName);
-                
+                    
                 await _signInManager.SignInAsync(user, false);
-                
+                    
                 return LocalRedirect(returnUrl);
             }
-                
             foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);

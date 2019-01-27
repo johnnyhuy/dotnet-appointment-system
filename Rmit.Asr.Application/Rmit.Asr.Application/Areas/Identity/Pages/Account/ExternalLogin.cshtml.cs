@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,23 +11,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rmit.Asr.Application.Data;
+using Rmit.Asr.Application.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
+namespace Rmit.Asr.Application.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class StudentExternalLoginModel : PageModel
+    public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<Models.Student> _signInManager;
-        private readonly UserManager<Models.Student> _userManager;
-        private readonly ILogger<StudentExternalLoginModel> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ExternalLoginModel> _logger;
         private ApplicationDataContext _context;
 
-        public StudentExternalLoginModel(
+        public ExternalLoginModel(
             ApplicationDataContext context,
-            SignInManager<Models.Student> signInManager,
-            UserManager<Models.Student> userManager,
-            ILogger<StudentExternalLoginModel> logger)
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            ILogger<ExternalLoginModel> logger)
         {
             _context = context;
             _signInManager = signInManager;
@@ -44,8 +46,11 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public class InputModel : Models.Student
+        public class InputModel : ApplicationUser
         {
+            [Required]
+            public string Role { get; set; }
+            
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -67,7 +72,6 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            // TODO: Move student and staff Razer classes into one
             returnUrl = returnUrl ?? Url.Content("~/");
             
             if (remoteError != null)
@@ -95,7 +99,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
                 
                 if (await _context.Staff.AnyAsync(u => u.Email == Input.Email))
                 {
-                    ErrorMessage = "User email has already been registered by a staff.";
+                    ErrorMessage = "User email has already been registered by a users.";
                     
                     return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
                 }
@@ -145,11 +149,42 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             
             if (ModelState.IsValid)
             {
-                var user = new Models.Student { FirstName = Input.FirstName, LastName = Input.LastName,  UserName = Input.Email, Email = Input.Email };
+                ApplicationUser user;
+
+                if (string.Equals(Input.Role, Models.Student.RoleName, StringComparison.CurrentCultureIgnoreCase))
+                    user = new Models.Student
+                    {
+                        FirstName = Input.FirstName, 
+                        LastName = Input.LastName,
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        SecurityStamp = Guid.NewGuid().ToString()
+                    };
+                else if (string.Equals(Input.Role, Models.Staff.RoleName, StringComparison.CurrentCultureIgnoreCase))
+                    user = new Models.Staff
+                    {
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        SecurityStamp = Guid.NewGuid().ToString()
+                    };
+                else
+                {
+                    ErrorMessage = "Student or staff user has not been selected.";
+                
+                    return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                }
+
                 IdentityResult result = await _userManager.CreateAsync(user);
                 
                 if (result.Succeeded)
                 {
+                    if (string.Equals(Input.Role, Models.Student.RoleName, StringComparison.CurrentCultureIgnoreCase))
+                        await _userManager.AddToRoleAsync(user, Models.Student.RoleName);
+                    else if (string.Equals(Input.Role, Models.Staff.RoleName, StringComparison.CurrentCultureIgnoreCase))
+                        await _userManager.AddToRoleAsync(user, Models.Staff.RoleName);
+                    
                     result = await _userManager.AddLoginAsync(user, info);
                     
                     if (result.Succeeded)

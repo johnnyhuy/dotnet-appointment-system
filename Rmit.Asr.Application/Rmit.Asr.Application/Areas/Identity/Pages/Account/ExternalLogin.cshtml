@@ -1,5 +1,5 @@
 ﻿@page
-@model StaffExternalLoginModel
+@model ExternalLoginModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -18,6 +18,12 @@
     <div class="col-md-4">
         <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <select asp-for="Input.Role" class="form-control">
+                    <option value="student">Student</option>
+                    <option value="staff">Staff</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>
                 <input asp-for="Input.FirstName" class="form-control" />
