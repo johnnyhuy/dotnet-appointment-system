@@ -55,14 +55,14 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.Staff.AddRange(
                 new Staff
                 {
-                    Id = "e12345",
+                    StaffId = "e12345",
                     FirstName = "Shawn",
                     LastName = "Taylor",
                     Email = "e12345@rmit.edu.au"
                 },
                 new Staff
                 {
-                    Id = "e54321",
+                    StaffId = "e54321",
                     FirstName = "Bob",
                     LastName = "Doe",
                     Email = "e54321@rmit.edu.au"
@@ -72,14 +72,14 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.Student.AddRange(
                 new Student
                 {
-                    Id = "s1234567",
+                    StudentId = "s1234567",
                     FirstName = "Shawn",
                     LastName = "Taylor",
                     Email = "s1234567@student.rmit.edu.au"
                 },
                 new Student
                 {
-                    Id = "s3604367",
+                    StudentId = "s3604367",
                     FirstName = "Johnny",
                     LastName = "Doe",
                     Email = "s3604367@student.rmit.edu.au"
