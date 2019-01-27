@@ -19,11 +19,6 @@ namespace Rmit.Asr.Application.Data
         {
         }
 
-        public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
