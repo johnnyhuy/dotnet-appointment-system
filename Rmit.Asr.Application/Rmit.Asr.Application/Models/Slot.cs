@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Rmit.Asr.Application.Models.ValidationAttributes;
 
@@ -10,6 +10,7 @@ namespace Rmit.Asr.Application.Models
         /// Room name.
         /// </summary>
         [Required]
+        [Display(Name = "Room ID")]
         public string RoomId { get; set; }
         
         /// <summary>
@@ -30,6 +31,7 @@ namespace Rmit.Asr.Application.Models
         /// Staff ID who created the slot.
         /// </summary>
         [StaffId]
+        [Display(Name = "Staff ID")]
         public string StaffId { get; set; }
         
         /// <summary>
@@ -41,6 +43,7 @@ namespace Rmit.Asr.Application.Models
         /// Student ID who booked the slot.
         /// </summary>
         [StudentId]
+        [Display(Name = "Student ID")]
         public string StudentId { get; set; }
         
         /// <summary>
