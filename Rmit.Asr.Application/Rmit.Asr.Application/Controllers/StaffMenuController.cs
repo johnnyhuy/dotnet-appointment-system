@@ -54,19 +54,18 @@ namespace Rmit.Asr.Application.Controllers
             {
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} does not exist.");
             }
+            else if (_context.Room.GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
+            {
+                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
+            }
 
             if (!_context.Staff.Any(r => r.Id == slot.StaffId))
             {
                 ModelState.AddModelError("StaffID", $"Staff {slot.StaffId} does not exist.");
             }
 
-            if (_context.Room.GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
-            {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
-            }
-
             int staffSlotCount = _context.Slot.Count(s => s.StartTime != null && s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StaffId == slot.StaffId);
-            if(staffSlotCount >= 4)
+            if (staffSlotCount >= 4)
             {
                 ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
             }

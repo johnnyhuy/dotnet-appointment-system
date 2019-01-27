@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,16 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 .Options;
 
             _context = new ApplicationDataContext(options);
+
+            Seed();
+        }
+
+        private void Seed()
+        {
+            if (_context.Room.Any() || _context.Slot.Any())
+            {
+                return;
+            }
             
             _context.Room.AddRange(
                 new Room
@@ -60,7 +71,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             _context.SaveChanges();
         }
-        
+
         [Fact]
         public async Task CreateSlot_WithValidParameters_ReturnSuccess()
         {
@@ -77,16 +88,16 @@ namespace Rmit.Asr.Application.Tests.Controllers
             IActionResult result = await controller.CreateSlot(slot);
 
             // Assert
-            // Check no validation errors have occured
+            // No validation errors have occured
             Assert.Empty(controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
             Assert.True(controller.ModelState.IsValid);
             
-            // Check the controller redirected
+            // Controller redirected
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", viewResult.ActionName);
 
-            // Check slot exists in mock database
-            Assert.True(_context.Slot.Any(s => s == slot));
+            // Slot exists in mock database
+            Assert.True(_context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
         
         [Fact]
@@ -105,16 +116,17 @@ namespace Rmit.Asr.Application.Tests.Controllers
             IActionResult result = await controller.CreateSlot(slot);
 
             // Assert
-            // Check no validation errors have occured
-            Assert.Empty(controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-            Assert.True(controller.ModelState.IsValid);
+            IEnumerable<string> errorMessages = controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            // Check the controller redirected
-            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Index", viewResult.ActionName);
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} does not exist.");
+            Assert.False(controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
 
-            // Check slot exists in mock database
-            Assert.True(_context.Slot.Any(s => s != slot));
+            // Slot does not exist in the mock database
+            Assert.False(_context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
 
         public void Dispose()
