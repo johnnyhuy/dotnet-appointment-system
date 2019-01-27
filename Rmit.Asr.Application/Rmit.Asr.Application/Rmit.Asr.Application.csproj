@@ -14,13 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations" />
+    <Folder Include="Migrations\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\ViewModel" />
     <Folder Include="Models\ViewModel\" />
     <Folder Include="Views\StaffMenu\" />
-    <Folder Include="wwwroot\favicon" />
-    <Folder Include="wwwroot\images" />
+    <Folder Include="wwwroot\favicon\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,8 +40,5 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_StatusMessage.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ViewImports.cshtml" />
   </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Identity\Pages\Student\Manage\Index.cshtml" />
-  </ItemGroup>
+  
 </Project>
