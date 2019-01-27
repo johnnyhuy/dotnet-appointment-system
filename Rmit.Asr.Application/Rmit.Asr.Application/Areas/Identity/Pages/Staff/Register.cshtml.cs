@@ -73,7 +73,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             {
                 _logger.LogInformation("User created a new account with password.");
                 
-                await _userManager.AddToRoleAsync(user, user.RoleName);
+                await _userManager.AddToRoleAsync(user, Models.Staff.RoleName);
     
                 await _signInManager.SignInAsync(user, false);
                 

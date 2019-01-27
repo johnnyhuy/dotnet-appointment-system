@@ -6,11 +6,6 @@ namespace Rmit.Asr.Application.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        /// <summary>
-        /// Role name of the user.
-        /// </summary>
-        public virtual string RoleName { get; }
-        
         /// <inheritdoc />
         [Key]
         [Required]

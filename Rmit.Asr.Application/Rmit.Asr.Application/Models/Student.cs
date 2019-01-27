@@ -9,8 +9,10 @@ namespace Rmit.Asr.Application.Models
         /// </summary>
         public const string EmailSuffix = "student.rmit.edu.au";
         
-        /// <inheritdoc />
-        public override string RoleName => "Student";
+        /// <summary>
+        /// Role name of the user.
+        /// </summary>
+        public const string RoleName = "Student";
         
         /// <inheritdoc />
         [Display(Name = "Student ID")]
