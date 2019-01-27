@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
@@ -11,6 +12,7 @@ using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers
 {
+    [Authorize(Roles = Staff.RoleName)]
     public class StaffMenuController : Controller
     {
         private readonly ApplicationDataContext _context;
