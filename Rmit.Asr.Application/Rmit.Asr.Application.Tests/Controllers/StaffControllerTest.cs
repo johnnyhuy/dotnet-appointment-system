@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -17,9 +20,27 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
         public StaffControllerTest()
         {
+            var loggedInUser = new Staff
+            {
+                UserName = "e12345@rmit.edu.au"
+            };
+            var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, loggedInUser.UserName)
+            }));
+            
             var mockUserStore = new Mock<IUserStore<Staff>>();
+            mockUserStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
+                .ReturnsAsync(loggedInUser);
+            
             var mockUserManager = new UserManager<Staff>(mockUserStore.Object, null, null, null, null, null, null, null, null);
-            _controller = new StaffMenuController(Context, mockUserManager);
+            _controller = new StaffMenuController(Context, mockUserManager)
+            {
+                ControllerContext =  new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext { User = userPrincipal }
+                }
+            };
         }
         
         [Fact]
@@ -130,7 +151,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             {
                 RoomId = "D",
                 StaffId = "e12345",
-                StartTime = new DateTime(2019, 1, 1, 7, 2, 2)
+                StartTime = new DateTime(2019, 1, 2, 13, 2, 2)
             };
 
             Context.Slot.AddRange(
@@ -138,29 +159,29 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 {
                     RoomId = "A",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
+                    StartTime = new DateTime(2019, 1, 2, 12, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "A",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 1, 14, 0, 0)
+                    StartTime = new DateTime(2019, 1, 2, 14, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 1, 10, 0, 0)
+                    StartTime = new DateTime(2019, 1, 2, 10, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
                     StaffId = "e12345",
-                    StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
+                    StartTime = new DateTime(2019, 1, 2, 9, 0, 0)
                 }
             );
 
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
 
             // Act
             IActionResult result = await _controller.CreateSlot(slot);
