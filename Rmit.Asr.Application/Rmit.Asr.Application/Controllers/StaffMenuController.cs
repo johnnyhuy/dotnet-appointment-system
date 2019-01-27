@@ -62,33 +62,33 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
-            int staffSlotCount = _context.Slot.Count(s => s.StartTime != null && s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StaffId == slot.StaffId);
-            if (staffSlotCount >= 4)
+            int staffDailySlotCount = _context.Slot.Count(s => s.StartTime != null && s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StaffId == slot.StaffId);
+            if (staffDailySlotCount >= 4)
             {
                 ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
             }
             
-            Slot staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);
-            if (staffSlotExists != null)
+            Slot staffAlreadyTakenSlot = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);
+            if (staffAlreadyTakenSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"Slot for staff {staffSlotExists.StaffId} at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
+                ModelState.AddModelError("StaffID", $"Staff {staffAlreadyTakenSlot.StaffId} has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
-            bool slotExist = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
-            if (slotExist)
+            bool slotExists = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
+            if (slotExists)
             {
                 ModelState.AddModelError("StaffID", $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
             }
 
-            Slot staffSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
-            if (staffSlot != null)
+            Slot staffAlreadyCreatedSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
+            if (staffAlreadyCreatedSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"Staff {staffSlot.StaffId} has already been booked at room {staffSlot.RoomId} {staffSlot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("StaffID", $"You has already been booked at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
             if (!ModelState.IsValid) return View(slot);
             
-            Staff staff = await _userManager.GetUserAsync(HttpContext.User);
+            Staff staff = await _userManager.GetUserAsync(User);
             slot.StaffId = staff.Id;
             
             _context.Slot.Add(slot);
