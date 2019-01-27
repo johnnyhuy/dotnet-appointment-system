@@ -25,10 +25,15 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Seed();
         }
+        
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
 
         private void Seed()
         {
-            if (_context.Room.Any() || _context.Slot.Any())
+            if (_context.Room.Any() || _context.Slot.Any() || _context.Users.Any())
             {
                 return;
             }
@@ -66,6 +71,23 @@ namespace Rmit.Asr.Application.Tests.Controllers
                     FirstName = "Bob",
                     LastName = "Doe",
                     Email = "e54321@rmit.edu.au"
+                }
+            );
+            
+            _context.Student.AddRange(
+                new Student
+                {
+                    Id = "s1234567",
+                    FirstName = "Shawn",
+                    LastName = "Taylor",
+                    Email = "s1234567@student.rmit.edu.au"
+                },
+                new Student
+                {
+                    Id = "s3604367",
+                    FirstName = "Johnny",
+                    LastName = "Doe",
+                    Email = "s3604367@student.rmit.edu.au"
                 }
             );
 
@@ -128,9 +150,34 @@ namespace Rmit.Asr.Application.Tests.Controllers
             // Slot does not exist in the mock database
             Assert.False(_context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
-
-        public void Dispose()
+        
+        [Fact]
+        public async Task CreateSlot_WithNonExistentStaff_ReturnSuccess()
         {
+            // Arrange
+            var controller = new StaffMenuController(_context);
+            var slot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e11111",
+                StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
+            };
+
+            // Act
+            IActionResult result = await controller.CreateSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"Staff {slot.StaffId} does not exist.");
+            Assert.False(controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+
+            // Slot does not exist in the mock database
+            Assert.False(_context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
     }
 }
