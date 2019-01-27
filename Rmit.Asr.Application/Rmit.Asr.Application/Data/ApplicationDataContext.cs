@@ -15,6 +15,10 @@ namespace Rmit.Asr.Application.Data
         
         public DbSet<Slot> Slot { get; set; }
 
+        public ApplicationDataContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
             : base(options)
         {

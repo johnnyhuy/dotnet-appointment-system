@@ -38,7 +38,11 @@ namespace Rmit.Asr.Application.Controllers
             return View();
         }
 
-        // POST:
+        /// <summary>
+        /// POST request to create a slot.
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSlot([Bind("RoomID,StartTime,StaffID")] Slot slot)
@@ -72,27 +76,24 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("StaffID", $"Slot for staff {staffSlotExists.StaffId} at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
             }
 
-            var slotExist = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
+            bool slotExist = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
             if (slotExist)
             {
                 ModelState.AddModelError("StaffID", $"Slot already exists.");
             }
 
-            var staffSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
+            Slot staffSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
             if (staffSlot != null)
             {
                 ModelState.AddModelError("StaffID", $"Staff {staffSlot.StaffId} has already been booked at room {staffSlot.RoomId} {staffSlot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
-            if (ModelState.IsValid)
-            {
-                _context.Add(slot);
-                await _context.SaveChangesAsync();
+            if (!ModelState.IsValid) return View(slot);
+            
+            _context.Add(slot);
+            await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
-            }
-
-            return View(slot);
+            return RedirectToAction("Index");
         }
 
         /** LIST STAFF **/
