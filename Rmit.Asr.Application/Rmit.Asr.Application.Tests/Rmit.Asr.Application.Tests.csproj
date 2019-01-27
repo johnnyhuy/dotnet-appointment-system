@@ -17,4 +17,8 @@
       <ProjectReference Include="..\Rmit.Asr.Application\Rmit.Asr.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers" />
+    </ItemGroup>
+
 </Project>
