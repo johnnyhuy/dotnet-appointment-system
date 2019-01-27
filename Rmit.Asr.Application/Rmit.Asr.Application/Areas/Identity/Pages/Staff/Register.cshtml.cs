@@ -58,7 +58,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             if (!ModelState.IsValid) return Page();
 
             string email = $"{Input.Id}@{Models.Staff.EmailSuffix}";
-            var user = new Models.Staff
+            var user = new ApplicationUser
             {
                 Id = Input.Id,
                 FirstName = Input.FirstName,
@@ -74,7 +74,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
                 _logger.LogInformation("User created a new account with password.");
                 
                 await _userManager.AddToRoleAsync(user, Models.Staff.RoleName);
-    
+                
                 await _signInManager.SignInAsync(user, false);
                 
                 return LocalRedirect(returnUrl);

@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Data
 {
-    public class ApplicationDataContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDataContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         
         public DbSet<Room> Room { get; set; }

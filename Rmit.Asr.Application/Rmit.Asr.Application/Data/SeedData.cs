@@ -62,25 +62,6 @@ namespace Rmit.Asr.Application.Data
                     }
                 );
 
-                // Doesn't work - no staff table in database or somthing
-                context.Staff.AddRange(
-                    new Staff
-                    {
-                        Id = "e12345",
-                        FirstName = "Shawn",
-                        LastName = "Taylor",
-                        Email = "e12345@rmit.edu.au"
-                    },
-
-                    new Staff
-                    {
-                        Id = "e54321",
-                        FirstName = "Bob",
-                        LastName = "Doe",
-                        Email = "e54321@rmit.edu.au"
-                    }
-                );
-
                 context.SaveChanges();
             }
         }

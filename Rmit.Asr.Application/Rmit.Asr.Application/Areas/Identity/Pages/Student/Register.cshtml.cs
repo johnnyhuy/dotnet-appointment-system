@@ -58,7 +58,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             if (!ModelState.IsValid) return Page();
             
             string email = $"{Input.Id}@{Models.Student.EmailSuffix}";
-            var user = new Models.Student
+            var user = new ApplicationUser
             {
                 Id = Input.Id,
                 FirstName = Input.FirstName,

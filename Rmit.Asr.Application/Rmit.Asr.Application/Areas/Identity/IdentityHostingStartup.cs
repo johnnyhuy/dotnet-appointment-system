@@ -20,27 +20,13 @@ namespace Rmit.Asr.Application.Areas.Identity
                         options.Password.RequireLowercase = false;
                         options.Password.RequireUppercase = false;
                     })
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
-                
-                services.AddIdentityCore<Student>()
-                    .AddRoles<IdentityRole>()
-                    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Student, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
-                
-                services.AddIdentityCore<Staff>()
-                    .AddRoles<IdentityRole>()
-                    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Staff, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddDefaultTokenProviders()
+                    .AddDefaultUI()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
 
                 services.AddScoped<SignInManager<ApplicationUser>>();
                 services.AddScoped<UserManager<ApplicationUser>>();
-                services.AddScoped<SignInManager<Student>>();
-                services.AddScoped<UserManager<Student>>();
-                services.AddScoped<SignInManager<Staff>>();
-                services.AddScoped<UserManager<Staff>>();
             });
         }
     }
