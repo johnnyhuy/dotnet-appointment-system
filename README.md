@@ -46,12 +46,15 @@ This is a list I've compiled, which has influenced code change and design patter
 
 ### Concepts & design choices
 
+- [Unit vs integration testing in EF Core](https://stackoverflow.com/questions/47056392/unit-tests-vs-integration-tests-entity-framework-core-in-memory)
+- [Another unit vs integration testing in EF Core](https://stackoverflow.com/questions/51749932/unit-testing-when-using-ef-core-2-0)
 - [ViewModel naming conventions](https://stackoverflow.com/questions/8883122/naming-conventions-regarding-view-models-to-avoid-long-names)
 - [Using multiple DB contexts](https://stackoverflow.com/questions/52276128/net-core-2-1-multiple-dbcontext-for-same-database)
 - [Creating multiple user identities](https://stackoverflow.com/questions/42163390/can-i-create-multiple-identity-tables-in-asp-net-mvc)
 
 ### Troubleshooting
 
+- [EF Core - Testing in-memory](https://docs.microsoft.com/en-us/ef/core/miscellaneous/testing/in-memory)
 - [Adding a model](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-2.1&tabs=visual-studio)
 - [Basic ASP .NET Core authentication](http://jasonwatmore.com/post/2018/09/08/aspnet-core-21-basic-authentication-tutorial-with-example-api)
 - [Entity Framework Core migrations](https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations?view=aspnetcore-2.0)
