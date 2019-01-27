@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Rmit.Asr.Application.Models.ValidationAttributes;
 
@@ -25,7 +25,8 @@ namespace Rmit.Asr.Application.Models
         [HoursBetween(9, 14)]
         [HourIntervals]
         [DataType(DataType.DateTime)]
-        public DateTime StartTime { get; set; }
+        [Display(Name = "Start Time")]
+        public DateTime? StartTime { get; set; }
 
         /// <summary>
         /// Staff ID who created the slot.

@@ -58,12 +58,13 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
             }
 
-            var staffSlotCount = _context.Slot.Count(s => s.StartTime.Date == slot.StartTime.Date && s.StaffId == slot.StaffId);
+            int staffSlotCount = _context.Slot.Count(s => s.StartTime != null && s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StaffId == slot.StaffId);
             if(staffSlotCount >= 4)
             {
-                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maxmimum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
             }
-            var staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);
+            
+            Slot staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);
             if (staffSlotExists != null)
             {
                 ModelState.AddModelError("StaffID", $"Slot for staff {staffSlotExists.StaffId} at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
@@ -113,12 +114,12 @@ namespace Rmit.Asr.Application.Controllers
             return View(rooms);
         }
 
-        private IQueryable<Room> GetAvailableRooms(DateTime date)
+        private IQueryable<Room> GetAvailableRooms(DateTime? date)
         {
             // Get unavailable rooms
             IQueryable<Room> unavailableRooms = _context.Room
                 .Include(r => r.Slots)
-                .Where(r => r.Slots.Any(s => s.StartTime.Date == date.Date) && r.Slots.Count >= 2);
+                .Where(r => r.Slots.Any(s => s.StartTime != null && s.StartTime.Value.Date == date.Value.Date) && r.Slots.Count >= 2);
 
             // Compare unavailable rooms and exclude
             IQueryable<Room> rooms = _context.Room
