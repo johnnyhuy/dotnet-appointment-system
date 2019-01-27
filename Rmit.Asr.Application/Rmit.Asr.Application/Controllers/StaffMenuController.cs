@@ -87,9 +87,9 @@ namespace Rmit.Asr.Application.Controllers
             }
 
             if (!ModelState.IsValid) return View(slot);
-//            
-//            Staff staff = await _userManager.GetUserAsync(HttpContext.User);
-//            slot.StaffId = staff.StaffId;
+            
+            Staff staff = await _userManager.GetUserAsync(HttpContext.User);
+            slot.StaffId = staff.Id;
             
             _context.Slot.Add(slot);
             await _context.SaveChangesAsync();
