@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -59,7 +60,7 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("StaffID", $"Staff {slot.StaffId} does not exist.");
             }
 
-            if (GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
+            if (_context.Room.GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
             {
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
             }
@@ -112,23 +113,9 @@ namespace Rmit.Asr.Application.Controllers
 
             if (!ModelState.IsValid) return View();
             
-            IQueryable<Room> rooms = GetAvailableRooms(day);
+            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(day);
 
             return View(rooms);
-        }
-
-        private IQueryable<Room> GetAvailableRooms(DateTime? date)
-        {
-            // Get unavailable rooms
-            IQueryable<Room> unavailableRooms = _context.Room
-                .Include(r => r.Slots)
-                .Where(r => r.Slots.Any(s => s.StartTime != null && s.StartTime.Value.Date == date.Value.Date) && r.Slots.Count >= 2);
-
-            // Compare unavailable rooms and exclude
-            IQueryable<Room> rooms = _context.Room
-                .Where(r => unavailableRooms.All(x => x.RoomId != r.RoomId));
-
-            return rooms;
         }
 
         [HttpPost]
@@ -157,7 +144,6 @@ namespace Rmit.Asr.Application.Controllers
             return View(slot);
 
         }
-
 
         public IActionResult ShowSlots()
         {

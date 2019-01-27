@@ -89,33 +89,33 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Assert.True(_context.Slot.Any(s => s == slot));
         }
         
-//        [Fact]
-//        public async Task CreateSlot_WithNonExistentRoom_ReturnSuccess()
-//        {
-//            // Arrange
-//            var controller = new StaffMenuController(_context);
-//            var slot = new Slot
-//            {
-//                RoomId = "Z",
-//                StaffId = "e12345",
-//                StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
-//            };
-//
-//            // Act
-//            IActionResult result = await controller.CreateSlot(slot);
-//
-//            // Assert
-//            // Check no validation errors have occured
-//            Assert.Empty(controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-//            Assert.True(controller.ModelState.IsValid);
-//            
-//            // Check the controller redirected
-//            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-//            Assert.Equal("Index", viewResult.ActionName);
-//
-//            // Check slot exists in mock database
-//            Assert.True(_context.Slot.Any(s => s != slot));
-//        }
+        [Fact]
+        public async Task CreateSlot_WithNonExistentRoom_ReturnSuccess()
+        {
+            // Arrange
+            var controller = new StaffMenuController(_context);
+            var slot = new Slot
+            {
+                RoomId = "Z",
+                StaffId = "e12345",
+                StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
+            };
+
+            // Act
+            IActionResult result = await controller.CreateSlot(slot);
+
+            // Assert
+            // Check no validation errors have occured
+            Assert.Empty(controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
+            Assert.True(controller.ModelState.IsValid);
+            
+            // Check the controller redirected
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", viewResult.ActionName);
+
+            // Check slot exists in mock database
+            Assert.True(_context.Slot.Any(s => s != slot));
+        }
 
         public void Dispose()
         {
