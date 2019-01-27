@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +26,7 @@ namespace Rmit.Asr.Application.Controllers
         //** STAFF MENU HOME PAGE **//
 
         // GET: /<controller>/
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult Index()
         {
             return View();
@@ -34,6 +35,7 @@ namespace Rmit.Asr.Application.Controllers
         /** CREATE SLOTS **/
 
         // GET:
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult CreateSlot()
         {
             return View();
@@ -46,7 +48,8 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSlot([Bind("RoomID,StartTime,StaffID")] Slot slot)
+        [Authorize(Roles = Staff.RoleName)]
+        public async Task<IActionResult> CreateSlot([Bind("RoomID,StartTime")] Slot slot)
         {
             if (!ModelState.IsValid) return View(slot);
 
@@ -99,6 +102,7 @@ namespace Rmit.Asr.Application.Controllers
         /** LIST STAFF **/
        
         // GET:
+        [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> ListStaff()
         {
             return View(await _context.Staff.ToListAsync());
@@ -107,6 +111,7 @@ namespace Rmit.Asr.Application.Controllers
         /** ROOMS AVAILABLE **/
 
         [HttpGet]
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult RoomsAvail(DateTime day)
         {
 
@@ -119,6 +124,7 @@ namespace Rmit.Asr.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> RemoveSlot([Bind("RoomID,StartTime")] RemoveSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
@@ -144,6 +150,7 @@ namespace Rmit.Asr.Application.Controllers
 
         }
 
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult ShowSlots()
         {
             return View(_context.Slot);
