@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
-namespace Rmit.Asr.Application.Tests
+namespace Rmit.Asr.Application.Tests.Models
 {
     public class RegisterStaffTest
     {

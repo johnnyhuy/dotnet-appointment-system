@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Rmit.Asr.Application.Models;
 using Xunit;
 
-namespace Rmit.Asr.Application.Tests
+namespace Rmit.Asr.Application.Tests.Models
 {
     public class SlotTest
     {
@@ -35,10 +35,10 @@ namespace Rmit.Asr.Application.Tests
         
         public static object[][] InvalidDateTimeIntervals =
         {
-            new object[] { new DateTime(2019, 1, 1, 9, 1, 1)},
-            new object[] { new DateTime(2019, 1, 1, 9, 23, 0)},
-            new object[] { new DateTime(2019, 1, 1, 9, 0, 1)},
-            new object[] { new DateTime(2019, 1, 1, 9, 12, 12)},
+            new object[] { new DateTime(2019, 1, 1, 9, 1, 1) },
+            new object[] { new DateTime(2019, 1, 1, 9, 23, 0) },
+            new object[] { new DateTime(2019, 1, 1, 9, 0, 1) },
+            new object[] { new DateTime(2019, 1, 1, 9, 12, 12) },
         };
         
         [Theory, MemberData(nameof(InvalidDateTimeIntervals))]
@@ -63,9 +63,9 @@ namespace Rmit.Asr.Application.Tests
         
         public static object[][] InvalidDateTimeTimeBetween =
         {
-            new object[] { new DateTime(2019, 1, 1, 8, 0, 0)},
-            new object[] { new DateTime(2019, 1, 1, 15, 0, 0)},
-            new object[] { new DateTime(2019, 1, 1, 1, 0, 0)}
+            new object[] { new DateTime(2019, 1, 1, 8, 0, 0) },
+            new object[] { new DateTime(2019, 1, 1, 15, 0, 0) },
+            new object[] { new DateTime(2019, 1, 1, 1, 0, 0) }
         };
         
         [Theory, MemberData(nameof(InvalidDateTimeTimeBetween))]
