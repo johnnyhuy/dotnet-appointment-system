@@ -56,7 +56,7 @@ namespace Rmit.Asr.Application.Controllers
             }
             else if (_context.Room.GetAvailableRooms(slot.StartTime).All(r => r.RoomId != slot.RoomId))
             {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of 2 per day.");
+                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
             if (!_context.Staff.Any(r => r.Id == slot.StaffId))
@@ -67,7 +67,7 @@ namespace Rmit.Asr.Application.Controllers
             int staffSlotCount = _context.Slot.Count(s => s.StartTime != null && s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StaffId == slot.StaffId);
             if (staffSlotCount >= 4)
             {
-                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of 4 bookings at {slot.StartTime:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
             }
             
             Slot staffSlotExists = _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId != slot.StaffId);

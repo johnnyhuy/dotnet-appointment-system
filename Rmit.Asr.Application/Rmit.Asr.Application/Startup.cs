@@ -38,11 +38,10 @@ namespace Rmit.Asr.Application
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
-            
 
             services.AddDbContext<ApplicationDataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

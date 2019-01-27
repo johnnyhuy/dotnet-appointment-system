@@ -13,6 +13,11 @@ namespace Rmit.Asr.Application.Models
         /// Role name of the user.
         /// </summary>
         public const string RoleName = "Staff";
+
+        /// <summary>
+        /// Maximum bookings created per day for staff.
+        /// </summary>
+        public const int MaxBookingPerDay = 4;
         
         /// <inheritdoc />
         [Display(Name = "Staff ID")]

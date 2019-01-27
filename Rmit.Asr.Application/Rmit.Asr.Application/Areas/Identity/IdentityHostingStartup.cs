@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
@@ -14,10 +12,6 @@ namespace Rmit.Asr.Application.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ApplicationDataContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("DefaultConnection")));
-                
                 services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                     {
                         options.Password.RequiredLength = 3;
@@ -40,7 +34,7 @@ namespace Rmit.Asr.Application.Areas.Identity
                     .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Staff, IdentityRole>>()
                     .AddEntityFrameworkStores<ApplicationDataContext>()
                     .AddDefaultTokenProviders();
-                
+
                 services.AddScoped<SignInManager<ApplicationUser>>();
                 services.AddScoped<UserManager<ApplicationUser>>();
                 services.AddScoped<SignInManager<Student>>();

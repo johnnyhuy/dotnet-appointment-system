@@ -6,6 +6,11 @@ namespace Rmit.Asr.Application.Models
     public class Room
     {
         /// <summary>
+        /// Maximum slots per room and day.
+        /// </summary>
+        public const int MaxRoomBookingPerDay = 2;
+        
+        /// <summary>
         /// Room name.
         /// </summary>
         [Required]
