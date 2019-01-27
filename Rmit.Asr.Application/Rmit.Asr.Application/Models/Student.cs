@@ -14,8 +14,10 @@ namespace Rmit.Asr.Application.Models
         /// </summary>
         public const string RoleName = "Student";
         
-        /// <inheritdoc />
+        /// <summary>
+        /// Staff ID name.
+        /// </summary>
         [Display(Name = "Student ID")]
-        public override string Id { get; set; }
+        public string StudentId { get; set; }
     }
 }

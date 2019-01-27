@@ -19,8 +19,10 @@ namespace Rmit.Asr.Application.Models
         /// </summary>
         public const int MaxBookingPerDay = 4;
         
-        /// <inheritdoc />
+        /// <summary>
+        /// Staff ID name.
+        /// </summary>
         [Display(Name = "Staff ID")]
-        public override string Id { get; set; }
+        public string StaffId { get; set; }
     }
 }

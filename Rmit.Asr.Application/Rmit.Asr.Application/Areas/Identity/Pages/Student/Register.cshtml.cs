@@ -60,14 +60,14 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             string email = $"{Input.Id}@{Models.Student.EmailSuffix}";
             var user = new Models.Student
             {
-                Id = Input.Id,
+                StudentId = Input.Id,
                 FirstName = Input.FirstName,
                 LastName = Input.LastName,
                 UserName = email,
                 Email = email
             };
 
-            ApplicationUser findUser = await _userManager.FindByIdAsync(user.Id);
+            ApplicationUser findUser = await _userManager.FindByIdAsync(user.StudentId);
 
             if (findUser != null)
             {

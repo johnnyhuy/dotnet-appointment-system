@@ -60,18 +60,18 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
             string email = $"{Input.Id}@{Models.Staff.EmailSuffix}";
             var user = new Models.Staff
             {
-                Id = Input.Id,
+                StaffId = Input.Id,
                 FirstName = Input.FirstName,
                 LastName = Input.LastName,
                 UserName = email,
                 Email = email
             };
             
-            ApplicationUser findUser = await _userManager.FindByIdAsync(user.Id);
+            ApplicationUser findUser = await _userManager.FindByIdAsync(user.StaffId);
 
             if (findUser != null)
             {
-                ModelState.AddModelError(string.Empty, $"User {user.Id} already exists.");
+                ModelState.AddModelError(string.Empty, $"User {user.StaffId} already exists.");
                 
                 return Page();
             }

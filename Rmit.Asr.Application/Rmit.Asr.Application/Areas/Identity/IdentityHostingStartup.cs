@@ -24,9 +24,21 @@ namespace Rmit.Asr.Application.Areas.Identity
                     .AddDefaultTokenProviders()
                     .AddDefaultUI()
                     .AddEntityFrameworkStores<ApplicationDataContext>();
+                
+                services.AddIdentityCore<Student>()
+                    .AddRoles<IdentityRole>()
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
+                
+                services.AddIdentityCore<Staff>()
+                    .AddRoles<IdentityRole>()
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
 
                 services.AddScoped<SignInManager<ApplicationUser>>();
                 services.AddScoped<UserManager<ApplicationUser>>();
+                services.AddScoped<SignInManager<Staff>>();
+                services.AddScoped<UserManager<Staff>>();
             });
         }
     }

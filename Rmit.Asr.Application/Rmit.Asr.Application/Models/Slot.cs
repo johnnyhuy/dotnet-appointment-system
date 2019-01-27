@@ -31,7 +31,6 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Staff ID who created the slot.
         /// </summary>
-        [StaffId]
         [Display(Name = "Staff ID")]
         public string StaffId { get; set; }
         
@@ -43,7 +42,6 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Student ID who booked the slot.
         /// </summary>
-        [StudentId]
         [Display(Name = "Student ID")]
         public string StudentId { get; set; }
         
