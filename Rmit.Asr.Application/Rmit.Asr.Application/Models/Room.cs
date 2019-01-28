@@ -1,13 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Rmit.Asr.Application.Models
 {
     public class Room
     {
-        [Required]
-        public string RoomID { get; set; }
+        /// <summary>
+        /// Maximum slots per room and day.
+        /// </summary>
+        public const int MaxRoomBookingPerDay = 2;
+        
+        /// <summary>
+        /// Room name.
+        /// </summary>
+        public string RoomId { get; set; }
 
-        public virtual ICollection<Slot> Slots { get; set; }
+        /// <summary>
+        /// Slots related to the room.
+        /// </summary>
+        public ICollection<Slot> Slots { get; set; }
     }
 }
