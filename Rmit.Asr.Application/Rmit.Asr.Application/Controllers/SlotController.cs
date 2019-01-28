@@ -1,43 +1,56 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Rmit.Asr.Application.Controllers
 {
-    [Authorize(Roles = Staff.RoleName)]
-    public class StaffMenuController : Controller
+    /// <inheritdoc />
+    /// <summary>
+    /// Houses all the staff related functions.
+    /// </summary>
+    public class SlotController : Controller
     {
         private readonly ApplicationDataContext _context;
         private readonly UserManager<Staff> _userManager;
 
-        public StaffMenuController(ApplicationDataContext context, UserManager<Staff> userManager)
+        public SlotController(ApplicationDataContext context, UserManager<Staff> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        //** STAFF MENU HOME PAGE **//
-
-        // GET: /<controller>/
-        public IActionResult Index()
+        /// <summary>
+        /// Student view for the index of slots.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = Student.RoleName)]
+        public IActionResult StudentIndex()
         {
-            return View();
+            return View(_context.Slot);
+        }
+        
+        /// <summary>
+        /// Staff view for the index of slots.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = Staff.RoleName)]
+        public IActionResult StaffIndex()
+        {
+            return View(_context.Slot);
         }
 
-        /** CREATE SLOTS **/
-
-        // GET:
-        public IActionResult CreateSlot()
+        /// <summary>
+        /// Create slot form.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = Staff.RoleName)]
+        public IActionResult Create()
         {
             return View();
         }
@@ -49,7 +62,8 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSlot([Bind("RoomId,StartTime")] Slot slot)
+        [Authorize(Roles = Staff.RoleName)]
+        public async Task<IActionResult> Create([Bind("RoomId,StartTime")] Slot slot)
         {
             if (!ModelState.IsValid) return View(slot);
 
@@ -92,32 +106,18 @@ namespace Rmit.Asr.Application.Controllers
             _context.Slot.Add(slot);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("StaffIndex");
         }
 
-        /** LIST STAFF **/
-       
-        // GET:
-        public async Task<IActionResult> ListStaff()
-        {
-            return View(await _context.Staff.ToListAsync());
-        }
-
-        /** ROOMS AVAILABLE **/
-
-        [HttpGet]
-        public IActionResult RoomsAvail(DateTime day)
-        {
-            if (!ModelState.IsValid) return View();
-            
-            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(day);
-
-            return View(rooms);
-        }
-
+        /// <summary>
+        /// POST request to remove a slot.
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveSlot([Bind("RoomId,StartTime")] RemoveSlot slot)
+        [Authorize(Roles = Staff.RoleName)]
+        public async Task<IActionResult> Remove([Bind("RoomId,StartTime")] RemoveSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
 
@@ -136,12 +136,7 @@ namespace Rmit.Asr.Application.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ShowSlots");
-        }
-
-        public IActionResult ShowSlots()
-        {
-            return View(_context.Slot);
+            return RedirectToAction("StaffIndex");
         }
     }
 }

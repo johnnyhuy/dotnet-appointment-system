@@ -17,7 +17,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
 {
     public class StaffControllerTest : ControllerBaseTest
     {
-        private readonly StaffMenuController _controller;
+        private readonly SlotController _controller;
 
         public StaffControllerTest()
         {
@@ -35,7 +35,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 .ReturnsAsync(loggedInUser);
             
             var mockUserManager = new UserManager<Staff>(mockUserStore.Object, null, null, null, null, null, null, null, null);
-            _controller = new StaffMenuController(Context, mockUserManager)
+            _controller = new SlotController(Context, mockUserManager)
             {
                 ControllerContext =  new ControllerContext
                 {
@@ -56,7 +56,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             };
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             // No validation errors have occured
@@ -65,7 +65,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             // Controller redirected
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Index", viewResult.ActionName);
+            Assert.Equal("StaffIndex", viewResult.ActionName);
 
             // Slot exists in mock database
             Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
@@ -83,7 +83,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             };
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -128,7 +128,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.SaveChanges();
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -185,7 +185,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -224,7 +224,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -263,7 +263,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -299,7 +299,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.CreateSlot(slot);
+            IActionResult result = await _controller.Create(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -338,7 +338,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.RemoveSlot(slot);
+            IActionResult result = await _controller.Remove(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
@@ -377,7 +377,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await _controller.RemoveSlot(slot);
+            IActionResult result = await _controller.Remove(slot);
 
             // Assert
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);

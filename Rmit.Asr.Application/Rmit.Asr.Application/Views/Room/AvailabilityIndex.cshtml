@@ -1,5 +1,4 @@
-﻿@*@model DateTime*@
-
+﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Room>
 
 @{
@@ -17,14 +16,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoomId)
-                </td>
-            </tr>
-        }
+    @foreach (Room item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomId)
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 

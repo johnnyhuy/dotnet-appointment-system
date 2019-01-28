@@ -59,10 +59,10 @@
         </div>
     </nav>
 
-    <partial name="_CookieConsentPartial" />
+    @* <partial name="_CookieConsentPartial" /> *@
 
     <div class="container mt-4">
-            @RenderBody()
+        @RenderBody()
         <footer class="border-top pt-4 mt-4">
             <p>&copy; 2019 - RMIT Appointment Scheduling Reservation</p>
             <p>Shawn Taylor : S3545751</p>
@@ -95,7 +95,6 @@
     </script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 </environment>
-
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", false)
 </body>
 </html>
