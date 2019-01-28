@@ -17,7 +17,7 @@ namespace Rmit.Asr.Application.Models.Extensions
             // Get unavailable rooms
             IQueryable<Room> unavailableRooms = rooms
                 .Include(r => r.Slots)
-                .Where(r => r.Slots.Any(s => s.StartTime != null && s.StartTime.Value.Date == date.Value.Date) && r.Slots.Count >= Room.MaxRoomBookingPerDay);
+                .Where(r => r.Slots.Count(s => s.StartTime != null && s.StartTime.Value.Date == date.Value.Date) >= Room.MaxRoomBookingPerDay);
 
             // Compare unavailable rooms and exclude
             IQueryable<Room> result = rooms
@@ -34,6 +34,7 @@ namespace Rmit.Asr.Application.Models.Extensions
         /// <returns></returns>
         public static bool RoomAvailable(this IQueryable<Room> rooms, Slot slot)
         {
+            var test = rooms.GetAvailableRooms(slot.StartTime).ToList();
             return rooms.GetAvailableRooms(slot.StartTime).Any(r => r.RoomId == slot.RoomId);
         }
 

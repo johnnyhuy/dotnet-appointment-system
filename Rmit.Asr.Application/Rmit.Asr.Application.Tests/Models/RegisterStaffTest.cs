@@ -14,7 +14,7 @@ namespace Rmit.Asr.Application.Tests.Models
             var validationResults = new List<ValidationResult>();
             var staff = new RegisterStaff
             {
-                Id = "e12345",
+                StaffId = "e12345",
                 FirstName = "John",
                 LastName = "Doe"
             };
@@ -37,12 +37,12 @@ namespace Rmit.Asr.Application.Tests.Models
             // Arrange
             var staff = new RegisterStaff();
             var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(staff) { MemberName = nameof(staff.Id) };
+            var validationContext = new ValidationContext(staff) { MemberName = nameof(staff.StaffId) };
 
             // Act
-            staff.Id = input;
+            staff.StaffId = input;
             
-            bool results = Validator.TryValidateProperty(staff.Id, validationContext, validationResults);
+            bool results = Validator.TryValidateProperty(staff.StaffId, validationContext, validationResults);
 
             // Assert
             Assert.Empty(validationResults);
@@ -61,16 +61,16 @@ namespace Rmit.Asr.Application.Tests.Models
             // Arrange
             var staff = new RegisterStaff();
             var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(staff) { MemberName = nameof(staff.Id) };
+            var validationContext = new ValidationContext(staff) { MemberName = nameof(staff.StaffId) };
 
             // Act
-            staff.Id = input;
+            staff.StaffId = input;
             
-            bool results = Validator.TryValidateProperty(staff.Id, validationContext, validationResults);
+            bool results = Validator.TryValidateProperty(staff.StaffId, validationContext, validationResults);
 
             // Assert
             string expectedMessage =
-                $"The staff ID {staff.Id} is invalid, it always starts with a letter ‘e’ followed by 5 numbers.";
+                $"The staff ID {staff.StaffId} is invalid, it always starts with a letter ‘e’ followed by 5 numbers.";
             
             Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
             Assert.False(results);

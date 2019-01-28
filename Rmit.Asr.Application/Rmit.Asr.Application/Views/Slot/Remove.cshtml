@@ -1,14 +1,15 @@
 ﻿@model Rmit.Asr.Application.Models.Slot
 
-<p>Error removing slot</p>
+@{
+    ViewData["Title"] = "Error Removing a Slot";
+}
 
+<h1 class="pb-2">@ViewData["Title"]</h1>
 <span asp-validation-for="RoomId" class="text-danger"></span>
 <span asp-validation-for="StaffId" class="text-danger"></span>
 <span asp-validation-for="StartTime" class="text-danger"></span>
 <span asp-validation-for="StudentId" class="text-danger"></span>
 
-<p>
-    <a asp-controller="Staff" asp-action="Index">
-        Back to show Slots
-    </a>
-</p>
+<a class="btn btn-primary" asp-controller="Staff" asp-action="Index">
+    Back to show Slots
+</a>

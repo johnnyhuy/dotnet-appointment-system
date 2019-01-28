@@ -1,57 +1,80 @@
 ﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomId)
+@{
+    ViewData["Title"] = "Slot Index";
+}
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentId)
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (Slot item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Edit</a> |*@
-                @*<a asp-action="Details" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Details</a> |*@
-                @*<a asp-action="Details" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Details</a> |*@
-                <form asp-action="Remove">
-                    <input type="hidden" asp-for="@item" class="form-control" />
-                    <input type="hidden" asp-for="@item.RoomId" name="RoomID" class="form-control" />
-                    <input type="hidden" asp-for="@item.StartTime" name="StartTime" class="form-control" />
-                    <input type="submit" value="Delete" class="btn btn-default" />
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<h2 class="pb-2">List Slots</h2>
+<partial name="_StatusMessage"/>
+<div class="row">
+    <div class="col-12">
+        @if (Model.Any())
+        {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="vertical-middle">
+                        @Html.DisplayNameFor(model => model.RoomId)
+                    </th>
+                    <th class="vertical-middle">
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th class="vertical-middle">
+                        Start Date
+                    </th>
+                    <th class="vertical-middle">
+                        Start Time
+                    </th>
+                    <th class="vertical-middle">
+                        @Html.DisplayNameFor(model => model.Student.StudentId)
+                    </th>
+                    <th class="text-right"><a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (Slot slot in Model)
+            {
+                <tr>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.RoomId)
+                    </td>
+                    <td class="vertical-middle">
+                        @slot.StartTime?.ToString("dddd, dd MMMM yyyy")
+                    </td>
+                    <td class="vertical-middle">
+                        @slot.StartTime?.ToString("h:mm tt")
+                    </td>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.Staff.StaffId)
+                    </td>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.Student.StudentId)
+                    </td>
+                    <td class="text-right">
+                        <form asp-controller="Slot" asp-action="Remove">
+                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
+                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
+                            <input type="submit" value="Delete" class="btn btn-secondary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        }
+        else
+        {
+            <div>
+                <h1>No slots found 😅</h1>
+                <p>There seems to be no slots at all! Let's get started.</p>
+                <a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a>
+            </div>
+        }
+        <a class="btn" asp-controller="Room" asp-action="AvailabilityIndex">Room Availability</a>
+        <a class="btn" asp-controller="Staff" asp-action="Index">Staff listing</a>
+    </div>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

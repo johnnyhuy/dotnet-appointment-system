@@ -46,6 +46,7 @@ This is a list I've compiled, which has influenced code change and design patter
 
 ### Concepts & design choices
 
+- [Loading data through navigation properties](https://docs.microsoft.com/en-us/ef/core/querying/related-data)
 - [Unit vs integration testing in EF Core](https://stackoverflow.com/questions/47056392/unit-tests-vs-integration-tests-entity-framework-core-in-memory)
 - [Another unit vs integration testing in EF Core](https://stackoverflow.com/questions/51749932/unit-testing-when-using-ef-core-2-0)
 - [ViewModel naming conventions](https://stackoverflow.com/questions/8883122/naming-conventions-regarding-view-models-to-avoid-long-names)
@@ -60,6 +61,16 @@ This is a list I've compiled, which has influenced code change and design patter
 - [Entity Framework Core migrations](https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations?view=aspnetcore-2.0)
 - [Testing controller logic](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-2.1)
 - [Integration testing in ASP .NET Core](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.1)
+
+### Third-party packages used
+
+This is a rough list of external packages used in the project.
+
+- jQuery
+- flatpickr
+- Bootstrap 4
+- Moq
+- xUnit
 
 ## License
 

@@ -18,21 +18,25 @@ namespace Rmit.Asr.Application.Tests.Controllers
     public class StaffControllerTest : ControllerBaseTest
     {
         private readonly SlotController _controller;
+        private Staff _loggedInUser;
 
         public StaffControllerTest()
         {
-            var loggedInUser = new Staff
+            _loggedInUser = new Staff
             {
+                Id = "e12345",
+                StaffId = "e12345",
+                Email = "e12345@rmit.edu.au",
                 UserName = "e12345@rmit.edu.au"
             };
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, loggedInUser.UserName)
+                new Claim(ClaimTypes.NameIdentifier, _loggedInUser.UserName)
             }));
             
             var mockUserStore = new Mock<IUserStore<Staff>>();
             mockUserStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
-                .ReturnsAsync(loggedInUser);
+                .ReturnsAsync(_loggedInUser);
             
             var mockUserManager = new UserManager<Staff>(mockUserStore.Object, null, null, null, null, null, null, null, null);
             _controller = new SlotController(Context, mockUserManager)
@@ -48,7 +52,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithValidParameters_ReturnSuccess()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "C",
                 StaffId = "e12345",
@@ -75,7 +79,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithNonExistentRoom_ReturnSuccess()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "Z",
                 StaffId = "e12345",
@@ -103,7 +107,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithOverMaximumRoomBooking_ReturnFail()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "A",
                 StaffId = "e12345",
@@ -148,7 +152,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithStaffOverMaximumBooking_ReturnFail()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "D",
                 StaffId = "e12345",
@@ -191,7 +195,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             // No validation errors have occured
-            Assert.Contains(errorMessages, e => e == $"Staff {slot.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
+            Assert.Contains(errorMessages, e => e == $"Staff {_loggedInUser.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
             Assert.False(_controller.ModelState.IsValid);
             
             // Controller returns a view
@@ -205,10 +209,14 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithStaffAlreadyTakenSlot_ReturnFail()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "A",
                 StaffId = "e12345",
+                Staff = new Staff
+                {
+                    StaffId = "e12345"
+                },
                 StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
             };
 
@@ -217,6 +225,10 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 {
                     RoomId = "A",
                     StaffId = "e54321",
+                    Staff = new Staff
+                    {
+                        StaffId = "e54321"
+                    },
                     StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 }
             );
@@ -244,7 +256,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithSlotAlreadyExists_ReturnFail()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "A",
                 StaffId = "e12345",
@@ -256,6 +268,10 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 {
                     RoomId = "A",
                     StaffId = "e12345",
+                    Staff = new Staff
+                    {
+                        StaffId = "e12345"
+                    },
                     StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 }
             );
@@ -280,7 +296,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         public async Task CreateSlot_WithStaffAlreadyCreatedSlot_ReturnFail()
         {
             // Arrange
-            var slot = new Slot
+            var slot = new CreateSlot
             {
                 RoomId = "D",
                 StaffId = "e12345",

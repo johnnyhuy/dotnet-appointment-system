@@ -22,7 +22,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<ExternalLoginModel> _logger;
-        private ApplicationDataContext _context;
+        private readonly ApplicationDataContext _context;
 
         public ExternalLoginModel(
             ApplicationDataContext context,

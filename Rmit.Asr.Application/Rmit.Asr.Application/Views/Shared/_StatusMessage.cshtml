@@ -1,0 +1,7 @@
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    string alert = TempData.ContainsKey("AlertType") ? $"alert-{TempData["AlertType"].ToString().ToLower()}" : "alert-info";
+    <div class="alert @alert" role="alert">
+        @TempData["StatusMessage"]
+    </div>
+}

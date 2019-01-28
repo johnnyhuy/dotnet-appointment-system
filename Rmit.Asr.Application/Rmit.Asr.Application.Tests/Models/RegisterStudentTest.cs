@@ -16,12 +16,12 @@ namespace Rmit.Asr.Application.Tests.Models
             // Arrange
             var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(student) { MemberName = nameof(student.Id) };
+            var validationContext = new ValidationContext(student) { MemberName = nameof(student.StudentId) };
 
             // Act
-            student.Id = input;
+            student.StudentId = input;
             
-            bool results = Validator.TryValidateProperty(student.Id, validationContext, validationResults);
+            bool results = Validator.TryValidateProperty(student.StudentId, validationContext, validationResults);
 
             // Assert
             Assert.Empty(validationResults);
@@ -40,16 +40,16 @@ namespace Rmit.Asr.Application.Tests.Models
             // Arrange
             var student = new RegisterStudent();
             var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(student) { MemberName = nameof(student.Id) };
+            var validationContext = new ValidationContext(student) { MemberName = nameof(student.StudentId) };
 
             // Act
-            student.Id = input;
+            student.StudentId = input;
             
-            bool results = Validator.TryValidateProperty(student.Id, validationContext, validationResults);
+            bool results = Validator.TryValidateProperty(student.StudentId, validationContext, validationResults);
 
             // Assert
             string expectedMessage =
-                $"The booked in student ID {student.Id} is invalid, it always starts with a letter ‘s’ followed by 7 numbers.";
+                $"The booked in student ID {student.StudentId} is invalid, it always starts with a letter ‘s’ followed by 7 numbers.";
             
             Assert.Contains(validationResults, r => r.ErrorMessage == expectedMessage);
             Assert.False(results);

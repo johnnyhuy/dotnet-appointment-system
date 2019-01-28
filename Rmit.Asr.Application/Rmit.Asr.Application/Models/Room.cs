@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -13,7 +12,6 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Room name.
         /// </summary>
-        [Required]
         public string RoomId { get; set; }
 
         /// <summary>

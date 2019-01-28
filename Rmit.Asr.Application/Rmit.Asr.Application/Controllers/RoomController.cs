@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
+using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers
 {
@@ -23,16 +24,33 @@ namespace Rmit.Asr.Application.Controllers
         /// <summary>
         /// Index showing a list of available rooms.
         /// </summary>
-        /// <param name="day"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult AvailabilityIndex(DateTime day)
+        public IActionResult AvailabilityIndex()
+        {
+            return View(new AvailabilityRoom
+            {
+                Date = DateTime.Now.Date,
+                AvailableRooms = _context.Room.GetAvailableRooms(DateTime.Now.Date)
+            });
+        }
+
+        /// <summary>
+        /// Get the available rooms based on a date.
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [ActionName("AvailabilityByDateIndex")]
+        public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
             if (!ModelState.IsValid) return View();
             
-            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(day);
+            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(room.Date);
 
-            return View(rooms);
+            room.AvailableRooms = rooms;
+
+            return View(room);
         }
     }
 }

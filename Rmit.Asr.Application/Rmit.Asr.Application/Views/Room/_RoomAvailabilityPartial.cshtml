@@ -1,0 +1,51 @@
+﻿@using Rmit.Asr.Application.Models
+@model Rmit.Asr.Application.Models.ViewModels.AvailabilityRoom
+
+@{
+    ViewData["Title"] = "Room Availability";
+}
+
+<h1 class="pb-2">Room Availability: @Model.Date?.ToString("dddd, dd MMMM yyyy")</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AvailabilityByDateIndex" method="get">
+            <div class="form-group">
+                <label asp-for="Date"></label>
+                <p class="mb-0">
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </p>
+                <input asp-for="Date" id="datePicker" class="form-control" type="text" value="@Model.Date?.ToString("yyyy-MM-dd")" placeholder="Select Date.." data-id="datetime"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a class="btn" asp-controller="Slot" asp-action="StaffIndex">Slot list</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        @if (Model.AvailableRooms.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="vertical-middle">
+                        @Html.DisplayNameFor(model => model.RoomId)
+                    </th>
+                    <th class="text-right"><a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (Room room in Model.AvailableRooms)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => room.RoomId)
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
