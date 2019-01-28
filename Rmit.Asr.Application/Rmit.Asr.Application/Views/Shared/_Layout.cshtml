@@ -7,7 +7,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/flatpickr.css" />
+        <link rel="stylesheet" href="~/lib/flatpickr/flatpickr.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -16,7 +16,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-              asp-fallback-href="~/css/flatpickr.min.css">
+              asp-fallback-href="~/lib/flatpickr/flatpickr.min.css">
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
     
@@ -74,7 +74,7 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/js/flatpickr.js"></script>
+        <script src="~/lib/flatpickr/flatpickr.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 <environment exclude="Development">
@@ -91,7 +91,7 @@
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"
-            asp-fallback-src="~/js/flatpickr.min.js">
+            asp-fallback-src="~/lib/flatpickr/flatpickr.min.js">
     </script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 </environment>
