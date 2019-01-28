@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
@@ -19,12 +20,14 @@ namespace Rmit.Asr.Application.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Student.RoleName + "," + Staff.RoleName)]
         public IActionResult Index()
         {
             return View(_context.Student);
         }
 
         [HttpGet]
+        [Authorize(Roles = Student.RoleName + "," + Staff.RoleName)]
         public IActionResult StaffAvailabilityIndex(DateTime day)
         {
             if (!ModelState.IsValid) return View();
@@ -38,6 +41,7 @@ namespace Rmit.Asr.Application.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Student.RoleName)]
         public IActionResult MakeBooking()
         {
             return View();
@@ -45,6 +49,7 @@ namespace Rmit.Asr.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Student.RoleName)]
         public async Task<IActionResult> MakeBooking([Bind("RoomId,StartTime,StudentId")] Slot slot)
         {
             if (!ModelState.IsValid) return View(slot);
@@ -95,6 +100,7 @@ namespace Rmit.Asr.Application.Controllers
         }
     
         [HttpGet]
+        [Authorize(Roles = Student.RoleName)]
         public IActionResult CancelBooking()
         {
             return View();
@@ -102,6 +108,7 @@ namespace Rmit.Asr.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Student.RoleName)]
         public async Task<IActionResult> CancelBooking([Bind("RoomId,StartTime,StudentId")] Slot slot)
         {
             if (!ModelState.IsValid) return View(slot);
