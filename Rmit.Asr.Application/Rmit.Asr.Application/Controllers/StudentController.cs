@@ -9,54 +9,40 @@ using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Controllers
 {
-    public class StudentMenuController : Controller
+    public class StudentController : Controller
     {
         private readonly ApplicationDataContext _context;
 
-        public StudentMenuController(ApplicationDataContext context)
+        public StudentController(ApplicationDataContext context)
         {
             _context = context;
         }
 
-        // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Student);
         }
-
-        // GET:
-        public IActionResult ListStudents()
-        {
-            return View(_context.Student.ToList() );
-        }
-
 
         [HttpGet]
-        public IActionResult StaffAvail(DateTime day)
+        public IActionResult StaffAvailabilityIndex(DateTime day)
         {
-
             if (!ModelState.IsValid) return View();
 
             // gets all slots for that day that dont have a student booked into it
             // we know that staff cannot create a new slot if they have reached thier max bookings for that day
             // so all these slots must mean that these staff members are available
-            var availStaff = _context.Slot.Where(x => x.StartTime.Value.Date == day.Date && x.StudentId == null);
-
+            IQueryable<Slot> availStaff = _context.Slot.Where(x => x.StartTime.Value.Date == day.Date && x.StudentId == null);
 
             return View(availStaff);
-
-
-
         }
 
-
-        // GET:
+        [HttpGet]
         public IActionResult MakeBooking()
         {
             return View();
         }
 
-        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MakeBooking([Bind("RoomId,StartTime,StudentId")] Slot slot)
@@ -102,18 +88,18 @@ namespace Rmit.Asr.Application.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("StudentIndex", "Slot");
             }
 
             return View(slot);
         }
     
+        [HttpGet]
         public IActionResult CancelBooking()
         {
             return View();
         }
 
-        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelBooking([Bind("RoomId,StartTime,StudentId")] Slot slot)
@@ -149,20 +135,16 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("StudentId", $"The student ID for this slot does not match, cannot cancel this booking.");
             }
 
-            if (ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) return View(slot);
+            
+            // remove the student id from the slot
+            _context.Slot.FirstOrDefault(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime).StudentId = null;
+           
+            _context.Slot.Update(_context.Slot.FirstOrDefault(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime) );
+           
+            await _context.SaveChangesAsync();
 
-                // remove the student id from the slot
-                _context.Slot.FirstOrDefault(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime).StudentId = null;
-               
-               _context.Slot.Update(_context.Slot.FirstOrDefault(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime) );
-               
-                 await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index");
-            }
-
-            return View(slot);
+            return RedirectToAction("StudentIndex", "Slot");
         }
     }
 }
