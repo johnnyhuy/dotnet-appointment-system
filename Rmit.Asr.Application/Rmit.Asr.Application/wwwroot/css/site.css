@@ -7,3 +7,7 @@
     background-color: #D9230F;
     border-color: #ba1e0d;
 }
+
+.table thead th.vertical-middle, .table th.vertical-middle, .table td.vertical-middle {
+    vertical-align: middle;
+}

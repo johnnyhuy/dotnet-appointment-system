@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -95,11 +95,11 @@ namespace Rmit.Asr.Application.Controllers
 
             if (!_context.Room.RoomExists(slot.RoomId))
             {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} does not exist.");
+                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
             }
             else if (!_context.Room.RoomAvailable(slot))
             {
-                ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
+                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
             if (_context.Slot.GetStaffDailySlotCount(slot) >= Staff.MaxBookingPerDay)
@@ -110,18 +110,18 @@ namespace Rmit.Asr.Application.Controllers
             Slot alreadyTakenSlot = _context.Slot.GetAlreadyTakenSlot(slot).Include(s => s.Staff).FirstOrDefault();
             if (alreadyTakenSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"Staff {alreadyTakenSlot.StaffId} has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("RoomId", $"Staff {alreadyTakenSlot.Staff.StaffId} has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
             if (_context.Slot.SlotExists(slot))
             {
-                ModelState.AddModelError("StaffID", $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
+                ModelState.AddModelError("RoomId", $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
             }
 
             Slot staffAlreadyCreatedSlot = _context.Slot.GetStaffSlot(slot).FirstOrDefault();
             if (staffAlreadyCreatedSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"You have already created a slot at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("RoomId", $"You have already created a slot at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
             if (!ModelState.IsValid) return View(slot);
