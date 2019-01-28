@@ -57,7 +57,7 @@ namespace Rmit.Asr.Application.Controllers
             {
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} does not exist.");
             }
-            else if (!_context.Room.IsRoomAvailable(slot))
+            else if (!_context.Room.RoomAvailable(slot))
             {
                 ModelState.AddModelError("RoomID", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
@@ -108,7 +108,6 @@ namespace Rmit.Asr.Application.Controllers
         [HttpGet]
         public IActionResult RoomsAvail(DateTime day)
         {
-
             if (!ModelState.IsValid) return View();
             
             IQueryable<Room> rooms = _context.Room.GetAvailableRooms(day);
@@ -118,29 +117,26 @@ namespace Rmit.Asr.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveSlot([Bind("RoomID,StartTime")] RemoveSlot slot)
+        public async Task<IActionResult> RemoveSlot([Bind("RoomId,StartTime")] RemoveSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
 
-            var studentBookedIn = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId != null);
-            if (studentBookedIn)
+            if (_context.Slot.SlotBookedByStudent(slot))
+                ModelState.AddModelError("StudentId", "Cannot remove slot as a student has been booked into it.");
+            
+            Slot deleteSlot = _context.Slot.GetSlot(slot).FirstOrDefault();
+            if (deleteSlot == null)
             {
-                ModelState.AddModelError("StudentID", "Cannot remove slot as student has been booked into it.");
-
+                ModelState.AddModelError(string.Empty, $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} does not exist.");
             }
+            
+            if (!ModelState.IsValid || deleteSlot == null) return View(slot);
 
-            if (ModelState.IsValid)
-            {
-                var deleteSlot = _context.Slot.Where(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime).FirstOrDefault();
-                _context.Slot.Remove(deleteSlot);
+            _context.Slot.Remove(deleteSlot);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return RedirectToAction("ShowSlots");
-            }
-
-            return View(slot);
-
+            return RedirectToAction("ShowSlots");
         }
 
         public IActionResult ShowSlots()

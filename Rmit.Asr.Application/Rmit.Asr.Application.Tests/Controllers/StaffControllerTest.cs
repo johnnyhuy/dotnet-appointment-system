@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Rmit.Asr.Application.Controllers;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests.Controllers
@@ -312,6 +313,84 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             // Slot does not exist in the mock database
             Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
+        }
+        
+        [Fact]
+        public async Task RemoveSlot_WithStudentBookedInSlot_ReturnFail()
+        {
+            // Arrange
+            var slot = new RemoveSlot
+            {
+                RoomId = "A",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e12345",
+                StudentId = "s1234567",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            Context.Slot.Add(createdSlot);
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await _controller.RemoveSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == "Cannot remove slot as a student has been booked into it.");
+            Assert.False(_controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+
+            // Slot exists in the mock database
+            Assert.True(Context.Slot.Any(s => s.RoomId == createdSlot.RoomId && s.StartTime == createdSlot.StartTime));
+        }
+        
+        [Fact]
+        public async Task RemoveSlot_WithANonExistentSlot_ReturnFail()
+        {
+            // Arrange
+            var slot = new RemoveSlot
+            {
+                RoomId = "ASS",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e12345",
+                StudentId = "s1234567",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            Context.Slot.Add(createdSlot);
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await _controller.RemoveSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} does not exist.");
+            Assert.False(_controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+
+            // Slot exists in the mock database
+            Assert.True(Context.Slot.Any(s => s.RoomId == createdSlot.RoomId && s.StartTime == createdSlot.StartTime));
         }
     }
 }

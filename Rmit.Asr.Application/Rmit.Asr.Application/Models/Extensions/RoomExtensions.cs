@@ -32,7 +32,7 @@ namespace Rmit.Asr.Application.Models.Extensions
         /// <param name="rooms"></param>
         /// <param name="slot"></param>
         /// <returns></returns>
-        public static bool IsRoomAvailable(this IQueryable<Room> rooms, Slot slot)
+        public static bool RoomAvailable(this IQueryable<Room> rooms, Slot slot)
         {
             return rooms.GetAvailableRooms(slot.StartTime).Any(r => r.RoomId == slot.RoomId);
         }

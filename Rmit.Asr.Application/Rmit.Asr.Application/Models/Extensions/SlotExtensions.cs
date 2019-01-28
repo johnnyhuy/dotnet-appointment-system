@@ -51,6 +51,17 @@ namespace Rmit.Asr.Application.Models.Extensions
                             s.StartTime.Value.Date == slot.StartTime.Value.Date &&
                             s.StaffId == slot.StaffId);
         }
+
+        /// <summary>
+        /// Check if the slot has been booked by a student.
+        /// </summary>
+        /// <param name="slots"></param>
+        /// <param name="slot"></param>
+        /// <returns></returns>
+        public static bool SlotBookedByStudent(this IQueryable<Slot> slots, Slot slot)
+        {
+            return slots.GetSlot(slot).Any(s => s.StudentId != null);
+        }
         
         /// <summary>
         /// Check if slot exists.
