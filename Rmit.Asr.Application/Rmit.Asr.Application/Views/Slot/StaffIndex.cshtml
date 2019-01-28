@@ -1,7 +1,9 @@
 ﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
-<table class="table">
+@if (Model.Any())
+{
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -12,10 +14,10 @@
                 @Html.DisplayNameFor(model => model.StartTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StaffId)
+                @Html.DisplayNameFor(model => model.Staff.StaffId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.DisplayNameFor(model => model.Student.StudentId)
             </th>
 
             <th></th>
@@ -32,26 +34,32 @@
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
+                @Html.DisplayFor(modelItem => item.Staff.StaffId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
+                @Html.DisplayFor(modelItem => item.Student.StudentId)
             </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Edit</a> |*@
-                @*<a asp-action="Details" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Details</a> |*@
-                @*<a asp-action="Details" asp-route-roomid="@item.RoomID" asp-route-starttime="@item.StartTime">Details</a> |*@
+            <td class="text-right">
                 <form asp-action="Remove">
                     <input type="hidden" asp-for="@item" class="form-control" />
-                    <input type="hidden" asp-for="@item.RoomId" name="RoomID" class="form-control" />
-                    <input type="hidden" asp-for="@item.StartTime" name="StartTime" class="form-control" />
-                    <input type="submit" value="Delete" class="btn btn-default" />
+                    <input type="hidden" asp-for="@item.RoomId" name="@nameof(item.RoomId)" class="form-control" />
+                    <input type="hidden" asp-for="@item.StartTime" name="@nameof(item.StartTime)" class="form-control" />
+                    <input type="submit" value="Delete" class="btn btn-primary" />
                 </form>
             </td>
         </tr>
     }
     </tbody>
 </table>
+}
+else
+{
+    <div>
+        <h1>No slots found 😅</h1>
+        <p>There seems to be no slots at all! Let's get started.</p>
+        <a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a>
+    </div>
+}
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
@@ -42,7 +44,11 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public IActionResult StaffIndex()
         {
-            return View(_context.Slot);
+            IIncludableQueryable<Slot, Student> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student);
+            
+            return View(slots);
         }
 
         /// <summary>
