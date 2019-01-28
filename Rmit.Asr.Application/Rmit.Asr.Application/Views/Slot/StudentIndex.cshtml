@@ -29,7 +29,10 @@
                     <th class="vertical-middle">
                         @Html.DisplayNameFor(model => model.Student.StudentId)
                     </th>
-                    <th class="text-right">Actions</th>
+                    <th class="text-right">
+                        <a class="btn btn-success" asp-controller="Slot" asp-action="Book">Book a slot</a>
+                        <a class="btn btn-danger" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
