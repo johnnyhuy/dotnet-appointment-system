@@ -1,8 +1,7 @@
 ﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
-<h2 class="pb-2">List Slots</h2>
-<p class="pb-2">This page shows all slots that have been created.</p>
+<h2 class="pb-4">List Slots</h2>
 <div class="row">
     <div class="col-12">
         @if (Model.Any())
@@ -17,7 +16,10 @@
                         @Html.DisplayNameFor(model => model.StartTime)
                     </th>
                     <th class="vertical-middle">
-                        @Html.DisplayNameFor(model => model.Staff.StaffId)
+                        Start Date
+                    </th>
+                    <th class="vertical-middle">
+                        Start Time
                     </th>
                     <th class="vertical-middle">
                         @Html.DisplayNameFor(model => model.Student.StudentId)
@@ -26,26 +28,29 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (Slot item in Model)
+            @foreach (Slot slot in Model)
             {
                 <tr>
                     <td class="vertical-middle">
-                        @Html.DisplayFor(modelItem => item.RoomId)
+                        @Html.DisplayFor(modelItem => slot.RoomId)
                     </td>
                     <td class="vertical-middle">
-                        @Html.DisplayFor(modelItem => item.StartTime)
+                        @slot.StartTime?.ToString("dddd, dd MMMM yyyy")
                     </td>
                     <td class="vertical-middle">
-                        @Html.DisplayFor(modelItem => item.Staff.StaffId)
+                        @slot.StartTime?.ToString("h:mm tt")
                     </td>
                     <td class="vertical-middle">
-                        @Html.DisplayFor(modelItem => item.Student.StudentId)
+                        @Html.DisplayFor(modelItem => slot.Staff.StaffId)
+                    </td>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.Student.StudentId)
                     </td>
                     <td class="text-right">
                         <form asp-action="Remove">
-                            <input type="hidden" asp-for="@item" class="form-control" />
-                            <input type="hidden" asp-for="@item.RoomId" name="@nameof(item.RoomId)" class="form-control" />
-                            <input type="hidden" asp-for="@item.StartTime" name="@nameof(item.StartTime)" class="form-control" />
+                            <input type="hidden" asp-for="@slot" class="form-control" />
+                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
+                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
                             <input type="submit" value="Delete" class="btn btn-secondary" />
                         </form>
                     </td>
