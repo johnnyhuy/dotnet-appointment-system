@@ -6,6 +6,6 @@ namespace Rmit.Asr.Application.Models.ViewModels
     {
         /// <inheritdoc />
         [StaffId]
-        public override string Id { get; set; }
+        public override string StaffId { get; set; }
     }
 }

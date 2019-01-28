@@ -35,7 +35,7 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
         public class InputModel : RegisterStudent
         {
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -57,10 +57,10 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
             
             if (!ModelState.IsValid) return Page();
             
-            string email = $"{Input.Id}@{Models.Student.EmailSuffix}";
+            string email = $"{Input.StudentId}@{Models.Student.EmailSuffix}";
             var user = new Models.Student
             {
-                StudentId = Input.Id,
+                StudentId = Input.StudentId,
                 FirstName = Input.FirstName,
                 LastName = Input.LastName,
                 UserName = email,

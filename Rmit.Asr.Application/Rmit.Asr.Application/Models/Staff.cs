@@ -23,6 +23,6 @@ namespace Rmit.Asr.Application.Models
         /// Staff ID name.
         /// </summary>
         [Display(Name = "Staff ID")]
-        public string StaffId { get; set; }
+        public virtual string StaffId { get; set; }
     }
 }
