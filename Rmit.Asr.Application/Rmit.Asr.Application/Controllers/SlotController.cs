@@ -64,7 +64,8 @@ namespace Rmit.Asr.Application.Controllers
 
             var slot = new CreateSlot
             {
-                Slots = slots
+                Slots = slots,
+                Rooms = _context.Room
             };
             
             return View(slot);
@@ -88,8 +89,9 @@ namespace Rmit.Asr.Application.Controllers
             Staff staff = await _userManager.GetUserAsync(User);
             slot.StaffId = staff.Id;
 
-            // Load other slots
+            // Load navigation properties
             slot.Slots = slots;
+            slot.Rooms = _context.Room;
             
             if (!ModelState.IsValid) return View(slot);
 
