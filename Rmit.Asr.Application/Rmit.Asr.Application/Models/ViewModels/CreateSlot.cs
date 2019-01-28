@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace Rmit.Asr.Application.Models.ViewModels
 {
     public class CreateSlot : Slot
     {
-        [Required]
-        public string StaffId { get; set; }
+        public IEnumerable<Slot> Slots { get; set; }
     }
 }

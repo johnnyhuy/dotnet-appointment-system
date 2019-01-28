@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\ViewModel\" />
     <Folder Include="Views\Staff\" />
     <Folder Include="wwwroot\favicon\" />
     <Folder Include="wwwroot\images\" />

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,7 +58,16 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public IActionResult Create()
         {
-            return View();
+            IIncludableQueryable<Slot, Student> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student);
+
+            var slot = new CreateSlot
+            {
+                Slots = slots
+            };
+            
+            return View(slot);
         }
 
         /// <summary>
@@ -69,8 +78,19 @@ namespace Rmit.Asr.Application.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Staff.RoleName)]
-        public async Task<IActionResult> Create([Bind("RoomId,StartTime")] Slot slot)
+        public async Task<IActionResult> Create([Bind("RoomId,StartTime")] CreateSlot slot)
         {
+            IIncludableQueryable<Slot, Student> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student);
+            
+            // Add logged in user to slot
+            Staff staff = await _userManager.GetUserAsync(User);
+            slot.StaffId = staff.Id;
+
+            // Load other slots
+            slot.Slots = slots;
+            
             if (!ModelState.IsValid) return View(slot);
 
             if (!_context.Room.RoomExists(slot.RoomId))
@@ -84,10 +104,10 @@ namespace Rmit.Asr.Application.Controllers
 
             if (_context.Slot.GetStaffDailySlotCount(slot) >= Staff.MaxBookingPerDay)
             {
-                ModelState.AddModelError("StartTime", $"Staff {slot.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", $"Staff {staff.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
             }
 
-            Slot alreadyTakenSlot = _context.Slot.GetAlreadyTakenSlot(slot).FirstOrDefault();
+            Slot alreadyTakenSlot = _context.Slot.GetAlreadyTakenSlot(slot).Include(s => s.Staff).FirstOrDefault();
             if (alreadyTakenSlot != null)
             {
                 ModelState.AddModelError("StaffID", $"Staff {alreadyTakenSlot.StaffId} has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
@@ -105,9 +125,6 @@ namespace Rmit.Asr.Application.Controllers
             }
 
             if (!ModelState.IsValid) return View(slot);
-            
-            Staff staff = await _userManager.GetUserAsync(User);
-            slot.StaffId = staff.Id;
             
             _context.Slot.Add(slot);
             await _context.SaveChangesAsync();
