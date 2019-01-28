@@ -15,12 +15,12 @@ using Xunit;
 
 namespace Rmit.Asr.Application.Tests.Controllers
 {
-    public class StaffControllerTest : ControllerBaseTest
+    public class SlotControllerTest : ControllerBaseTest
     {
         private readonly SlotController _controller;
         private Staff _loggedInUser;
 
-        public StaffControllerTest()
+        public SlotControllerTest()
         {
             _loggedInUser = new Staff
             {
