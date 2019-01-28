@@ -151,7 +151,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             {
                 RoomId = "D",
                 StaffId = "e12345",
-                StartTime = new DateTime(2019, 1, 1, 13, 2, 2)
+                StartTime = new DateTime(2019, 1, 1, 13, 0,  0)
             };
 
             Context.Slot.AddRange(
