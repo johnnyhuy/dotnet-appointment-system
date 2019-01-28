@@ -61,6 +61,16 @@ This is a list I've compiled, which has influenced code change and design patter
 - [Testing controller logic](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-2.1)
 - [Integration testing in ASP .NET Core](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.1)
 
+### Third-party packages used
+
+This is a rough list of external packages used in the project.
+
+- jQuery
+- flatpickr
+- Bootstrap 4
+- Moq
+- xUnit
+
 ## License
 
 This project is licensed under the MIT license, see [LICENSE](https://github.com/johnnyhuy/wdt-assignment-one/blob/master/LICENSE) for more information.
