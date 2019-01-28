@@ -34,7 +34,11 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Student.RoleName)]
         public IActionResult StudentIndex()
         {
-            return View(_context.Slot);
+            IIncludableQueryable<Slot, Student> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student);
+            
+            return View(slots);
         }
         
         /// <summary>
