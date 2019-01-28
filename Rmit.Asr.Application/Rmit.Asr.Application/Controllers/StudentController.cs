@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,24 +19,9 @@ namespace Rmit.Asr.Application.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Student.RoleName + "," + Staff.RoleName)]
         public IActionResult Index()
         {
             return View(_context.Student);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = Student.RoleName + "," + Staff.RoleName)]
-        public IActionResult StaffAvailabilityIndex(DateTime day)
-        {
-            if (!ModelState.IsValid) return View();
-
-            // gets all slots for that day that dont have a student booked into it
-            // we know that staff cannot create a new slot if they have reached thier max bookings for that day
-            // so all these slots must mean that these staff members are available
-            IQueryable<Slot> availStaff = _context.Slot.Where(x => x.StartTime.Value.Date == day.Date && x.StudentId == null);
-
-            return View(availStaff);
         }
 
         [HttpGet]
