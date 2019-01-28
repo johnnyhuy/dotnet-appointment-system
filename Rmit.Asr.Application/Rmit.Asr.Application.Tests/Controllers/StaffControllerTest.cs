@@ -199,5 +199,119 @@ namespace Rmit.Asr.Application.Tests.Controllers
             // Slot does not exist in the mock database
             Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
+        
+        [Fact]
+        public async Task CreateSlot_WithStaffAlreadyTakenSlot_ReturnFail()
+        {
+            // Arrange
+            var slot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e12345",
+                StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
+            };
+
+            Context.Slot.AddRange(
+                new Slot
+                {
+                    RoomId = "A",
+                    StaffId = "e54321",
+                    StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
+                }
+            );
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await _controller.CreateSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"Staff e54321 has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
+            Assert.False(_controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+
+            // Slot does not exist in the mock database
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StaffId == slot.StaffId));
+        }
+        
+        [Fact]
+        public async Task CreateSlot_WithSlotAlreadyExists_ReturnFail()
+        {
+            // Arrange
+            var slot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e12345",
+                StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
+            };
+
+            Context.Slot.AddRange(
+                new Slot
+                {
+                    RoomId = "A",
+                    StaffId = "e12345",
+                    StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
+                }
+            );
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await _controller.CreateSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
+            Assert.False(_controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+        }
+        
+        [Fact]
+        public async Task CreateSlot_WithStaffAlreadyCreatedSlot_ReturnFail()
+        {
+            // Arrange
+            var slot = new Slot
+            {
+                RoomId = "D",
+                StaffId = "e12345",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = "e12345",
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            Context.Slot.Add(createdSlot);
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await _controller.CreateSlot(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = _controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            // No validation errors have occured
+            Assert.Contains(errorMessages, e => e == $"You have already created a slot at room {createdSlot.RoomId} {createdSlot.StartTime:dd-MM-yyyy H:mm}.");
+            Assert.False(_controller.ModelState.IsValid);
+            
+            // Controller returns a view
+            Assert.IsType<ViewResult>(result);
+
+            // Slot does not exist in the mock database
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
+        }
     }
 }

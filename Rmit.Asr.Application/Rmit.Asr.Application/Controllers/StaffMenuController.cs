@@ -83,7 +83,7 @@ namespace Rmit.Asr.Application.Controllers
             Slot staffAlreadyCreatedSlot = _context.Slot.FirstOrDefault(x => x.StaffId == slot.StaffId && x.StartTime == slot.StartTime);
             if (staffAlreadyCreatedSlot != null)
             {
-                ModelState.AddModelError("StaffID", $"You has already been booked at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("StaffID", $"You have already created a slot at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
             }
 
             if (!ModelState.IsValid) return View(slot);
