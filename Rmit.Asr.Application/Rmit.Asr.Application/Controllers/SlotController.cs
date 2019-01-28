@@ -130,6 +130,9 @@ namespace Rmit.Asr.Application.Controllers
             
             _context.Slot.Add(slot);
             await _context.SaveChangesAsync();
+            
+            TempData["StatusMessage"] = $"Successfully created slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["AlertType"] = "success";
 
             return RedirectToAction("StaffIndex");
         }
@@ -160,6 +163,9 @@ namespace Rmit.Asr.Application.Controllers
             _context.Slot.Remove(deleteSlot);
 
             await _context.SaveChangesAsync();
+
+            TempData["StatusMessage"] = $"Successfully removed slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["AlertType"] = "success";
 
             return RedirectToAction("StaffIndex");
         }

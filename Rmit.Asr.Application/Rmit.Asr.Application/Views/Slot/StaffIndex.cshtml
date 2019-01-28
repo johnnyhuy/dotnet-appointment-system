@@ -2,6 +2,7 @@
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
 <h2 class="pb-4">List Slots</h2>
+<partial name="_StatusMessage"/>
 <div class="row">
     <div class="col-12">
         @if (Model.Any())
@@ -47,8 +48,7 @@
                         @Html.DisplayFor(modelItem => slot.Student.StudentId)
                     </td>
                     <td class="text-right">
-                        <form asp-action="Remove">
-                            <input type="hidden" asp-for="@slot" class="form-control" />
+                        <form asp-controller="Slot" asp-action="Remove">
                             <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
                             <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
                             <input type="submit" value="Delete" class="btn btn-secondary" />
