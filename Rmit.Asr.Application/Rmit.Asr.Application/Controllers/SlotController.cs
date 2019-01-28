@@ -19,12 +19,14 @@ namespace Rmit.Asr.Application.Controllers
     public class SlotController : Controller
     {
         private readonly ApplicationDataContext _context;
-        private readonly UserManager<Staff> _userManager;
+        private readonly UserManager<Staff> _staffManager;
+        private readonly UserManager<Student> _studentManager;
 
-        public SlotController(ApplicationDataContext context, UserManager<Staff> userManager)
+        public SlotController(ApplicationDataContext context, UserManager<Staff> staffManager, UserManager<Student> studentManager)
         {
             _context = context;
-            _userManager = userManager;
+            _staffManager = staffManager;
+            _studentManager = studentManager;
         }
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace Rmit.Asr.Application.Controllers
                 .Include(s => s.Student);
             
             // Add logged in user to slot
-            Staff staff = await _userManager.GetUserAsync(User);
+            Staff staff = await _staffManager.GetUserAsync(User);
             slot.StaffId = staff.Id;
 
             // Load navigation properties
@@ -178,15 +180,28 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Student.RoleName)]
         public IActionResult Book()
         {
-            return View();
+            IIncludableQueryable<Slot, Student> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student);
+
+            var slot = new BookSlot
+            {
+                Slots = slots,
+                Rooms = _context.Room
+            };
+            
+            return View(slot);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Student.RoleName)]
-        public async Task<IActionResult> Book([Bind("RoomId,StartTime,StudentId")] Slot slot)
+        public async Task<IActionResult> Book([Bind("RoomId,StartTime,StudentId")] BookSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
+            
+            Student student = await _studentManager.GetUserAsync(User);
+            slot.StudentId = student.Id;
 
             // A student can only mkae one booking per day
             var amountOfBookings = _context.Slot.Count(x => x.StartTime.Value.Date == slot.StartTime.Value.Date && x.StudentId == slot.StudentId);
@@ -198,11 +213,6 @@ namespace Rmit.Asr.Application.Controllers
             if (!_context.Room.Any(r => r.RoomId == slot.RoomId))
             {
                 ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
-            }
-
-            if (!_context.Student.Any(r => r.Id == slot.StudentId))
-            {
-                ModelState.AddModelError("StudentId", $"Student {slot.StudentId} does not exist.");
             }
 
             var slotExist = _context.Slot.Any(x => x.RoomId == slot.RoomId && x.StartTime == slot.StartTime);
