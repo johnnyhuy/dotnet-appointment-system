@@ -1,12 +1,10 @@
-using Rmit.Asr.Application.ValidationAttributes;
+using Rmit.Asr.Application.Models.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models.ViewModels
 {
     public class RegisterStudent : Student
     {
-        /// <summary>
-        /// Student ID applied with student ID validation.
-        /// </summary>
+        /// <inheritdoc />
         [StudentId]
         public override string Id { get; set; }
     }

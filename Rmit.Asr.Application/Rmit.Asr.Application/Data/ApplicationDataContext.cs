@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rmit.Asr.Application.Models;
 
 namespace Rmit.Asr.Application.Data
 {
-    public class ApplicationDataContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDataContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         
         public DbSet<Room> Room { get; set; }
@@ -16,8 +16,7 @@ namespace Rmit.Asr.Application.Data
         
         public DbSet<Slot> Slot { get; set; }
 
-        public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
-            : base(options)
+        public ApplicationDataContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -25,7 +24,7 @@ namespace Rmit.Asr.Application.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomID, x.StartTime });
+            modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomId, x.StartTime });
         }
 
     }

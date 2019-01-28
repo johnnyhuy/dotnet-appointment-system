@@ -43,41 +43,22 @@ namespace Rmit.Asr.Application.Data
                 context.Room.AddRange(
                     new Room
                     {
-                        RoomID = "A"
+                        RoomId = "A"
                     },
 
                     new Room
                     {
-                        RoomID = "B"
+                        RoomId = "B"
                     },
 
                     new Room
                     {
-                        RoomID = "C"
+                        RoomId = "C"
                     },
 
                     new Room
                     {
-                        RoomID = "D"
-                    }
-                );
-
-                // Doesn't work - no staff table in database or somthing
-                context.Staff.AddRange(
-                    new Staff
-                    {
-                        Id = "e12345",
-                        FirstName = "Shawn",
-                        LastName = "Taylor",
-                        Email = "e12345@rmit.edu.au"
-                    },
-
-                    new Staff
-                    {
-                        Id = "e54321",
-                        FirstName = "Bob",
-                        LastName = "Doe",
-                        Email = "e54321@rmit.edu.au"
+                        RoomId = "D"
                     }
                 );
 

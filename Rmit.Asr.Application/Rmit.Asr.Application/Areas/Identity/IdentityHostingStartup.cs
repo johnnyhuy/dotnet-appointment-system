@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
@@ -14,10 +12,6 @@ namespace Rmit.Asr.Application.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ApplicationDataContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("DefaultConnection")));
-                
                 services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                     {
                         options.Password.RequiredLength = 3;
@@ -26,25 +20,23 @@ namespace Rmit.Asr.Application.Areas.Identity
                         options.Password.RequireLowercase = false;
                         options.Password.RequireUppercase = false;
                     })
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddDefaultTokenProviders()
+                    .AddDefaultUI()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
                 
                 services.AddIdentityCore<Student>()
                     .AddRoles<IdentityRole>()
-                    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Student, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
                 
                 services.AddIdentityCore<Staff>()
                     .AddRoles<IdentityRole>()
-                    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Staff, IdentityRole>>()
-                    .AddEntityFrameworkStores<ApplicationDataContext>()
-                    .AddDefaultTokenProviders();
-                
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddEntityFrameworkStores<ApplicationDataContext>();
+
                 services.AddScoped<SignInManager<ApplicationUser>>();
                 services.AddScoped<UserManager<ApplicationUser>>();
-                services.AddScoped<SignInManager<Student>>();
-                services.AddScoped<UserManager<Student>>();
                 services.AddScoped<SignInManager<Staff>>();
                 services.AddScoped<UserManager<Staff>>();
             });

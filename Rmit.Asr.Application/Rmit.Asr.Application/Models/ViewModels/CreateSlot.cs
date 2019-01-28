@@ -5,6 +5,6 @@ namespace Rmit.Asr.Application.Models.ViewModels
     public class CreateSlot : Slot
     {
         [Required]
-        public string StaffID { get; set; }
+        public string StaffId { get; set; }
     }
 }

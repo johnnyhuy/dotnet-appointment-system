@@ -1,0 +1,59 @@
+﻿@using Rmit.Asr.Application.Models
+@model IEnumerable<Rmit.Asr.Application.Models.Room>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Room Availablitiy</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (Room item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomId)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@*
+    <p>Please select a date:</p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="RoomsAvail">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Date.Date" class="control-label"></label>
+                    <input asp-for="Date.Date" class="form-control" />
+                    <span asp-validation-for="Date.Date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }*@
+
+
+
+
+
+
+
