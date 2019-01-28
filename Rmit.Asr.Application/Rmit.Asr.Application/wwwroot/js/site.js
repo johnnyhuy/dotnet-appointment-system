@@ -9,3 +9,10 @@ $("#dateTimePicker").flatpickr({
     allowInput: true,
     inline: true
 });
+
+$("#datePicker").flatpickr({
+    enableTime: false,
+    dateFormat: "Y-m-d",
+    allowInput: true,
+    inline: true
+});
