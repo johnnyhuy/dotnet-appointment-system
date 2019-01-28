@@ -1,7 +1,11 @@
 ﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Staff>
 
-<h1 class="pb-4">Staff listing</h1>
+@{
+    ViewData["Title"] = "Staff Listing";
+}
+
+<h1 class="pb-2">@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-12">
         <table class="table table-striped">

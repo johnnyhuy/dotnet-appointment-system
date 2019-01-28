@@ -1,7 +1,11 @@
 ﻿@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
-<h2 class="pb-4">List Slots</h2>
+@{
+    ViewData["Title"] = "Slot Index";
+}
+
+<h2 class="pb-2">List Slots</h2>
 <partial name="_StatusMessage"/>
 <div class="row">
     <div class="col-12">

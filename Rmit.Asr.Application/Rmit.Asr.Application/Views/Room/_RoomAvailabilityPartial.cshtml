@@ -1,7 +1,11 @@
 ﻿@using Rmit.Asr.Application.Models
 @model Rmit.Asr.Application.Models.ViewModels.AvailabilityRoom
 
-<h1 class="pb-4">Room Availability: @Model.Date?.ToString("dddd, dd MMMM yyyy")</h1>
+@{
+    ViewData["Title"] = "Room Availability";
+}
+
+<h1 class="pb-2">Room Availability: @Model.Date?.ToString("dddd, dd MMMM yyyy")</h1>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AvailabilityByDateIndex" method="get">
