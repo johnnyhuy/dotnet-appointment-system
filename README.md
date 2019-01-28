@@ -46,6 +46,7 @@ This is a list I've compiled, which has influenced code change and design patter
 
 ### Concepts & design choices
 
+- [Loading data through navigation properties](https://docs.microsoft.com/en-us/ef/core/querying/related-data)
 - [Unit vs integration testing in EF Core](https://stackoverflow.com/questions/47056392/unit-tests-vs-integration-tests-entity-framework-core-in-memory)
 - [Another unit vs integration testing in EF Core](https://stackoverflow.com/questions/51749932/unit-testing-when-using-ef-core-2-0)
 - [ViewModel naming conventions](https://stackoverflow.com/questions/8883122/naming-conventions-regarding-view-models-to-avoid-long-names)
