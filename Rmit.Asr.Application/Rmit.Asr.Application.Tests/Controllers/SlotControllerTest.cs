@@ -253,6 +253,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
                 RoomId = "D",
@@ -291,6 +292,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new RemoveSlot
             {
                 RoomId = "A",
@@ -328,6 +330,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new RemoveSlot
             {
                 RoomId = "ASS",
@@ -376,12 +379,11 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Context.Slot.Add(createdSlot);
             
-            await Context.SaveChangesAsync();
+            await Context.SaveChangesAsync();    
             
             var slot = new BookSlot
             {
                 RoomId = createdSlot.RoomId,
-                StaffId = createdSlot.StaffId,
                 StartTime = createdSlot.StartTime
             };
 
@@ -422,8 +424,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new BookSlot
             {
                 RoomId = bookSlot.RoomId,
-                StartTime = bookSlot.StartTime,
-                StudentId = StudentId
+                StartTime = bookSlot.StartTime
             };
 
             Context.Slot.Add(createdSlot);
@@ -465,7 +466,6 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new BookSlot
             {
                 RoomId = "YEET",
-                StaffId = createdSlot.StaffId,
                 StartTime = createdSlot.StartTime
             };
 
@@ -504,7 +504,6 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new BookSlot
             {
                 RoomId = "B",
-                StaffId = createdSlot.StaffId,
                 StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
             };
 
@@ -551,7 +550,6 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new BookSlot
             {
                 RoomId = createdSlot.RoomId,
-                StaffId = createdSlot.StaffId,
                 StartTime = createdSlot.StartTime
             };
 
@@ -598,7 +596,6 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new CancelSlot
             {
                 RoomId = createdSlot.RoomId,
-                StaffId = createdSlot.StaffId,
                 StartTime = createdSlot.StartTime
             };
 
@@ -631,7 +628,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new CancelSlot
             {
                 RoomId = createdSlot.RoomId,
-                StartTime = createdSlot.StartTime,
+                StartTime = createdSlot.StartTime
             };
 
             Context.Slot.Add(createdSlot);
@@ -673,7 +670,6 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new CancelSlot
             {
                 RoomId = "YEET",
-                StaffId = createdSlot.StaffId,
                 StartTime = createdSlot.StartTime
             };
 
