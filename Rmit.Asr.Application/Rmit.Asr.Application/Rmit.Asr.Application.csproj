@@ -38,5 +38,5 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_StatusMessage.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Staff\Manage\_ViewImports.cshtml" />
   </ItemGroup>
-  
+    
 </Project>

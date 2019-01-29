@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
@@ -26,6 +26,7 @@ namespace Rmit.Asr.Application.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult AvailabilityIndex()
         {
             return View(new AvailabilityRoom
@@ -42,13 +43,12 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionName("AvailabilityByDateIndex")]
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View(room);
             
-            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(room.Date);
-
-            room.AvailableRooms = rooms;
+            room.AvailableRooms =  _context.Room.GetAvailableRooms(room.Date);;
 
             return View(room);
         }

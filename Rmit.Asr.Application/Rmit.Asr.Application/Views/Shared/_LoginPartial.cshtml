@@ -9,35 +9,42 @@
     ApplicationUser user = await UserManager.GetUserAsync(User);
  
     <div class="nav navbar-nav ml-auto">
-        @if (User.IsInRole(Staff.RoleName))
-        {
+    @if (User.IsInRole(Staff.RoleName))
+    {
         <div class="dropdown">
             <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Staff
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" asp-controller="Slot" asp-action="StaffIndex">Slots</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="Index">Slots</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="StaffIndex">My Slots</a>
                 <a class="dropdown-item" asp-controller="Slot" asp-action="Create">Create a slot</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" asp-controller="Room" asp-action="AvailabilityIndex">Room Availability</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" asp-controller="Staff" asp-action="Index">Staff</a>
+                <a class="dropdown-item" asp-controller="Student" asp-action="Index">Students</a>
             </div>
         </div>
-        }
-        else if (User.IsInRole(Student.RoleName))
-        {
+    }
+    else if (User.IsInRole(Student.RoleName))
+    {
         <div class="dropdown">
             <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Student
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" asp-controller="Slot" asp-action="StudentIndex">Book a slot</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="Index">Slots</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="Book">Book a slot</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-controller="Room" asp-action="AvailabilityIndex">Room Availability</a>
+                <a class="dropdown-item" asp-controller="Slot" asp-action="AvailabilityIndex">Staff Availability</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" asp-controller="Staff" asp-action="Index">Staff</a>
+                <a class="dropdown-item" asp-controller="Student" asp-action="Index">Students</a>
             </div>
         </div>
-        }
+    }
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

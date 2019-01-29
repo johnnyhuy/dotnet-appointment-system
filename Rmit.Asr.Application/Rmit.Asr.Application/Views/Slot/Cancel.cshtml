@@ -1,15 +1,14 @@
 ﻿@using Rmit.Asr.Application.Models
-@model Rmit.Asr.Application.Models.ViewModels.CreateSlot;
+@model Rmit.Asr.Application.Models.ViewModels.CancelSlot
 
 @{
-    ViewData["Title"] = "Create a Slot";
+    ViewData["Title"] = "Cancel Booking";
 }
 
-<h2 class="pb-2">Create a Slot</h2>
-<partial name="_StatusMessage"/>
+<h1 class="pb-2">@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Cancel">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RoomId"></label>
@@ -31,7 +30,7 @@
                 <input asp-for="StartTime" id="dateTimePicker" class="form-control" type="text" placeholder="Select Date.." data-id="datetime"/>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
+                <input type="submit" value="Cancel" class="btn btn-primary"/>
                 <a class="btn" asp-controller="Slot" asp-action="Index">Slot list</a>
             </div>
         </form>
