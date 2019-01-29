@@ -1,0 +1,76 @@
+﻿@using Rmit.Asr.Application.Models
+@model Rmit.Asr.Application.Models.ViewModels.AvailabilitySlot
+
+<div class="row">
+@if (Model.AvailableSlots.Any() )
+{
+    <div class="col-md-4">
+        <form asp-action="AvailabilityByDateIndex" method="get">
+            <div class="form-group">
+                <label asp-for="Date"></label>
+                <p class="mb-0">
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </p>
+                <input asp-for="Date" id="datePicker" class="form-control" type="text" value="@Model.Date?.ToString("yyyy-MM-dd")" placeholder="Select Date.." data-id="datetime"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a class="btn" asp-controller="Slot" asp-action="Index">Slot list</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="vertical-middle">
+                    @Html.DisplayNameFor(model => model.RoomId)
+                </th>
+                <th class="vertical-middle">
+                    Start Date
+                </th>
+                <th class="vertical-middle">
+                    Start Time
+                </th>
+                <th class="vertical-middle">
+                    @Html.DisplayNameFor(model => model.Staff.StaffId)
+                </th>
+                <th class="vertical-middle">
+                    @Html.DisplayNameFor(model => model.Student.StudentId)
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (Slot slot in Model.AvailableSlots)
+            {
+                <tr>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.RoomId)
+                    </td>
+                    <td class="vertical-middle">
+                        @slot.StartTime?.ToString("dddd, dd MMMM yyyy")
+                    </td>
+                    <td class="vertical-middle">
+                        @slot.StartTime?.ToString("h:mm tt")
+                    </td>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.Staff.StaffId)
+                    </td>
+                    <td class="vertical-middle">
+                        @Html.DisplayFor(modelItem => slot.Student.StudentId)
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="col-12">
+        <h1>Staff are not available 😅</h1>
+        <p>There seems to be no slots at all!</p>
+        <a class="btn btn-primary" asp-controller="Slot" asp-action="Index">List slots</a>
+    </div>
+}
+</div>

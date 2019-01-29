@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -138,6 +139,7 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> Remove([Bind("RoomId,StartTime")] RemoveSlot slot)
         {
+            // TODO: Move error page to index flash message.
             if (!ModelState.IsValid) return View(slot);
 
             if (_context.Slot.SlotBookedByStudent(slot))
@@ -313,6 +315,42 @@ namespace Rmit.Asr.Application.Controllers
             TempData["AlertType"] = "success";
 
             return RedirectToAction("Index", "Slot");
+        }
+        
+        /// <summary>
+        /// Get available slots.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult AvailabilityIndex()
+        {
+            var slot = new AvailabilitySlot
+            {
+                Date = DateTime.Now.Date,
+                AvailableSlots = _context.Slot
+                    .Include(s => s.Staff)
+                    .Where(s => s.StartTime.Value.Date == DateTime.Now.Date && string.IsNullOrEmpty(s.StudentId))
+            };
+
+            return View(slot);
+        }
+        
+        /// <summary>
+        /// Get available slots by date.
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [ActionName("AvailabilityByDateIndex")]
+        public IActionResult AvailabilityIndex([Bind("Date")]AvailabilitySlot slot)
+        {
+            if (!ModelState.IsValid) return View();
+
+            slot.AvailableSlots = _context.Slot
+                .Include(s => s.Staff)
+                .Where(s => s.StartTime.Value.Date == slot.Date && string.IsNullOrEmpty(s.StudentId));;
+
+            return View(slot);
         }
     }
 }
