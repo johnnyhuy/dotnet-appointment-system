@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
@@ -36,9 +35,10 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
+            IOrderedQueryable<Slot> slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
             
             return View(slots);
         }
@@ -50,9 +50,10 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public IActionResult Create()
         {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
+            IOrderedQueryable<Slot> slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
 
             var slot = new CreateSlot
             {
@@ -73,9 +74,10 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public async Task<IActionResult> Create([Bind("RoomId,StartTime")] CreateSlot slot)
         {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
+            IOrderedQueryable<Slot> slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
             
             // Add logged in user to slot
             Staff staff = await _staffManager.GetUserAsync(User);
@@ -171,9 +173,10 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Student.RoleName)]
         public IActionResult Book()
         {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
+            IOrderedQueryable<Slot> slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
 
             var slot = new BookSlot
             {
@@ -196,7 +199,8 @@ namespace Rmit.Asr.Application.Controllers
         {
             slot.Slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
             slot.Rooms = _context.Room;
             
             if (!ModelState.IsValid) return View(slot);
@@ -248,9 +252,10 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Student.RoleName)]
         public IActionResult Cancel()
         {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
+            IOrderedQueryable<Slot> slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
 
             var slot = new CancelSlot
             {
@@ -273,7 +278,8 @@ namespace Rmit.Asr.Application.Controllers
         {
             slot.Slots = _context.Slot
                 .Include(s => s.Staff)
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .OrderBy(s => s.StartTime);
             slot.Rooms = _context.Room;
             
             if (!ModelState.IsValid) return View(slot);
