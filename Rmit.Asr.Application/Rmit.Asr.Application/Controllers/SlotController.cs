@@ -42,6 +42,24 @@ namespace Rmit.Asr.Application.Controllers
             
             return View(slots);
         }
+        
+        /// <summary>
+        /// List of the logged in staff slots.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = Staff.RoleName)]
+        public async Task<IActionResult> StaffIndex()
+        {
+            Staff staff = await _staffManager.GetUserAsync(User);
+            
+            IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student)
+                .Where(s => s.StaffId == staff.Id)
+                .OrderBy(s => s.StartTime);
+            
+            return View(slots);
+        }
 
         /// <summary>
         /// Create slot form.
