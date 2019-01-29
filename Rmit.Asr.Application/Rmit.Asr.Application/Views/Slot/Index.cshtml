@@ -66,10 +66,15 @@
                     <td class="text-right">
                         @if (slot.Student == null)
                         {
-                        <form asp-controller="Slot" asp-action="Remove">
+                        <form asp-controller="Slot" asp-action="Book">
                             <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
                             <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
-                            <input type="submit" value="Book" class="btn btn-success"/>
+                            <input type="submit" value="Book" class="btn btn-secondary"/>
+                        </form>
+                        <form asp-controller="Slot" asp-action="Cancel">
+                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
+                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
+                            <input type="submit" value="Cancel" class="btn btn-secondary"/>
                         </form>
                         }
                     </td>
