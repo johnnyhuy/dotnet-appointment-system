@@ -212,24 +212,22 @@ namespace Rmit.Asr.Application.Controllers
             Student student = await _studentManager.GetUserAsync(User);
             slot.StudentId = student.Id;
 
-            int bookingCount = _context.Slot.Count(s => s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StudentId == slot.StudentId);
-            if (bookingCount != 0)
+            if (_context.Slot.Any(s => s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StudentId == slot.StudentId))
             {
                 ModelState.AddModelError("StudentId", $"Student {student.StudentId} has reached their maximum bookings for this day ({slot.StartTime.GetValueOrDefault():dd-MM-yyyy})");
             }
 
-            if (!_context.Room.Any(r => r.RoomId == slot.RoomId))
+            if (!_context.Room.RoomExists(slot.RoomId))
             {
                 ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
             }
 
-            bool slotExists = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime);
-            if (!slotExists)
+            if (!_context.Slot.SlotExists(slot))
             {
                 ModelState.AddModelError("StudentId", $"Slot does not exist in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
             }
 
-            Slot studentBookedSlot = _context.Slot.Include(s => s.Student).FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId != student.Id && !string.IsNullOrEmpty(s.StudentId));
+            Slot studentBookedSlot = _context.Slot.Include(s => s.Student).GetSlot(slot).FirstOrDefault(s => s.StudentId != student.Id && !string.IsNullOrEmpty(s.StudentId));
             if (studentBookedSlot != null)
             {
                 ModelState.AddModelError("StudentId", $"Student {studentBookedSlot.Student.StudentId} has already booked slot in room {slot.RoomId} at {slot.StartTime.GetValueOrDefault():dd-MM-yyyy HH:mm}");
