@@ -1,6 +1,8 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
+using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
 
@@ -24,6 +26,7 @@ namespace Rmit.Asr.Application.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult AvailabilityIndex()
         {
             return View(new AvailabilityRoom
@@ -40,6 +43,7 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionName("AvailabilityByDateIndex")]
+        [Authorize(Roles = Staff.RoleName)]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
             if (!ModelState.IsValid) return View(room);

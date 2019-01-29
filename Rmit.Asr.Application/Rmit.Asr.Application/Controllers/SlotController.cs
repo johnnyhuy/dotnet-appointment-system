@@ -328,6 +328,7 @@ namespace Rmit.Asr.Application.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = Student.RoleName)]
         public IActionResult AvailabilityIndex()
         {
             var slot = new AvailabilitySlot
@@ -348,6 +349,7 @@ namespace Rmit.Asr.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionName("AvailabilityByDateIndex")]
+        [Authorize(Roles = Student.RoleName)]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilitySlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
