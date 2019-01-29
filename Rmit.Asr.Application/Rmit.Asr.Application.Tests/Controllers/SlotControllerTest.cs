@@ -31,7 +31,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Assert.True(Controller.ModelState.IsValid);
             
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("StaffIndex", viewResult.ActionName);
+            Assert.Equal("Index", viewResult.ActionName);
 
             Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
         }
@@ -393,7 +393,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Assert.True(Controller.ModelState.IsValid);
             
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("StudentIndex", viewResult.ActionName);
+            Assert.Equal("Index", viewResult.ActionName);
 
             Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
         }

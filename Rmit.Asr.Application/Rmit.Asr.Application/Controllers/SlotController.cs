@@ -28,27 +28,12 @@ namespace Rmit.Asr.Application.Controllers
             _staffManager = staffManager;
             _studentManager = studentManager;
         }
-
-        /// <summary>
-        /// Student view for the index of slots.
-        /// </summary>
-        /// <returns></returns>
-        [Authorize(Roles = Student.RoleName)]
-        public IActionResult StudentIndex()
-        {
-            IIncludableQueryable<Slot, Student> slots = _context.Slot
-                .Include(s => s.Staff)
-                .Include(s => s.Student);
-            
-            return View(slots);
-        }
         
         /// <summary>
-        /// Staff view for the index of slots.
+        /// Slot view for the index of slots.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = Staff.RoleName)]
-        public IActionResult StaffIndex()
+        public IActionResult Index()
         {
             IIncludableQueryable<Slot, Student> slots = _context.Slot
                 .Include(s => s.Staff)
@@ -140,7 +125,7 @@ namespace Rmit.Asr.Application.Controllers
             TempData["StatusMessage"] = $"Successfully created slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
             TempData["AlertType"] = "success";
 
-            return RedirectToAction("StaffIndex");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -173,7 +158,7 @@ namespace Rmit.Asr.Application.Controllers
             TempData["StatusMessage"] = $"Successfully removed slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
             TempData["AlertType"] = "success";
 
-            return RedirectToAction("StaffIndex");
+            return RedirectToAction("Index");
         }
         
         /// <summary>
@@ -242,7 +227,7 @@ namespace Rmit.Asr.Application.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("StudentIndex", "Slot");
+            return RedirectToAction("Index", "Slot");
         }
     
         [HttpGet]
@@ -296,7 +281,7 @@ namespace Rmit.Asr.Application.Controllers
            
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("StudentIndex", "Slot");
+            return RedirectToAction("Index", "Slot");
         }
     }
 }
