@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests.Models
@@ -35,17 +36,28 @@ namespace Rmit.Asr.Application.Tests.Models
         
         public static object[][] InvalidDateTimeIntervals =
         {
-            new object[] { new DateTime(2019, 1, 1, 9, 1, 1) },
-            new object[] { new DateTime(2019, 1, 1, 9, 23, 0) },
-            new object[] { new DateTime(2019, 1, 1, 9, 0, 1) },
-            new object[] { new DateTime(2019, 1, 1, 9, 12, 12) },
+            new object[] { new DateTime(2019, 1, 1, 9, 1, 1), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 23, 0), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 0, 1), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 12, 12), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 1, 1), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 23, 0), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 0, 1), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 12, 12), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 1, 1), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 23, 0), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 0, 1), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 12, 12), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 1, 1), new CancelSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 23, 0), new CancelSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 0, 1), new CancelSlot() },
+            new object[] { new DateTime(2019, 1, 1, 9, 12, 12), new CancelSlot() }
         };
         
         [Theory, MemberData(nameof(InvalidDateTimeIntervals))]
-        public void SlotStartTime_WithNonIntervalTime_ValidationFails(DateTime input)
+        public void SlotStartTime_WithNonIntervalTime_ValidationFails(DateTime input, Slot slot)
         {
             // Arrange
-            var slot = new Slot();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(slot) { MemberName = nameof(slot.StartTime) };
 
@@ -63,16 +75,24 @@ namespace Rmit.Asr.Application.Tests.Models
         
         public static object[][] InvalidDateTimeTimeBetween =
         {
-            new object[] { new DateTime(2019, 1, 1, 8, 0, 0) },
-            new object[] { new DateTime(2019, 1, 1, 15, 0, 0) },
-            new object[] { new DateTime(2019, 1, 1, 1, 0, 0) }
+            new object[] { new DateTime(2019, 1, 1, 8, 0, 0), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 15, 0, 0), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 1, 0, 0), new CreateSlot() },
+            new object[] { new DateTime(2019, 1, 1, 8, 0, 0), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 15, 0, 0), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 1, 0, 0), new RemoveSlot() },
+            new object[] { new DateTime(2019, 1, 1, 8, 0, 0), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 15, 0, 0), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 1, 0, 0), new BookSlot() },
+            new object[] { new DateTime(2019, 1, 1, 8, 0, 0), new CancelSlot() },
+            new object[] { new DateTime(2019, 1, 1, 15, 0, 0), new CancelSlot() },
+            new object[] { new DateTime(2019, 1, 1, 1, 0, 0), new CancelSlot() }
         };
         
         [Theory, MemberData(nameof(InvalidDateTimeTimeBetween))]
-        public void SlotStartTime_WithInvalidTimeBetween_ValidationFails(DateTime input)
+        public void SlotStartTime_WithInvalidTimeBetween_ValidationFails(DateTime input, Slot slot)
         {
             // Arrange
-            var slot = new Slot();
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(slot) { MemberName = nameof(slot.StartTime) };
 
@@ -88,11 +108,18 @@ namespace Rmit.Asr.Application.Tests.Models
             Assert.False(results);
         }
         
-        [Fact]
-        public void SlotStartTime_WithNoInput_ValidationFails()
+        public static object[][] InheritedSlots =
+        {
+            new object[] { new CreateSlot() },
+            new object[] { new RemoveSlot() },
+            new object[] { new BookSlot() },
+            new object[] { new CancelSlot() }
+        };
+        
+        [Theory, MemberData(nameof(InheritedSlots))]
+        public void SlotStartTime_WithNoInput_ValidationFails(Slot slot)
         {
             // Arrange
-            var slot = new Slot();
             var validationResults = new List<ValidationResult>();
 
             // Act
