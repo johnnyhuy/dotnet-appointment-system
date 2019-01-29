@@ -568,5 +568,166 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
         }
+        
+        [Fact]
+        public async Task CancelSlot_WithValidParameters_ReturnSuccess()
+        {
+            // Arrange
+            UserLoggedIn(StudentUsername);
+            
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = StaffId,
+                StudentId = StudentId,
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0),
+                Student = new Student
+                {
+                    Id = StudentId,
+                    StudentId = StudentId,
+                    FirstName = "Johnny",
+                    LastName = "Doe",
+                    Email = StudentEmail
+                }
+            };
+
+            Context.Slot.Add(createdSlot);
+            
+            await Context.SaveChangesAsync();
+            
+            var slot = new CancelSlot
+            {
+                RoomId = createdSlot.RoomId,
+                StaffId = createdSlot.StaffId,
+                StartTime = createdSlot.StartTime
+            };
+
+            // Act
+            IActionResult result = await Controller.Cancel(slot);
+
+            // Assert
+            Assert.Empty(Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
+            Assert.True(Controller.ModelState.IsValid);
+            
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", viewResult.ActionName);
+
+            Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && string.IsNullOrEmpty(s.StudentId)));
+        }
+        
+        [Fact]
+        public async Task CancelSlot_WithNoStudentBooked_ReturnFail()
+        {
+            // Arrange
+            UserLoggedIn(StudentUsername);
+            
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = StaffId,
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0),
+            };
+            
+            var slot = new CancelSlot
+            {
+                RoomId = createdSlot.RoomId,
+                StartTime = createdSlot.StartTime,
+            };
+
+            Context.Slot.Add(createdSlot);
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            IActionResult result = await Controller.Cancel(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            Assert.Contains(errorMessages, e => e == $"No student is booked in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+            Assert.False(Controller.ModelState.IsValid);
+            
+            Assert.IsType<ViewResult>(result);
+
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
+        }
+        
+        [Fact]
+        public async Task CancelSlot_WithNonExistentRoom_ReturnFail()
+        {
+            // Arrange
+            UserLoggedIn(StudentUsername);
+            
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = StaffId,
+                StudentId = null,
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            Context.Slot.Add(createdSlot);
+            
+            await Context.SaveChangesAsync();
+            
+            var slot = new CancelSlot
+            {
+                RoomId = "YEET",
+                StaffId = createdSlot.StaffId,
+                StartTime = createdSlot.StartTime
+            };
+
+            // Act
+            IActionResult result = await Controller.Cancel(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} does not exist.");
+            Assert.False(Controller.ModelState.IsValid);
+            
+            Assert.IsType<ViewResult>(result);
+
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
+        }
+        
+        [Fact]
+        public async Task CancelSlot_WithNonExistentSlot_ReturnFail()
+        {
+            // Arrange
+            UserLoggedIn(StudentUsername);
+            
+            var createdSlot = new Slot
+            {
+                RoomId = "A",
+                StaffId = StaffId,
+                StudentId = null,
+                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+            };
+
+            Context.Slot.Add(createdSlot);
+            
+            await Context.SaveChangesAsync();
+            
+            var slot = new CancelSlot
+            {
+                RoomId = "B",
+                StaffId = createdSlot.StaffId,
+                StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
+            };
+
+            // Act
+            IActionResult result = await Controller.Cancel(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            Assert.Contains(errorMessages, e => e == $"Slot does not exist in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+            Assert.False(Controller.ModelState.IsValid);
+            
+            Assert.IsType<ViewResult>(result);
+
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
+        }
     }
 }

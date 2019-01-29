@@ -190,7 +190,7 @@ namespace Rmit.Asr.Application.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Student.RoleName)]
-        public async Task<IActionResult> Book([Bind("RoomId,StartTime,StudentId")] BookSlot slot)
+        public async Task<IActionResult> Book([Bind("RoomId,StartTime")] BookSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
             
@@ -230,6 +230,10 @@ namespace Rmit.Asr.Application.Controllers
             return RedirectToAction("Index", "Slot");
         }
     
+        /// <summary>
+        /// Form to cancel a slot.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = Student.RoleName)]
         public IActionResult Cancel()
@@ -237,48 +241,49 @@ namespace Rmit.Asr.Application.Controllers
             return View();
         }
 
+        /// <summary>
+        /// POST request to cancel a slot.
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Student.RoleName)]
-        public async Task<IActionResult> Cancel([Bind("RoomId,StartTime,StudentId")] Slot slot)
+        public async Task<IActionResult> Cancel([Bind("RoomId,StartTime")] CancelSlot slot)
         {
             if (!ModelState.IsValid) return View(slot);
+            
+            Student student = await _studentManager.GetUserAsync(User);
+            slot.StudentId = student.Id;
 
-            if (!_context.Room.Any(r => r.RoomId == slot.RoomId))
+            if (!_context.Room.RoomExists(slot.RoomId))
             {
                 ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
             }
 
-            if (!_context.Student.Any(r => r.Id == slot.StudentId))
+            if (!_context.Slot.SlotExists(slot))
             {
-                ModelState.AddModelError("StudentId", $"Student {slot.StudentId} does not exist.");
+                ModelState.AddModelError("StudentId", $"Slot does not exist in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
             }
 
-            var slotExist = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime);
-            if (!slotExist)
+            if (_context.Slot.GetSlot(slot).Any(s => s.StudentId == null))
             {
-                ModelState.AddModelError("StartTime", $"No slot exist in {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("StudentId", $"No student is booked in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
             }
 
-            var slotEmpty = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == null);
-            if (slotEmpty)
+            Slot otherStudentBookedSlot = _context.Slot.Include(s => s.Student).GetSlot(slot).FirstOrDefault(s => s.StudentId != slot.StudentId && !string.IsNullOrEmpty(s.StudentId));
+            if (otherStudentBookedSlot != null)
             {
-                ModelState.AddModelError("StudentId", $"No students booked into this slot");
-            }
-
-            var sameStudent = _context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId);
-            if (!sameStudent)
-            {
-                ModelState.AddModelError("StudentId", $"The student ID for this slot does not match, cannot cancel this booking.");
+                ModelState.AddModelError("StudentId", $"Other student {otherStudentBookedSlot.Student.StudentId} booked slot in room {slot.RoomId} at {slot.StartTime.GetValueOrDefault():dd-MM-yyyy HH:mm}");
             }
 
             if (!ModelState.IsValid) return View(slot);
             
-            // remove the student id from the slot
-            _context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime).StudentId = null;
-           
-            _context.Slot.Update(_context.Slot.FirstOrDefault(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime) );
-           
+            Slot updateSlot = _context.Slot.First(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime);
+            updateSlot.StudentId = null;
+            
+            _context.Slot.Update(updateSlot);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Slot");
