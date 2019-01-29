@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
-using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
 
@@ -44,11 +42,9 @@ namespace Rmit.Asr.Application.Controllers
         [ActionName("AvailabilityByDateIndex")]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View(room);
             
-            IQueryable<Room> rooms = _context.Room.GetAvailableRooms(room.Date);
-
-            room.AvailableRooms = rooms;
+            room.AvailableRooms =  _context.Room.GetAvailableRooms(room.Date);;
 
             return View(room);
         }

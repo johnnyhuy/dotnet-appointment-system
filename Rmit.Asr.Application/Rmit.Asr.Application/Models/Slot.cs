@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Rmit.Asr.Application.Models.ValidationAttributes;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -9,9 +8,8 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Room name.
         /// </summary>
-        [Required]
         [Display(Name = "Room ID")]
-        public string RoomId { get; set; }
+        public virtual string RoomId { get; set; }
         
         /// <summary>
         /// Room related to the slot.
@@ -21,12 +19,8 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Start time date for the slot.
         /// </summary>
-        [Required]
-        [HoursBetween(9, 14)]
-        [HourIntervals]
-        [DataType(DataType.DateTime)]
         [Display(Name = "Start Time")]
-        public DateTime? StartTime { get; set; }
+        public virtual DateTime? StartTime { get; set; }
 
         /// <summary>
         /// Staff ID who created the slot.

@@ -1,9 +1,8 @@
 ﻿@using Rmit.Asr.Application.Models
 @model Rmit.Asr.Application.Models.ViewModels.AvailabilitySlot
 
+<h1 class="pb-2">Staff Slot Availability: @Model.Date?.ToString("dddd, dd MMMM yyyy")</h1>
 <div class="row">
-@if (Model.AvailableSlots.Any() )
-{
     <div class="col-md-4">
         <form asp-action="AvailabilityByDateIndex" method="get">
             <div class="form-group">
@@ -20,6 +19,8 @@
         </form>
     </div>
     <div class="col-md-8">
+    @if (Model.AvailableSlots.Any() )
+    {
         <table class="table table-striped">
             <thead>
             <tr>
@@ -63,14 +64,14 @@
             }
             </tbody>
         </table>
+        }
+        else
+        {
+            <div class="col-12">
+                <h1>Staff are not available 😅</h1>
+                <p>There seems to be no slots at all!</p>
+                <a class="btn btn-primary" asp-controller="Slot" asp-action="Index">List slots</a>
+            </div>
+        }
     </div>
-}
-else
-{
-    <div class="col-12">
-        <h1>Staff are not available 😅</h1>
-        <p>There seems to be no slots at all!</p>
-        <a class="btn btn-primary" asp-controller="Slot" asp-action="Index">List slots</a>
-    </div>
-}
 </div>

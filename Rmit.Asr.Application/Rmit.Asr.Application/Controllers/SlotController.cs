@@ -344,7 +344,7 @@ namespace Rmit.Asr.Application.Controllers
         [ActionName("AvailabilityByDateIndex")]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilitySlot slot)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View(slot);
 
             slot.AvailableSlots = _context.Slot
                 .Include(s => s.Staff)
