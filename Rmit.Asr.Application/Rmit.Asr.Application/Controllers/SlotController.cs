@@ -231,6 +231,9 @@ namespace Rmit.Asr.Application.Controllers
             _context.Slot.Update(updateSlot);
 
             await _context.SaveChangesAsync();
+            
+            TempData["StatusMessage"] = $"Successfully booked slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["AlertType"] = "success";
 
             return RedirectToAction("Index", "Slot");
         }
@@ -305,6 +308,9 @@ namespace Rmit.Asr.Application.Controllers
             _context.Slot.Update(updateSlot);
 
             await _context.SaveChangesAsync();
+            
+            TempData["StatusMessage"] = $"Successfully cancelled slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["AlertType"] = "success";
 
             return RedirectToAction("Index", "Slot");
         }
