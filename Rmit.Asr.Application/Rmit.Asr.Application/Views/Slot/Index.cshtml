@@ -1,4 +1,6 @@
-﻿@using Rmit.Asr.Application.Models
+﻿@inject UserManager<Student> UserManager
+@using Microsoft.AspNetCore.Identity
+@using Rmit.Asr.Application.Models
 @model IEnumerable<Rmit.Asr.Application.Models.Slot>
 
 @{
@@ -31,10 +33,10 @@
                     </th>
                     @if (User.IsInRole(Student.RoleName))
                     {
-                    <th class="text-right">
-                        <a class="btn btn-success" asp-controller="Slot" asp-action="Book">Book a slot</a>
-                        <a class="btn btn-danger" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
-                    </th>
+                        <th class="text-right">
+                            <a class="btn btn-success" asp-controller="Slot" asp-action="Book">Book a slot</a>
+                            <a class="btn btn-danger" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
+                        </th>
                     }
                     else if (User.IsInRole(Staff.RoleName))
                     {
@@ -63,31 +65,34 @@
                     </td>
                     @if (User.IsInRole(Student.RoleName))
                     {
-                    <td class="text-right">
+                        <td class="text-right">
                         @if (slot.Student == null)
                         {
-                        <form asp-controller="Slot" asp-action="Book">
-                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
-                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
-                            <input type="submit" value="Book" class="btn btn-secondary"/>
-                        </form>
-                        <form asp-controller="Slot" asp-action="Cancel">
-                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
-                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
-                            <input type="submit" value="Cancel" class="btn btn-secondary"/>
-                        </form>
+                            <form asp-controller="Slot" asp-action="Book">
+                                <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
+                                <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
+                                <input type="submit" value="Book" class="btn btn-secondary"/>
+                            </form>
                         }
-                    </td>
+                        @if (slot.Student?.Id == UserManager.GetUserId(User))
+                        {
+                            <form asp-controller="Slot" asp-action="Cancel">
+                                <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
+                                <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
+                                <input type="submit" value="Cancel" class="btn btn-secondary"/>
+                            </form>
+                        }
+                        </td>
                     }
                     else if (User.IsInRole(Staff.RoleName))
                     {
-                    <td class="text-right">
-                        <form asp-controller="Slot" asp-action="Remove">
-                            <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
-                            <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
-                            <input type="submit" value="Delete" class="btn btn-secondary" />
-                        </form>
-                    </td>
+                        <td class="text-right">
+                            <form asp-controller="Slot" asp-action="Remove">
+                                <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
+                                <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
+                                <input type="submit" value="Delete" class="btn btn-secondary" />
+                            </form>
+                        </td>
                     }
                 </tr>
             }
