@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -17,6 +18,7 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Slots related to the room.
         /// </summary>
+        [JsonIgnore]
         public ICollection<Slot> Slots { get; set; }
     }
 }
