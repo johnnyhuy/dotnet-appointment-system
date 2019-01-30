@@ -16,7 +16,7 @@ namespace Rmit.Asr.Application.Controllers.Api
     [ApiController]
     public class SlotController : ControllerBase
     {
-        private ApplicationDataContext _context;
+        private readonly ApplicationDataContext _context;
 
         public SlotController(ApplicationDataContext context)
         {
@@ -72,15 +72,15 @@ namespace Rmit.Asr.Application.Controllers.Api
         {
         }
 
-        [HttpPut("{roomId}")]
-        public ActionResult Put(string roomId, [FromBody] dynamic value)
+        [HttpPut("{roomId}/{startDate}/{startTime}")]
+        public ActionResult Put(string roomId, DateTime startDate, DateTime startTime, [FromBody] dynamic value)
         {
-            DateTime startTime = Convert.ToDateTime(value.StartTime.Value);
+            DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             string studentId = value.StudentId.Value;
 
             Student student = _context.Student.FirstOrDefault(s => s.StudentId == studentId);
             
-            if (student == null)
+            if (student == null && !string.IsNullOrEmpty(studentId))
             {
                 var error = new Error("Student does not exist.", HttpStatusCode.NotFound);
                 return new JsonResult(error)
@@ -102,7 +102,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
             
             Slot slot = _context.Slot
-                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == startTime);
+                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
             
             if (slot == null)
             {
@@ -122,10 +122,47 @@ namespace Rmit.Asr.Application.Controllers.Api
             return Ok();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        /// <summary>
+        /// Delete slot by room ID and start time.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        [HttpDelete("{roomId}/{startDate}/{startTime}")]
+        public ActionResult Delete(string roomId, DateTime startDate, DateTime startTime)
         {
+            DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
+            
+            Room room = _context.Room
+                .FirstOrDefault(r => r.RoomId == roomId);
+            
+            if (room == null)
+            {
+                var error = new Error("Room does not exist.", HttpStatusCode.NotFound);
+                return new JsonResult(error)
+                {
+                    StatusCode = error.StatusCode
+                };
+            }
+
+            Slot slot = _context.Slot
+                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
+            
+            if (slot == null)
+            {
+                var error = new Error("Slot does not exist.", HttpStatusCode.NotFound);
+                return new JsonResult(error)
+                {
+                    StatusCode = error.StatusCode
+                };
+            }
+            
+            _context.Slot.Remove(slot);
+
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
