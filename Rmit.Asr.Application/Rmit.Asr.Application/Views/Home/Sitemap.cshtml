@@ -1,0 +1,84 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Rmit.Asr.Application.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h1>Home</h1>
+
+<p>
+    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+</p>
+<p>
+    <a asp-area="" asp-controller="Home" asp-action="About">About</a>
+</p>
+<p>
+    <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+</p>
+<p>
+    <a asp-area="" asp-controller="Home" asp-action="Faq">FAQ</a>
+</p>
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    ApplicationUser user = await UserManager.GetUserAsync(User);
+
+    @if (User.IsInRole(Staff.RoleName))
+    {
+        <h1>Staff</h1>
+        <p>
+            <a asp-controller="Slot" asp-action="Index">Slots</a>
+        </p>
+        <p>
+            <a asp-controller="Slot" asp-action="StaffIndex">My Slots</a>
+        </p>
+        <p>
+            <a asp-controller="Slot" asp-action="Create">Create a slot</a>
+        </p>
+        <p>
+            <a asp-controller="Room" asp-action="AvailabilityIndex">Room Availability</a>
+        </p>
+        <p>
+            <a asp-controller="Staff" asp-action="Index">Staff</a>
+        </p>
+        <p>
+            <a asp-controller="Student" asp-action="Index">Students</a>
+        </p>
+    }
+
+    @if (User.IsInRole(Student.RoleName))
+    {
+        <h1>Student</h1>
+        <p>
+            <a asp-controller="Slot" asp-action="Index">Slots</a>
+        </p>
+        <p>
+            <a asp-controller="Slot" asp-action="Book">Book a slot</a>
+        </p>
+        <p>
+            <a asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
+        </p>
+        <p>
+            <a asp-controller="Slot" asp-action="AvailabilityIndex">Staff Availability</a>
+        </p>
+        <p>
+            <a asp-controller="Staff" asp-action="Index">Staff</a>
+        </p>
+        <p>
+            <a asp-controller="Student" asp-action="Index">Students</a>
+        </p>
+    }
+
+}
+else
+{
+    <p>
+        <a asp-area="Identity" asp-page="/Staff/Register">Staff Register</a>
+    </p>
+    <p>
+        <a asp-area="Identity" asp-page="/Student/Register">Student Register</a>
+    </p>
+    <p>
+        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </p>
+}
