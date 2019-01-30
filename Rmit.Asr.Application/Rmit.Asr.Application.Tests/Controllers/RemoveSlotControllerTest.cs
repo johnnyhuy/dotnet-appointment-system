@@ -26,7 +26,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -64,7 +64,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };

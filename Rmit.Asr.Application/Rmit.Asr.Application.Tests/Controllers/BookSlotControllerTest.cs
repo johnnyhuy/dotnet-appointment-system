@@ -20,7 +20,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = null,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -57,15 +57,15 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
-                StudentId = LoggedInStudent.Id,
+                StaffId = Staff.Id,
+                StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
             
             var bookSlot = new Slot
             {
                 RoomId = "B",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = null,
                 StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
             };
@@ -86,7 +86,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             // Assert
             IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Student {LoggedInStudent.StudentId} has reached their maximum bookings for this day ({slot.StartTime?.Date:dd-MM-yyyy})");
+            Assert.Contains(errorMessages, e => e == $"Student {Student.StudentId} has reached their maximum bookings for this day ({slot.StartTime?.Date:dd-MM-yyyy})");
             Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
@@ -103,7 +103,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = null,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -141,7 +141,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = null,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -179,7 +179,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var createdSlot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
+                StaffId = Staff.Id,
                 StudentId = "s3604367",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0),
                 Student = new Student

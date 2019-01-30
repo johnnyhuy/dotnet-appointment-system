@@ -27,8 +27,8 @@ namespace Rmit.Asr.Application.Tests.Controllers
         protected SlotController SlotController;
         protected Rmit.Asr.Application.Controllers.Api.SlotController ApiSlotController;
         protected Rmit.Asr.Application.Controllers.Api.RoomController ApiRoomController;
-        protected Staff LoggedInStaff;
-        protected Student LoggedInStudent;
+        protected Staff Staff;
+        protected Student Student;
 
         protected ControllerBaseTest()
         {
@@ -38,7 +38,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Context = new ApplicationDataContext(options);
             
-            LoggedInStaff = new Staff
+            Staff = new Staff
             {
                 Id = Guid.NewGuid().ToString(),
                 StaffId = StaffId,
@@ -47,7 +47,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 LastName = "Taylor",
                 UserName = StaffUsername
             };
-            LoggedInStudent = new Student
+            Student = new Student
             {
                 Id = Guid.NewGuid().ToString(),
                 StudentId = StudentId,
@@ -59,12 +59,12 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             var mockStaffStore = new Mock<IUserStore<Staff>>();
             mockStaffStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
-                .ReturnsAsync(LoggedInStaff);
+                .ReturnsAsync(Staff);
             var staffManager = new UserManager<Staff>(mockStaffStore.Object, null, null, null, null, null, null, null, null);
             
             var mockStudentStore = new Mock<IUserStore<Student>>();
             mockStudentStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
-                .ReturnsAsync(LoggedInStudent);
+                .ReturnsAsync(Student);
             var studentManager = new UserManager<Student>(mockStudentStore.Object, null, null, null, null, null, null, null, null);
 
             SlotController = new SlotController(Context, staffManager, studentManager);
@@ -111,7 +111,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             );
             
             Context.Staff.AddRange(
-                LoggedInStaff,
+                Staff,
                 new Staff
                 {
                     StaffId = "e54321",
@@ -122,7 +122,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             );
             
             Context.Student.AddRange(
-                LoggedInStudent,
+                Student,
                 new Student
                 {
                     StudentId = "s3604367",

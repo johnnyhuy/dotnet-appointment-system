@@ -16,8 +16,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
-                StudentId = LoggedInStudent.Id,
+                StaffId = Staff.Id,
+                StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -41,8 +41,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
-                StudentId = LoggedInStudent.Id,
+                StaffId = Staff.Id,
+                StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -68,8 +68,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = LoggedInStaff.Id,
-                StudentId = LoggedInStudent.Id,
+                StaffId = Staff.Id,
+                StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
