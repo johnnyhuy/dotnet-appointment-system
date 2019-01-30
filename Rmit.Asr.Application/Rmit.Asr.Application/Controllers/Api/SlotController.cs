@@ -67,11 +67,14 @@ namespace Rmit.Asr.Application.Controllers.Api
                 .ToList();
         }
 
-        [HttpPost]
-        public void Post([FromBody] dynamic value)
-        {
-        }
-
+        /// <summary>
+        /// Update a slot.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="startTime"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPut("{roomId}/{startDate}/{startTime}")]
         public ActionResult Put(string roomId, DateTime startDate, DateTime startTime, [FromBody] dynamic value)
         {
