@@ -116,6 +116,11 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("RoomId", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
+            if (slot.StartTime < DateTime.Now )
+            {
+                ModelState.AddModelError("StartTime", $"The date and time chosen is in the past! Choose a Date after {DateTime.Now:dd-MM-yyyy}.");
+            }
+
             if (_context.Slot.GetStaffDailySlotCount(slot) >= Staff.MaxBookingPerDay)
             {
                 ModelState.AddModelError("StartTime", $"Staff {staff.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
