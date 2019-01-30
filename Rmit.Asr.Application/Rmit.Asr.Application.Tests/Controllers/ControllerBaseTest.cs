@@ -16,15 +16,17 @@ namespace Rmit.Asr.Application.Tests.Controllers
 {
     public class ControllerBaseTest : IDisposable
     {
-        protected readonly ApplicationDataContext Context;
         protected const string StaffId = "e12345";
         protected const string StaffEmail = "e12345@rmit.edu.au";
         protected const string StaffUsername = StaffEmail;
         protected const string StudentId = "s1234567";
         protected const string StudentEmail = "s1234567@student.rmit.edu.au";
         protected const string StudentUsername = StudentEmail;
+        
+        protected readonly ApplicationDataContext Context;
         protected SlotController SlotController;
         protected Rmit.Asr.Application.Controllers.Api.SlotController ApiSlotController;
+        protected Rmit.Asr.Application.Controllers.Api.RoomController ApiRoomController;
         protected Staff LoggedInStaff;
         protected Student LoggedInStudent;
 
@@ -67,6 +69,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             SlotController = new SlotController(Context, staffManager, studentManager);
             ApiSlotController = new Rmit.Asr.Application.Controllers.Api.SlotController(Context);
+            ApiRoomController = new Rmit.Asr.Application.Controllers.Api.RoomController(Context);
             
             var httpContext = new DefaultHttpContext();
             var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
