@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Rmit.Asr.Dashboard
+namespace Rmit.Asr.Admin
 {
     public class Program
     {
