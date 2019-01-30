@@ -16,8 +16,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = StaffId,
-                StudentId = StudentId,
+                StaffId = LoggedInStaff.Id,
+                StudentId = LoggedInStudent.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -46,8 +46,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = StaffId,
-                StudentId = StudentId,
+                StaffId = LoggedInStaff.Id,
+                StudentId = LoggedInStudent.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -76,8 +76,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = StaffId,
-                StudentId = StudentId,
+                StaffId = LoggedInStaff.Id,
+                StudentId = LoggedInStudent.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -109,8 +109,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = StaffId,
-                StudentId = StudentId,
+                StaffId = LoggedInStaff.Id,
+                StudentId = LoggedInStudent.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -120,7 +120,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             var updateSlot = new Slot
             {
-                StudentId = slot.StudentId,
+                StudentId = LoggedInStudent.StudentId,
                 StartTime = slot.StartTime
             };
 
@@ -142,8 +142,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             var slot = new Slot
             {
                 RoomId = "A",
-                StaffId = StaffId,
-                StudentId = StudentId,
+                StaffId = LoggedInStaff.Id,
+                StudentId = LoggedInStudent.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 

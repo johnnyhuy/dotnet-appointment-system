@@ -18,21 +18,21 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 new Slot
                 {
                     RoomId = "A",
-                    StaffId = StaffId,
+                    StaffId = LoggedInStaff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
-                    StudentId = StudentId,
+                    StaffId = LoggedInStaff.Id,
+                    StudentId = LoggedInStudent.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
+                    StaffId = LoggedInStaff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
                 }
@@ -58,21 +58,21 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 new Slot
                 {
                     RoomId = "A",
-                    StaffId = StaffId,
+                    StaffId = LoggedInStaff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
-                    StudentId = StudentId,
+                    StaffId = LoggedInStaff.Id,
+                    StudentId = LoggedInStudent.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
+                    StaffId = LoggedInStaff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
                 }
@@ -84,7 +84,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             
             var student = new Student
             {
-                StudentId = StudentId
+                StudentId = LoggedInStudent.StudentId
             };
 
             // Act
@@ -103,7 +103,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 new Slot
                 {
                     RoomId = "A",
-                    StaffId = StaffId,
+                    StaffId = LoggedInStaff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
@@ -111,21 +111,21 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 {
                     RoomId = "B",
                     StaffId = "e54321",
-                    StudentId = StudentId,
+                    StudentId = LoggedInStudent.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
-                    StudentId = StudentId,
+                    StaffId = LoggedInStaff.Id,
+                    StudentId = LoggedInStudent.Id,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
                 }
             };
 
             var staff = new Staff
             {
-                StaffId = StaffId
+                StaffId = LoggedInStaff.StaffId
             };
 
             await Context.Slot.AddRangeAsync(slots);

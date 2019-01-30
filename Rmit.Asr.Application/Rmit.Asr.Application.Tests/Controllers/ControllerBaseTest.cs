@@ -40,7 +40,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             LoggedInStaff = new Staff
             {
-                Id = StaffId,
+                Id = Guid.NewGuid().ToString(),
                 StaffId = StaffId,
                 Email = StaffEmail,
                 FirstName = "Shawn",
@@ -49,7 +49,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             };
             LoggedInStudent = new Student
             {
-                Id = StudentId,
+                Id = Guid.NewGuid().ToString(),
                 StudentId = StudentId,
                 Email = StudentEmail,
                 FirstName = "Shawn",
