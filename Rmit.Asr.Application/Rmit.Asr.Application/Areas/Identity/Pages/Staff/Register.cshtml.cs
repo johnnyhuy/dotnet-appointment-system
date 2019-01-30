@@ -85,7 +85,10 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Staff
                 await _userManager.AddToRoleAsync(user, Models.Staff.RoleName);
                     
                 await _signInManager.SignInAsync(user, false);
-                    
+
+                TempData["StatusMessage"] = $"Successfully registered staff user {user.FirstName}, {user.StaffId}";
+                TempData["AlertType"] = "success";
+
                 return LocalRedirect(returnUrl);
             }
             foreach (IdentityError error in result.Errors)
