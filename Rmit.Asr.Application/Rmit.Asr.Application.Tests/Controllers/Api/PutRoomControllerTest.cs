@@ -1,4 +1,3 @@
-using System.Dynamic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +22,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.RoomId = new ExpandoObject();
-            values.RoomId.Value = "G";
-
             // Act
-            dynamic result = ApiRoomController.Put(room.RoomId, values);
+            dynamic result = ApiRoomController.Put(room.RoomId, room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -49,11 +44,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-
             // Act
-            dynamic result = ApiRoomController.Put("Z", values);
+            dynamic result = ApiRoomController.Put("Z", room);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);

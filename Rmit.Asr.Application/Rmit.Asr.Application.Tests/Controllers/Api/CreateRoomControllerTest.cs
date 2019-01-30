@@ -1,6 +1,6 @@
-using System.Dynamic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Rmit.Asr.Application.Models;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests.Controllers.Api
@@ -11,19 +11,18 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         public void CreateRoom_BookStudent_ReturnOk()
         {
             // Arrange
-            const string roomId = "G";
-            
-            dynamic values = new ExpandoObject();
-            values.RoomId = new ExpandoObject();
-            values.RoomId.Value = roomId;
+            var room = new Room
+            {
+                RoomId = "G"
+            };
 
             // Act
-            dynamic result = ApiRoomController.Create(values);
+            dynamic result = ApiRoomController.Create(room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
             
-            Assert.True(Context.Room.Any(r => r.RoomId == roomId));
+            Assert.True(Context.Room.Any(r => r.RoomId == room.RoomId));
         }
     }
 }

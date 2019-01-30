@@ -81,9 +81,14 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
+            
+            var student = new Student
+            {
+                StudentId = StudentId
+            };
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(StudentId);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(student);
 
             // Assert
             Assert.Single(result.Value);
@@ -118,12 +123,17 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 }
             };
 
+            var staff = new Staff
+            {
+                StaffId = StaffId
+            };
+
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(StaffId);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(staff);
 
             // Assert
             Assert.Equal(2, result.Value.Count());

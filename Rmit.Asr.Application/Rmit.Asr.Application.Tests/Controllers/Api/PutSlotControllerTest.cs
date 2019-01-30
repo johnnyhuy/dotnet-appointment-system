@@ -1,6 +1,4 @@
 using System;
-using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +25,13 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-            values.StudentId.Value = "s3604367";
+            var updateSlot = new Slot
+            {
+                StudentId = "s3604367"
+            };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, values);
+            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -56,12 +55,13 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-            values.StudentId.Value = null;
+            var updateSlot = new Slot
+            {
+                StudentId = null
+            };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, values);
+            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -85,14 +85,14 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-            values.StartTime = new ExpandoObject();
-            values.StudentId.Value = "s3604367";
-            values.StartTime.Value = new DateTime(2019, 1, 1, 14, 0, 0).ToString(CultureInfo.InvariantCulture);
+            var updateSlot = new Slot
+            {
+                StudentId = "s3604367",
+                StartTime = new DateTime(2019, 1, 1, 14, 0, 0)
+            };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), values);
+            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);
@@ -118,14 +118,14 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-            values.StartTime = new ExpandoObject();
-            values.StudentId.Value = slot.StudentId;
-            values.StartTime.Value = slot.StartTime.ToString();
+            var updateSlot = new Slot
+            {
+                StudentId = slot.StudentId,
+                StartTime = slot.StartTime
+            };
 
             // Act
-            dynamic result = ApiSlotController.Put("Z", slot.StartTime.Value.Date, slot.StartTime.Value, values);
+            dynamic result = ApiSlotController.Put("Z", slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);
@@ -151,14 +151,14 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             await Context.SaveChangesAsync();
 
-            dynamic values = new ExpandoObject();
-            values.StudentId = new ExpandoObject();
-            values.StartTime = new ExpandoObject();
-            values.StudentId.Value = "asd";
-            values.StartTime.Value = slot.StartTime.ToString();
+            var updateSlot = new Slot
+            {
+                StudentId = "asd",
+                StartTime = slot.StartTime
+            };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, values);
+            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);

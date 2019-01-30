@@ -41,14 +41,14 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked student slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("student/{studentId}")]
-        public ActionResult<IEnumerable<Slot>> StudentIndex(string studentId)
+        [HttpGet("student/{StudentId}")]
+        public ActionResult<IEnumerable<Slot>> StudentIndex(Student student)
         {
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Student.StudentId == studentId)
+                .Where(s => s.Student.StudentId == student.StudentId)
                 .ToList();
         }
         
@@ -56,14 +56,14 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked staff slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("staff/{staffId}")]
-        public ActionResult<IEnumerable<Slot>> StaffIndex(string staffId)
+        [HttpGet("staff/{StaffId}")]
+        public ActionResult<IEnumerable<Slot>> StaffIndex(Staff staff)
         {
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Staff.StaffId == staffId)
+                .Where(s => s.Staff.StaffId == staff.StaffId)
                 .ToList();
         }
 
@@ -73,17 +73,17 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <param name="roomId"></param>
         /// <param name="startDate"></param>
         /// <param name="startTime"></param>
-        /// <param name="value"></param>
+        /// <param name="slot"></param>
         /// <returns></returns>
         [HttpPut("{roomId}/{startDate}/{startTime}")]
-        public ActionResult Put(string roomId, DateTime startDate, DateTime startTime, [FromBody] dynamic value)
+        public ActionResult Put(string roomId, DateTime startDate, DateTime startTime, [FromBody] Slot slot)
         {
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
-            string studentId = value.StudentId.Value;
+            slot.StartTime = slotStartTime;
 
-            Student student = _context.Student.FirstOrDefault(s => s.StudentId == studentId);
+            Student student = _context.Student.FirstOrDefault(s => s.StudentId == slot.StudentId);
             
-            if (student == null && !string.IsNullOrEmpty(studentId))
+            if (student == null && !string.IsNullOrEmpty(slot.StudentId))
             {
                 var error = new Error("Student does not exist.", HttpStatusCode.NotFound);
                 return new JsonResult(error)
@@ -104,10 +104,10 @@ namespace Rmit.Asr.Application.Controllers.Api
                 };
             }
             
-            Slot slot = _context.Slot
+            Slot updateSlot = _context.Slot
                 .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
             
-            if (slot == null)
+            if (updateSlot == null)
             {
                 var error = new Error("Slot does not exist.", HttpStatusCode.NotFound);
                 return new JsonResult(error)
@@ -115,9 +115,10 @@ namespace Rmit.Asr.Application.Controllers.Api
                     StatusCode = error.StatusCode
                 };
             }
-            
-            slot.StudentId = value.StudentId.Value;
-            
+
+            if (student != null)
+                updateSlot.StudentId = student.StudentId;
+
             _context.Slot.Update(slot);
 
             _context.SaveChanges();

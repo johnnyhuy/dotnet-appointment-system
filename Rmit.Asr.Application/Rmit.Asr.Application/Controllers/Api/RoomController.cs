@@ -35,15 +35,10 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Create a room.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="room"></param>
         [HttpPost]
-        public ActionResult Create([FromBody] dynamic value)
+        public ActionResult Create([FromBody] Room room)
         {
-            var room = new Room
-            {
-                RoomId = value.RoomId.Value
-            };
-            
             _context.Room.Add(room);
             _context.SaveChanges();
 
@@ -54,15 +49,15 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Update a room.
         /// </summary>
         /// <param name="roomId"></param>
-        /// <param name="value"></param>
+        /// <param name="room"></param>
         /// <returns></returns>
         [HttpPut("{roomId}")]
-        public ActionResult Put(string roomId, [FromBody] dynamic value)
+        public ActionResult Put(string roomId, [FromBody] Room room)
         {
-            Room room = _context.Room
+            Room updateRoom = _context.Room
                 .FirstOrDefault(r => r.RoomId == roomId);
             
-            if (room == null)
+            if (updateRoom == null)
             {
                 var error = new Error("Room does not exist.", HttpStatusCode.NotFound);
                 return new JsonResult(error)
@@ -71,9 +66,9 @@ namespace Rmit.Asr.Application.Controllers.Api
                 };
             }
             
-            room.RoomId = value.RoomId.Value;
+            updateRoom.RoomId = room.RoomId;
             
-            _context.Room.Update(room);
+            _context.Room.Update(updateRoom);
 
             _context.SaveChanges();
 
