@@ -23,7 +23,8 @@ namespace Rmit.Asr.Application.Tests.Controllers
         protected const string StudentId = "s1234567";
         protected const string StudentEmail = "s1234567@student.rmit.edu.au";
         protected const string StudentUsername = StudentEmail;
-        protected SlotController Controller;
+        protected SlotController SlotController;
+        protected Rmit.Asr.Application.Controllers.Api.SlotController ApiSlotController;
         protected Staff LoggedInStaff;
         protected Student LoggedInStudent;
 
@@ -64,12 +65,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 .ReturnsAsync(LoggedInStudent);
             var studentManager = new UserManager<Student>(mockStudentStore.Object, null, null, null, null, null, null, null, null);
 
-            Controller = new SlotController(Context, staffManager, studentManager);
+            SlotController = new SlotController(Context, staffManager, studentManager);
+            ApiSlotController = new Rmit.Asr.Application.Controllers.Api.SlotController(Context);
             
             var httpContext = new DefaultHttpContext();
             var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
 
-            Controller.TempData = tempData;
+            SlotController.TempData = tempData;
 
             Seed();
         }
@@ -146,7 +148,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 HttpContext = new DefaultHttpContext {User = userPrincipal}
             };
 
-            Controller.ControllerContext = controllerContext;
+            SlotController.ControllerContext = controllerContext;
         }
     }
 }

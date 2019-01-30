@@ -24,11 +24,11 @@ namespace Rmit.Asr.Application.Tests.Controllers
             };
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            Assert.Empty(Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-            Assert.True(Controller.ModelState.IsValid);
+            Assert.Empty(SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
+            Assert.True(SlotController.ModelState.IsValid);
             
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", viewResult.ActionName);
@@ -49,13 +49,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             };
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} does not exist.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -93,13 +93,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.SaveChanges();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -149,13 +149,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"Staff {LoggedInStaff.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -195,13 +195,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"Staff e54321 has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -237,13 +237,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
         }
@@ -273,13 +273,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == $"You have already created a slot at room {createdSlot.RoomId} {createdSlot.StartTime:dd-MM-yyyy H:mm}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
