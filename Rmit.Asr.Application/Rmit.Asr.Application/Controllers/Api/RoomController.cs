@@ -37,8 +37,17 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// </summary>
         /// <param name="value"></param>
         [HttpPost]
-        public void Post([FromBody] dynamic value)
+        public ActionResult Create([FromBody] dynamic value)
         {
+            var room = new Room
+            {
+                RoomId = value.RoomId.Value
+            };
+            
+            _context.Room.Add(room);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         /// <summary>
