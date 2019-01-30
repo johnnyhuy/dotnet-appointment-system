@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers.Api
@@ -39,6 +40,15 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPost]
         public ActionResult Create([FromBody] Room room)
         {
+            if (_context.Room.RoomExists(room.RoomId))
+            {
+                var error = new Error("Room already exists.", HttpStatusCode.NotFound);
+                return new JsonResult(error)
+                {
+                    StatusCode = error.StatusCode
+                };
+            }
+            
             _context.Room.Add(room);
             _context.SaveChanges();
 

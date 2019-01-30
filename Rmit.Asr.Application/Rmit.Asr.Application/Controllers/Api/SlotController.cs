@@ -116,8 +116,7 @@ namespace Rmit.Asr.Application.Controllers.Api
                 };
             }
 
-            if (student != null)
-                updateSlot.StudentId = student.StudentId;
+            updateSlot.StudentId = student?.StudentId;
 
             _context.Slot.Update(slot);
 
