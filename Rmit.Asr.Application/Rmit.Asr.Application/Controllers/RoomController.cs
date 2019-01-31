@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
@@ -47,8 +48,15 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
             if (!ModelState.IsValid) return View(room);
-            
-            room.AvailableRooms =  _context.Room.GetAvailableRooms(room.Date);;
+
+            if (room.Date >= DateTime.Now)
+            {
+                room.AvailableRooms = _context.Room.GetAvailableRooms(room.Date);
+            }
+            else
+            {
+                room.AvailableRooms = new List<Room>();
+            }
 
             return View(room);
         }
