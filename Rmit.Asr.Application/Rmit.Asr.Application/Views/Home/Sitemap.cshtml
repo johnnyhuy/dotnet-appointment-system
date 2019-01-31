@@ -23,7 +23,7 @@
 {
     ApplicationUser user = await UserManager.GetUserAsync(User);
 
-    @if (User.IsInRole(Staff.RoleName))
+    if (User.IsInRole(Staff.RoleName))
     {
         <h1>Staff</h1>
         <p>
@@ -46,7 +46,7 @@
         </p>
     }
 
-    @if (User.IsInRole(Student.RoleName))
+    if (User.IsInRole(Student.RoleName))
     {
         <h1>Student</h1>
         <p>
