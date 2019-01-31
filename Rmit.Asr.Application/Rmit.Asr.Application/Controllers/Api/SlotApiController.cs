@@ -14,11 +14,11 @@ namespace Rmit.Asr.Application.Controllers.Api
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class SlotController : ControllerBase
+    public class SlotApiController : ControllerBase
     {
         private readonly ApplicationDataContext _context;
 
-        public SlotController(ApplicationDataContext context)
+        public SlotApiController(ApplicationDataContext context)
         {
             _context = context;
         }
@@ -70,13 +70,13 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Update a slot.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="startDate"></param>
         /// <param name="startTime"></param>
         /// <param name="slot"></param>
         /// <returns></returns>
-        [HttpPut("{roomId}/{startDate}/{startTime}")]
-        public ActionResult Put(string roomId, DateTime startDate, DateTime startTime, [FromBody] Slot slot)
+        [HttpPut("{roomName}/{startDate}/{startTime}")]
+        public ActionResult Put(string roomName, DateTime startDate, DateTime startTime, [FromBody] Slot slot)
         {
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             slot.StartTime = slotStartTime;
@@ -93,7 +93,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
 
             Room room = _context.Room
-                .FirstOrDefault(r => r.RoomId == roomId);
+                .FirstOrDefault(r => r.Name == roomName);
             
             if (room == null)
             {
@@ -105,7 +105,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
             
             Slot updateSlot = _context.Slot
-                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
+                .FirstOrDefault(s => s.RoomId == room.Id && s.StartTime == slotStartTime);
             
             if (updateSlot == null)
             {
@@ -128,17 +128,17 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Delete slot by room ID and start time.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="startDate"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        [HttpDelete("{roomId}/{startDate}/{startTime}")]
-        public ActionResult Delete(string roomId, DateTime startDate, DateTime startTime)
+        [HttpDelete("{roomName}/{startDate}/{startTime}")]
+        public ActionResult Delete(string roomName, DateTime startDate, DateTime startTime)
         {
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             
             Room room = _context.Room
-                .FirstOrDefault(r => r.RoomId == roomId);
+                .FirstOrDefault(r => r.Name == roomName);
             
             if (room == null)
             {
@@ -150,7 +150,8 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
 
             Slot slot = _context.Slot
-                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
+                .Include(s => s.Room)
+                .FirstOrDefault(s => s.Room.Name == roomName && s.StartTime == slotStartTime);
             
             if (slot == null)
             {

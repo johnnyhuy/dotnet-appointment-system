@@ -3,7 +3,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-
 @if (SignInManager.IsSignedIn(User))
 {
     ApplicationUser user = await UserManager.GetUserAsync(User);

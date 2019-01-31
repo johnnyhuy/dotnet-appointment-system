@@ -14,11 +14,11 @@ namespace Rmit.Asr.Application.Controllers.Api
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomController : ControllerBase
+    public class RoomApiController : ControllerBase
     {
         private readonly ApplicationDataContext _context;
 
-        public RoomController(ApplicationDataContext context)
+        public RoomApiController(ApplicationDataContext context)
         {
             _context = context;
         }
@@ -40,7 +40,7 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPost]
         public ActionResult Create([FromBody] Room room)
         {
-            if (_context.Room.RoomExists(room.RoomId))
+            if (_context.Room.RoomExistsByName(room.Name))
             {
                 var error = new Error("Room already exists.", HttpStatusCode.NotFound);
                 return new JsonResult(error)
@@ -65,7 +65,7 @@ namespace Rmit.Asr.Application.Controllers.Api
         public ActionResult Put(string roomId, [FromBody] Room room)
         {
             Room updateRoom = _context.Room
-                .FirstOrDefault(r => r.RoomId == roomId);
+                .FirstOrDefault(r => r.Name == roomId);
             
             if (updateRoom == null)
             {
@@ -76,7 +76,7 @@ namespace Rmit.Asr.Application.Controllers.Api
                 };
             }
             
-            updateRoom.RoomId = room.RoomId;
+            updateRoom.Name = room.Name;
             
             _context.Room.Update(updateRoom);
 
@@ -98,7 +98,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             
             Room room = _context.Room
-                .FirstOrDefault(r => r.RoomId == roomId);
+                .FirstOrDefault(r => r.Name == roomId);
             
             if (room == null)
             {

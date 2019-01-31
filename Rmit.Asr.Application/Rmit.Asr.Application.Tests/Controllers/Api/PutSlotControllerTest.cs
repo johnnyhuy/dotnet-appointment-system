@@ -15,7 +15,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -31,7 +32,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -45,7 +46,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -61,7 +63,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -75,7 +77,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -92,7 +95,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), updateSlot);
+            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);
@@ -108,7 +111,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -141,7 +145,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -158,7 +163,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<JsonResult>(result);

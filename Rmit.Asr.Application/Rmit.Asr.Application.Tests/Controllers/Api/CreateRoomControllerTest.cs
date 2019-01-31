@@ -14,7 +14,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var room = new Room
             {
-                RoomId = "G"
+                Name = "G"
             };
 
             // Act
@@ -23,7 +23,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
             
-            Assert.True(Context.Room.Any(r => r.RoomId == room.RoomId));
+            Assert.True(Context.Room.Any(r => r.Name == room.Name));
         }
         
         [Fact]
@@ -32,7 +32,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var room = new Room
             {
-                RoomId = "A"
+                Name = "A"
             };
 
             // Act

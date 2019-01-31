@@ -17,21 +17,24 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             {
                 new Slot
                 {
-                    RoomId = "A",
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
                     StaffId = Staff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = Staff.Id,
                     StudentId = Student.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = Staff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
@@ -57,21 +60,24 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             {
                 new Slot
                 {
-                    RoomId = "A",
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
                     StaffId = Staff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = Staff.Id,
                     StudentId = Student.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = Staff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
@@ -102,21 +108,24 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             {
                 new Slot
                 {
-                    RoomId = "A",
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
                     StaffId = Staff.Id,
                     StudentId = null,
                     StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = "e54321",
                     StudentId = Student.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "B",
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
                     StaffId = Staff.Id,
                     StudentId = Student.Id,
                     StartTime = new DateTime(2019, 1, 2, 13, 0, 0)

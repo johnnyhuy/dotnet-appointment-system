@@ -19,13 +19,15 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             var slot = new RemoveSlot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
             var createdSlot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -63,7 +65,8 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             var createdSlot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -79,7 +82,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             // Assert
             IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} does not exist.");
+            Assert.Contains(errorMessages, e => e == "Slot does not exist.");
             Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);

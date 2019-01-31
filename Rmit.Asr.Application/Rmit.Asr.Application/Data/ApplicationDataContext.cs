@@ -25,7 +25,10 @@ namespace Rmit.Asr.Application.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomId, x.StartTime });
+            
+            modelBuilder.Entity<Room>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
         }
-
     }
 }

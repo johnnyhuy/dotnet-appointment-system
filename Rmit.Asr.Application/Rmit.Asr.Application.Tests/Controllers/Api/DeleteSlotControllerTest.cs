@@ -15,7 +15,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -26,7 +27,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiSlotController.Delete(slot.RoomId, slot.StartTime.Value.Date, slot.StartTime.Value);
+            dynamic result = ApiSlotController.Delete(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -40,7 +41,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
@@ -67,7 +69,8 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var slot = new Slot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = Student.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)

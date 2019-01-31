@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Rmit.Asr.Application.Controllers;
+using Rmit.Asr.Application.Controllers.Api;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 
@@ -25,10 +26,14 @@ namespace Rmit.Asr.Application.Tests.Controllers
         
         protected readonly ApplicationDataContext Context;
         protected SlotController SlotController;
-        protected Rmit.Asr.Application.Controllers.Api.SlotController ApiSlotController;
-        protected Rmit.Asr.Application.Controllers.Api.RoomController ApiRoomController;
+        protected SlotApiController ApiSlotController;
+        protected RoomApiController ApiRoomController;
         protected Staff Staff;
         protected Student Student;
+        protected Room RoomA;
+        protected Room RoomB;
+        protected Room RoomC;
+        protected Room RoomD;
 
         protected ControllerBaseTest()
         {
@@ -68,8 +73,8 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var studentManager = new UserManager<Student>(mockStudentStore.Object, null, null, null, null, null, null, null, null);
 
             SlotController = new SlotController(Context, staffManager, studentManager);
-            ApiSlotController = new Rmit.Asr.Application.Controllers.Api.SlotController(Context);
-            ApiRoomController = new Rmit.Asr.Application.Controllers.Api.RoomController(Context);
+            ApiSlotController = new SlotApiController(Context);
+            ApiRoomController = new RoomApiController(Context);
             
             var httpContext = new DefaultHttpContext();
             var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
@@ -90,25 +95,25 @@ namespace Rmit.Asr.Application.Tests.Controllers
             {
                 return;
             }
+
+            RoomA = new Room
+            {
+                Name = "A"
+            };
+            RoomB = new Room
+            {
+                Name = "B"
+            };
+            RoomC = new Room
+            {
+                Name = "C"
+            };
+            RoomD = new Room
+            {
+                Name = "D"
+            };
             
-            Context.Room.AddRange(
-                new Room
-                {
-                    RoomId = "A"
-                },
-                new Room
-                {
-                    RoomId = "B"
-                },
-                new Room
-                {
-                    RoomId = "C"
-                },
-                new Room
-                {
-                    RoomId = "D"
-                }
-            );
+            Context.Room.AddRange(RoomA, RoomB, RoomC, RoomD);
             
             Context.Staff.AddRange(
                 Staff,

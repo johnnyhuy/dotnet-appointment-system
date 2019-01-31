@@ -7,6 +7,8 @@ namespace Rmit.Asr.Application.Models.ViewModels
 {
     public class CreateSlot : Slot
     {
+        public string RoomName { get; set; }
+        
         [Required]
         public override string RoomId { get; set; }
         

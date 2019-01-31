@@ -15,7 +15,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var room = new Room
             {
-                RoomId = "P"
+                Name = "P"
             };
 
             Context.Room.Add(room);
@@ -23,12 +23,12 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiRoomController.Put(room.RoomId, room);
+            ActionResult result = ApiRoomController.Put(room.Name, room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
             
-            Assert.True(Context.Room.Any(r => r.RoomId == room.RoomId));
+            Assert.True(Context.Room.Any(r => r.Name == room.Name));
         }
         
         [Fact]
@@ -37,7 +37,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Arrange
             var room = new Room
             {
-                RoomId = "P"
+                Name = "P"
             };
 
             Context.Room.Add(room);
@@ -52,7 +52,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             Assert.Equal("Room does not exist.", result.Value.Message);
             Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
             
-            Assert.True(Context.Room.Any(r => r.RoomId == room.RoomId));
+            Assert.True(Context.Room.Any(r => r.Name == room.Name));
         }
     }
 }
