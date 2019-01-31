@@ -53,5 +53,30 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             
             Assert.True(Context.Room.Any(r => r.Name == room.Name));
         }
+        
+        [Fact]
+        public async void PutRoom_WithAlreadyExistingRoom_ReturnNotFound()
+        {
+            // Arrange
+            var room = new Room
+            {
+                Name = "P"
+            };
+
+            Context.Room.Add(room);
+
+            await Context.SaveChangesAsync();
+
+            // Act
+            ActionResult result = ApiRoomController.Put("A", room);
+
+            // Assert
+            var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
+            var serializableError = (SerializableError) badRequest.Value;
+            string[] errors = serializableError.Values.Select(e => (string[]) e).First();
+            Assert.Contains("Cannot update the room since the room already exists.", errors);
+            
+            Assert.True(Context.Room.Any(r => r.Name == room.Name));
+        }
     }
 }

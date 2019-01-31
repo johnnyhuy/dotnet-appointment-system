@@ -68,6 +68,12 @@ namespace Rmit.Asr.Application.Controllers.Api
                 return BadRequest(ModelState);
             }
             
+            if (_context.Room.Any(r => r.Name == room.Name))
+            {
+                ModelState.AddModelError("Name", "Cannot update the room since the room already exists.");
+                return BadRequest(ModelState);
+            }
+            
             updateRoom.Name = room.Name;
             
             _context.Room.Update(updateRoom);
