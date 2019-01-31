@@ -79,7 +79,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new CreateSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -204,7 +204,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new BookSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -225,7 +225,7 @@ namespace Rmit.Asr.Application.Controllers
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
-            slot.Rooms = _context.Room;
+            slot.Rooms = _context.Room.OrderBy(r => r.Name);
             
             Student student = await _studentManager.GetUserAsync(User);
             slot.StudentId = student.Id;
@@ -286,7 +286,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new CancelSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -307,7 +307,7 @@ namespace Rmit.Asr.Application.Controllers
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
-            slot.Rooms = _context.Room;
+            slot.Rooms = _context.Room.OrderBy(r => r.Name);
             
             Student student = await _studentManager.GetUserAsync(User);
             slot.StudentId = student.Id;
