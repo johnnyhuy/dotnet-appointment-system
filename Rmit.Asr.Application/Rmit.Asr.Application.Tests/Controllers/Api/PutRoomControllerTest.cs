@@ -7,8 +7,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 {
     public class PutRoomControllerTest : ControllerBaseTest
     {
-        // TODO: Remove room ID as key
-        [Fact(Skip = "Need remove room ID as key to fix this.")]
+        [Fact]
         public async void PutRoom_BookStudent_ReturnOk()
         {
             // Arrange
