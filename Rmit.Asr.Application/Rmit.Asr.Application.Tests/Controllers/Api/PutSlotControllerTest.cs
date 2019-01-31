@@ -31,7 +31,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            ActionResult result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -62,7 +62,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            ActionResult result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -94,7 +94,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), updateSlot);
+            ActionResult result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value.AddHours(1), updateSlot);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
@@ -129,7 +129,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put("Z", slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            ActionResult result = ApiSlotController.Put("Z", slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
@@ -164,7 +164,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
+            ActionResult result = ApiSlotController.Put(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value, updateSlot);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);

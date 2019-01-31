@@ -26,7 +26,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiSlotController.Delete(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value);
+            ActionResult result = ApiSlotController.Delete(RoomA.Name, slot.StartTime.Value.Date, slot.StartTime.Value);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
@@ -52,7 +52,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiSlotController.Delete("ZZZ", slot.StartTime.Value, slot.StartTime.Value);
+            ActionResult result = ApiSlotController.Delete("ZZZ", slot.StartTime.Value, slot.StartTime.Value);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
@@ -81,7 +81,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiSlotController.Delete("A", slot.StartTime.Value, slot.StartTime.Value.AddHours(1));
+            ActionResult result = ApiSlotController.Delete("A", slot.StartTime.Value, slot.StartTime.Value.AddHours(1));
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);

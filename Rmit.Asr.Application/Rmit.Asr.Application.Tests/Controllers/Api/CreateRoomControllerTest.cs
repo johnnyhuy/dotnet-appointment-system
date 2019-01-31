@@ -17,7 +17,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            dynamic result = ApiRoomController.Create(room);
+            ActionResult result = ApiRoomController.Create(room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);

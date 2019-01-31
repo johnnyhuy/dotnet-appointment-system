@@ -44,7 +44,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            dynamic result = ApiRoomController.Put("Z", room);
+            ActionResult result = ApiRoomController.Put("Z", room);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
