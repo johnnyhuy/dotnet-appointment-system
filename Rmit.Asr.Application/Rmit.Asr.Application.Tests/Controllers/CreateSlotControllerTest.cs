@@ -16,19 +16,21 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
-                RoomId = "C",
-                StaffId = StaffId,
+                RoomId = RoomC.Id,
+                Room = RoomC,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
             };
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            Assert.Empty(Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
-            Assert.True(Controller.ModelState.IsValid);
+            Assert.Empty(SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage));
+            Assert.True(SlotController.ModelState.IsValid);
             
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", viewResult.ActionName);
@@ -41,21 +43,22 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
                 RoomId = "Z",
-                StaffId = StaffId,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
             };
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} does not exist.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == "Room does not exist.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -68,24 +71,28 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
             };
 
             Context.Slot.AddRange(
                 new Slot
                 {
-                    RoomId = "A",
-                    StaffId = StaffId,
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "A",
-                    StaffId = StaffId,
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 14, 0, 0)
                 }
             );
@@ -93,13 +100,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.SaveChanges();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == $"Room has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -112,36 +119,39 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
                 RoomId = "D",
-                StaffId = StaffId,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0,  0)
             };
 
             Context.Slot.AddRange(
                 new Slot
                 {
-                    RoomId = "A",
-                    StaffId = StaffId,
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 },
                 new Slot
                 {
-                    RoomId = "A",
-                    StaffId = StaffId,
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 14, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 10, 0, 0)
                 },
                 new Slot
                 {
                     RoomId = "B",
-                    StaffId = StaffId,
+                    StaffId = Staff.Id,
                     StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
                 }
             );
@@ -149,13 +159,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Staff {LoggedInStaff.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == $"Staff has a maximum of {Staff.MaxBookingPerDay} bookings.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -168,13 +178,16 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 Staff = new Staff
                 {
-                    StaffId = StaffId
+                    Id = Staff.Id,
+                    StaffId = Staff.StaffId
                 },
                 StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
             };
@@ -182,7 +195,8 @@ namespace Rmit.Asr.Application.Tests.Controllers
             Context.Slot.AddRange(
                 new Slot
                 {
-                    RoomId = "A",
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
                     StaffId = "e54321",
                     Staff = new Staff
                     {
@@ -195,13 +209,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Staff e54321 has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == "Staff has already taken slot.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -214,21 +228,25 @@ namespace Rmit.Asr.Application.Tests.Controllers
         {
             // Arrange
             UserLoggedIn(StaffUsername);
+            
             var slot = new CreateSlot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
             };
 
             Context.Slot.AddRange(
                 new Slot
                 {
-                    RoomId = "A",
-                    StaffId = StaffId,
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
                     Staff = new Staff
                     {
-                        StaffId = StaffId
+                        Id = Staff.Id,
+                        StaffId = Staff.StaffId
                     },
                     StartTime = new DateTime(2019, 1, 1, 12, 0, 0)
                 }
@@ -237,13 +255,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == "Slot already exists.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
         }
@@ -257,14 +275,15 @@ namespace Rmit.Asr.Application.Tests.Controllers
             var slot = new CreateSlot
             {
                 RoomId = "D",
-                StaffId = StaffId,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
             var createdSlot = new Slot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
@@ -273,13 +292,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Create(slot);
+            IActionResult result = await SlotController.Create(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"You have already created a slot at room {createdSlot.RoomId} {createdSlot.StartTime:dd-MM-yyyy H:mm}.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == "You have already created a slot on the same time with a different room.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 

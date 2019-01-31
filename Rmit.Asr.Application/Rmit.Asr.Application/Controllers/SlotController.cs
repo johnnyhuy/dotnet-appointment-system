@@ -36,6 +36,7 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult Index()
         {
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
@@ -53,6 +54,7 @@ namespace Rmit.Asr.Application.Controllers
             Staff staff = await _staffManager.GetUserAsync(User);
             
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .Where(s => s.StaffId == staff.Id)
@@ -69,6 +71,7 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult Create()
         {
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
@@ -76,7 +79,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new CreateSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -93,6 +96,7 @@ namespace Rmit.Asr.Application.Controllers
         public async Task<IActionResult> Create([Bind("RoomId,StartTime")] CreateSlot slot)
         {
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
@@ -109,11 +113,11 @@ namespace Rmit.Asr.Application.Controllers
 
             if (!_context.Room.RoomExists(slot.RoomId))
             {
-                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
+                ModelState.AddModelError("RoomName", "Room does not exist.");
             }
             else if (!_context.Room.RoomAvailable(slot))
             {
-                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
+                ModelState.AddModelError("RoomName", $"Room has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
             if (slot.StartTime < DateTime.Now )
@@ -123,32 +127,32 @@ namespace Rmit.Asr.Application.Controllers
 
             if (_context.Slot.GetStaffDailySlotCount(slot) >= Staff.MaxBookingPerDay)
             {
-                ModelState.AddModelError("StartTime", $"Staff {staff.StaffId} has a maximum of {Staff.MaxBookingPerDay} bookings at {slot.StartTime:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", $"Staff has a maximum of {Staff.MaxBookingPerDay} bookings.");
             }
 
             Slot alreadyTakenSlot = _context.Slot.GetAlreadyTakenSlot(slot).Include(s => s.Staff).FirstOrDefault();
             if (alreadyTakenSlot != null)
             {
-                ModelState.AddModelError("RoomId", $"Staff {alreadyTakenSlot.Staff.StaffId} has already taken slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("RoomName", "Staff has already taken slot.");
             }
 
             if (_context.Slot.SlotExists(slot))
             {
-                ModelState.AddModelError("RoomId", $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} already exists.");
+                ModelState.AddModelError("RoomName", "Slot already exists.");
             }
 
             Slot staffAlreadyCreatedSlot = _context.Slot.GetStaffSlot(slot).FirstOrDefault();
             if (staffAlreadyCreatedSlot != null)
             {
-                ModelState.AddModelError("RoomId", $"You have already created a slot at room {staffAlreadyCreatedSlot.RoomId} {staffAlreadyCreatedSlot.StartTime:dd-MM-yyyy H:mm}.");
+                ModelState.AddModelError("RoomName", "You have already created a slot on the same time with a different room.");
             }
 
             if (!ModelState.IsValid) return View(slot);
-            
+
             _context.Slot.Add(slot);
             await _context.SaveChangesAsync();
             
-            TempData["StatusMessage"] = $"Successfully created slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["StatusMessage"] = "Successfully created slot!";
             TempData["AlertType"] = "success";
 
             return RedirectToAction("Index");
@@ -170,10 +174,10 @@ namespace Rmit.Asr.Application.Controllers
             if (_context.Slot.SlotBookedByStudent(slot))
                 ModelState.AddModelError("StartTime", "Cannot remove slot as a student has been booked into it.");
             
-            Slot deleteSlot = _context.Slot.GetSlot(slot).FirstOrDefault();
+            Slot deleteSlot = _context.Slot.Include(s => s.Room).GetSlot(slot).FirstOrDefault();
             if (deleteSlot == null)
             {
-                ModelState.AddModelError(string.Empty, $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} does not exist.");
+                ModelState.AddModelError(string.Empty, "Slot does not exist.");
             }
             
             if (!ModelState.IsValid || deleteSlot == null) return View(slot);
@@ -182,7 +186,7 @@ namespace Rmit.Asr.Application.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["StatusMessage"] = $"Successfully removed slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["StatusMessage"] = "Successfully removed slot!";
             TempData["AlertType"] = "success";
 
             return RedirectToAction("Index");
@@ -197,6 +201,7 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult Book()
         {
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
@@ -204,7 +209,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new BookSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -221,47 +226,49 @@ namespace Rmit.Asr.Application.Controllers
         public async Task<IActionResult> Book([Bind("RoomId,StartTime")] BookSlot slot)
         {
             slot.Slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
-            slot.Rooms = _context.Room;
-            
-            if (!ModelState.IsValid) return View(slot);
+            slot.Rooms = _context.Room.OrderBy(r => r.Name);
             
             Student student = await _studentManager.GetUserAsync(User);
             slot.StudentId = student.Id;
+            
+            if (!ModelState.IsValid) return View(slot);
+            
+            Slot updateSlot = _context.Slot.Include(s => s.Room).GetSlot(slot).FirstOrDefault();
+
+            if (updateSlot == null)
+            {
+                ModelState.AddModelError("StartTime", "Slot does not exist.");
+            }
 
             if (_context.Slot.Any(s => s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StudentId == slot.StudentId))
             {
-                ModelState.AddModelError("StartTime", $"Student {student.StudentId} has reached their maximum bookings for this day ({slot.StartTime.GetValueOrDefault():dd-MM-yyyy})");
+                ModelState.AddModelError("StartTime", "Student has reached their maximum bookings for this day.");
             }
 
             if (!_context.Room.RoomExists(slot.RoomId))
             {
-                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
-            }
-
-            if (!_context.Slot.SlotExists(slot))
-            {
-                ModelState.AddModelError("StartTime", $"Slot does not exist in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("RoomName", "Room does not exist.");
             }
 
             Slot studentBookedSlot = _context.Slot.Include(s => s.Student).GetSlot(slot).FirstOrDefault(s => s.StudentId != student.Id && !string.IsNullOrEmpty(s.StudentId));
             if (studentBookedSlot != null)
             {
-                ModelState.AddModelError("StartTime", $"Student {studentBookedSlot.Student.StudentId} has already booked slot in room {slot.RoomId} at {slot.StartTime.GetValueOrDefault():dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("StartTime", "Student has already booked slot in room.");
             }
 
-            if (!ModelState.IsValid) return View(slot);
+            if (!ModelState.IsValid || updateSlot == null) return View(slot);
             
-            Slot updateSlot = _context.Slot.First(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime);
             updateSlot.StudentId = slot.StudentId;
             
             _context.Slot.Update(updateSlot);
 
             await _context.SaveChangesAsync();
             
-            TempData["StatusMessage"] = $"Successfully booked slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["StatusMessage"] = "Successfully booked slot!";
             TempData["AlertType"] = "success";
 
             return RedirectToAction("Index", "Slot");
@@ -276,6 +283,7 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult Cancel()
         {
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
@@ -283,7 +291,7 @@ namespace Rmit.Asr.Application.Controllers
             var slot = new CancelSlot
             {
                 Slots = slots,
-                Rooms = _context.Room
+                Rooms = _context.Room.OrderBy(r => r.Name)
             };
             
             return View(slot);
@@ -300,47 +308,49 @@ namespace Rmit.Asr.Application.Controllers
         public async Task<IActionResult> Cancel([Bind("RoomId,StartTime")] CancelSlot slot)
         {
             slot.Slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .OrderBy(s => s.StartTime);
-            slot.Rooms = _context.Room;
-            
-            if (!ModelState.IsValid) return View(slot);
+            slot.Rooms = _context.Room.OrderBy(r => r.Name);
             
             Student student = await _studentManager.GetUserAsync(User);
             slot.StudentId = student.Id;
+            
+            if (!ModelState.IsValid) return View(slot);
+            
+            Slot updateSlot = _context.Slot.Include(s => s.Room).GetSlot(slot).FirstOrDefault();
+
+            if (updateSlot == null)
+            {
+                ModelState.AddModelError("StartTime", "Slot does not exist.");
+            }
 
             if (!_context.Room.RoomExists(slot.RoomId))
             {
-                ModelState.AddModelError("RoomId", $"Room {slot.RoomId} does not exist.");
-            }
-
-            if (!_context.Slot.SlotExists(slot))
-            {
-                ModelState.AddModelError("StartTime", $"Slot does not exist in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("RoomName", "Room does not exist.");
             }
 
             if (_context.Slot.GetSlot(slot).Any(s => s.StudentId == null))
             {
-                ModelState.AddModelError("StartTime", $"No student is booked in room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("StartTime", "No student is booked in room.");
             }
 
             Slot otherStudentBookedSlot = _context.Slot.Include(s => s.Student).GetSlot(slot).FirstOrDefault(s => s.StudentId != slot.StudentId && !string.IsNullOrEmpty(s.StudentId));
             if (otherStudentBookedSlot != null)
             {
-                ModelState.AddModelError("StartTime", $"Other student {otherStudentBookedSlot.Student.StudentId} booked slot in room {slot.RoomId} at {slot.StartTime.GetValueOrDefault():dd-MM-yyyy HH:mm}");
+                ModelState.AddModelError("StartTime", "Other student booked slot.");
             }
 
-            if (!ModelState.IsValid) return View(slot);
+            if (!ModelState.IsValid || updateSlot == null) return View(slot);
             
-            Slot updateSlot = _context.Slot.First(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime);
             updateSlot.StudentId = null;
             
             _context.Slot.Update(updateSlot);
 
             await _context.SaveChangesAsync();
             
-            TempData["StatusMessage"] = $"Successfully cancelled slot at room {slot.RoomId} at {slot.StartTime:dd-MM-yyyy H:mm}";
+            TempData["StatusMessage"] = "Successfully cancelled slot!";
             TempData["AlertType"] = "success";
 
             return RedirectToAction("Index", "Slot");
@@ -358,6 +368,7 @@ namespace Rmit.Asr.Application.Controllers
             {
                 Date = DateTime.Now.Date,
                 AvailableSlots = _context.Slot
+                    .Include(s => s.Room)
                     .Include(s => s.Staff)
                     .Where(s => s.StartTime.Value.Date == DateTime.Now.Date && string.IsNullOrEmpty(s.StudentId))
             };
@@ -378,8 +389,10 @@ namespace Rmit.Asr.Application.Controllers
             if (!ModelState.IsValid) return View(slot);
 
             slot.AvailableSlots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
-                .Where(s => s.StartTime.Value.Date == slot.Date && string.IsNullOrEmpty(s.StudentId));;
+                .Where(s => s.StartTime > DateTime.Now)
+                .Where(s => s.StartTime.Value.Date == slot.Date && string.IsNullOrEmpty(s.StudentId));
 
             return View(slot);
         }

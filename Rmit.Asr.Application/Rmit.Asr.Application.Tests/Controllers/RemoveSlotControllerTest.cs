@@ -19,14 +19,16 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             var slot = new RemoveSlot
             {
-                RoomId = "A",
+                RoomId = RoomA.Id,
+                Room = RoomA,
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
 
             var createdSlot = new Slot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -36,13 +38,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Remove(slot);
+            IActionResult result = await SlotController.Remove(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == "Cannot remove slot as a student has been booked into it.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 
@@ -63,8 +65,9 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             var createdSlot = new Slot
             {
-                RoomId = "A",
-                StaffId = StaffId,
+                RoomId = RoomA.Id,
+                Room = RoomA,
+                StaffId = Staff.Id,
                 StudentId = "s1234567",
                 StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
             };
@@ -74,13 +77,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
             await Context.SaveChangesAsync();
 
             // Act
-            IActionResult result = await Controller.Remove(slot);
+            IActionResult result = await SlotController.Remove(slot);
 
             // Assert
-            IEnumerable<string> errorMessages = Controller.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
-            Assert.Contains(errorMessages, e => e == $"Slot at room {slot.RoomId} {slot.StartTime:dd-MM-yyyy H:mm} does not exist.");
-            Assert.False(Controller.ModelState.IsValid);
+            Assert.Contains(errorMessages, e => e == "Slot does not exist.");
+            Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
 

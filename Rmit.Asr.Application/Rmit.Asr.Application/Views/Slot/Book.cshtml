@@ -16,10 +16,10 @@
                     <span asp-validation-for="RoomId" class="text-danger"></span>
                 </p>
                 <select asp-for="RoomId" class="form-control">
-                    @foreach (Room room in Model.Rooms)
-                    {
-                        <option value="@room.RoomId">@room.RoomId.ToUpper()</option>
-                    }
+                @foreach (Room room in Model.Rooms)
+                {
+                    <option value="@room.Name">@room.Name.ToUpper()</option>
+                }
                 </select>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
             <thead>
                 <tr>
                     <th class="vertical-middle">
-                        @Html.DisplayNameFor(model => model.RoomId)
+                        @Html.DisplayNameFor(model => model.Room.Name)
                     </th>
                     <th class="vertical-middle">
                         Start Date
@@ -61,7 +61,7 @@
             {
                 <tr>
                     <td class="vertical-middle">
-                        @Html.DisplayFor(modelItem => slot.RoomId)
+                        @Html.DisplayFor(modelItem => slot.Room.Name)
                     </td>
                     <td class="vertical-middle">
                         @slot.StartTime?.ToString("dddd, dd MMMM yyyy")

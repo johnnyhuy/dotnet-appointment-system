@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -8,6 +9,7 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Room name.
         /// </summary>
+        [JsonIgnore]
         [Display(Name = "Room ID")]
         public virtual string RoomId { get; set; }
         
@@ -25,6 +27,7 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Staff ID who created the slot.
         /// </summary>
+        [JsonIgnore]
         [Display(Name = "Staff ID")]
         public string StaffId { get; set; }
         
@@ -36,6 +39,7 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Student ID who booked the slot.
         /// </summary>
+        [JsonIgnore]
         [Display(Name = "Student ID")]
         public string StudentId { get; set; }
         
