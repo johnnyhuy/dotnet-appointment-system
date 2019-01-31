@@ -54,6 +54,7 @@ namespace Rmit.Asr.Application.Controllers
             Staff staff = await _staffManager.GetUserAsync(User);
             
             IOrderedQueryable<Slot> slots = _context.Slot
+                .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
                 .Where(s => s.StaffId == staff.Id)
