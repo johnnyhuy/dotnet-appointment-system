@@ -18,6 +18,7 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Room name.
         /// </summary>
+        [Required]
         [Display(Name = "Room Name")]
         public string Name { get; set; }
 

@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
-using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers.Api
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("api/room")]
     [ApiController]
     public class RoomApiController : ControllerBase
     {
@@ -42,11 +40,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         {
             if (_context.Room.RoomExistsByName(room.Name))
             {
-                var error = new Error("Room already exists.", HttpStatusCode.NotFound);
-                return new JsonResult(error)
-                {
-                    StatusCode = error.StatusCode
-                };
+                ModelState.AddModelError("Name", "Room already exists.");
+                return BadRequest(ModelState);
             }
             
             _context.Room.Add(room);
@@ -69,11 +64,8 @@ namespace Rmit.Asr.Application.Controllers.Api
             
             if (updateRoom == null)
             {
-                var error = new Error("Room does not exist.", HttpStatusCode.NotFound);
-                return new JsonResult(error)
-                {
-                    StatusCode = error.StatusCode
-                };
+                ModelState.AddModelError("Name", "Room does not exist.");
+                return BadRequest(ModelState);
             }
             
             updateRoom.Name = room.Name;
@@ -102,11 +94,8 @@ namespace Rmit.Asr.Application.Controllers.Api
             
             if (room == null)
             {
-                var error = new Error("Room does not exist.", HttpStatusCode.NotFound);
-                return new JsonResult(error)
-                {
-                    StatusCode = error.StatusCode
-                };
+                ModelState.AddModelError("Name", "Room does not exist.");
+                return BadRequest(ModelState);
             }
 
             Slot slot = _context.Slot
@@ -114,11 +103,8 @@ namespace Rmit.Asr.Application.Controllers.Api
             
             if (slot == null)
             {
-                var error = new Error("Slot does not exist.", HttpStatusCode.NotFound);
-                return new JsonResult(error)
-                {
-                    StatusCode = error.StatusCode
-                };
+                ModelState.AddModelError("Name", "Slot does not exist.");
+                return BadRequest(ModelState);
             }
             
             _context.Slot.Remove(slot);

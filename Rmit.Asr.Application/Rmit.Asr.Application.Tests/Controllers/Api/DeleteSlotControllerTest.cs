@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Models;
 using Xunit;
@@ -56,9 +55,10 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             dynamic result = ApiSlotController.Delete("ZZZ", slot.StartTime.Value, slot.StartTime.Value);
 
             // Assert
-            Assert.IsAssignableFrom<JsonResult>(result);
-            Assert.Equal("Room does not exist.", result.Value.Message);
-            Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
+            var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
+            var serializableError = (SerializableError) badRequest.Value;
+            string[] errors = serializableError.Values.Select(e => (string[]) e).First();
+            Assert.Contains("Room does not exist.", errors);
             
             Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
         }
@@ -84,9 +84,10 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             dynamic result = ApiSlotController.Delete("A", slot.StartTime.Value, slot.StartTime.Value.AddHours(1));
 
             // Assert
-            Assert.IsAssignableFrom<JsonResult>(result);
-            Assert.Equal("Slot does not exist.", result.Value.Message);
-            Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
+            var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
+            var serializableError = (SerializableError) badRequest.Value;
+            string[] errors = serializableError.Values.Select(e => (string[]) e).First();
+            Assert.Contains("Slot does not exist.", errors);
             
             Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
         }
