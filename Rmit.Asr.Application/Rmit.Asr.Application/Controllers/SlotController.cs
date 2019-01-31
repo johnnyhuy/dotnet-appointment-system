@@ -385,6 +385,7 @@ namespace Rmit.Asr.Application.Controllers
             slot.AvailableSlots = _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
+                .Where(s => s.StartTime > DateTime.Now)
                 .Where(s => s.StartTime.Value.Date == slot.Date && string.IsNullOrEmpty(s.StudentId));
 
             return View(slot);
