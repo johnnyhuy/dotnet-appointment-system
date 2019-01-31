@@ -83,7 +83,10 @@ namespace Rmit.Asr.Application.Areas.Identity.Pages.Student
                 await _userManager.AddToRoleAsync(user, Models.Student.RoleName);
                 
                 await _signInManager.SignInAsync(user, false);
-                
+
+                TempData["StatusMessage"] = $"Successfully registered student user {user.FirstName}, {user.StudentId}";
+                TempData["AlertType"] = "success";
+
                 return LocalRedirect(returnUrl);
             }
             

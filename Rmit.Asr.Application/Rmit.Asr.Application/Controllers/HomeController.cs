@@ -34,5 +34,10 @@ namespace Rmit.Asr.Application.Controllers
         {
             return View();
         }
+
+        public IActionResult Sitemap()
+        {
+            return View();
+        }
     }
 }
