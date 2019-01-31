@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Rmit.Asr.Application.Models.Extensions
 {
@@ -16,7 +15,6 @@ namespace Rmit.Asr.Application.Models.Extensions
         {
             // Get unavailable rooms
             IQueryable<Room> unavailableRooms = rooms
-                .Include(r => r.Slots)
                 .Where(r => r.Slots.Count(s => s.StartTime != null && s.StartTime.Value.Date == date.Value.Date) >= Room.MaxRoomBookingPerDay);
 
             // Compare unavailable rooms and exclude
