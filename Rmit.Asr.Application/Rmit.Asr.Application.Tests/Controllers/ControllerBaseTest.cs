@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Rmit.Asr.Application.Controllers;
+using Rmit.Asr.Application.Controllers.Api;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 
@@ -16,16 +17,23 @@ namespace Rmit.Asr.Application.Tests.Controllers
 {
     public class ControllerBaseTest : IDisposable
     {
-        protected readonly ApplicationDataContext Context;
         protected const string StaffId = "e12345";
         protected const string StaffEmail = "e12345@rmit.edu.au";
         protected const string StaffUsername = StaffEmail;
         protected const string StudentId = "s1234567";
         protected const string StudentEmail = "s1234567@student.rmit.edu.au";
         protected const string StudentUsername = StudentEmail;
-        protected SlotController Controller;
-        protected Staff LoggedInStaff;
-        protected Student LoggedInStudent;
+        
+        protected readonly ApplicationDataContext Context;
+        protected SlotController SlotController;
+        protected SlotApiController ApiSlotController;
+        protected RoomApiController ApiRoomController;
+        protected Staff Staff;
+        protected Student Student;
+        protected Room RoomA;
+        protected Room RoomB;
+        protected Room RoomC;
+        protected Room RoomD;
 
         protected ControllerBaseTest()
         {
@@ -35,18 +43,18 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Context = new ApplicationDataContext(options);
             
-            LoggedInStaff = new Staff
+            Staff = new Staff
             {
-                Id = StaffId,
+                Id = Guid.NewGuid().ToString(),
                 StaffId = StaffId,
                 Email = StaffEmail,
                 FirstName = "Shawn",
                 LastName = "Taylor",
                 UserName = StaffUsername
             };
-            LoggedInStudent = new Student
+            Student = new Student
             {
-                Id = StudentId,
+                Id = Guid.NewGuid().ToString(),
                 StudentId = StudentId,
                 Email = StudentEmail,
                 FirstName = "Shawn",
@@ -56,20 +64,22 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             var mockStaffStore = new Mock<IUserStore<Staff>>();
             mockStaffStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
-                .ReturnsAsync(LoggedInStaff);
+                .ReturnsAsync(Staff);
             var staffManager = new UserManager<Staff>(mockStaffStore.Object, null, null, null, null, null, null, null, null);
             
             var mockStudentStore = new Mock<IUserStore<Student>>();
             mockStudentStore.Setup(x => x.FindByIdAsync(It.IsAny<string>(), CancellationToken.None))
-                .ReturnsAsync(LoggedInStudent);
+                .ReturnsAsync(Student);
             var studentManager = new UserManager<Student>(mockStudentStore.Object, null, null, null, null, null, null, null, null);
 
-            Controller = new SlotController(Context, staffManager, studentManager);
+            SlotController = new SlotController(Context, staffManager, studentManager);
+            ApiSlotController = new SlotApiController(Context);
+            ApiRoomController = new RoomApiController(Context);
             
             var httpContext = new DefaultHttpContext();
             var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
 
-            Controller.TempData = tempData;
+            SlotController.TempData = tempData;
 
             Seed();
         }
@@ -85,28 +95,28 @@ namespace Rmit.Asr.Application.Tests.Controllers
             {
                 return;
             }
+
+            RoomA = new Room
+            {
+                Name = "A"
+            };
+            RoomB = new Room
+            {
+                Name = "B"
+            };
+            RoomC = new Room
+            {
+                Name = "C"
+            };
+            RoomD = new Room
+            {
+                Name = "D"
+            };
             
-            Context.Room.AddRange(
-                new Room
-                {
-                    RoomId = "A"
-                },
-                new Room
-                {
-                    RoomId = "B"
-                },
-                new Room
-                {
-                    RoomId = "C"
-                },
-                new Room
-                {
-                    RoomId = "D"
-                }
-            );
+            Context.Room.AddRange(RoomA, RoomB, RoomC, RoomD);
             
             Context.Staff.AddRange(
-                LoggedInStaff,
+                Staff,
                 new Staff
                 {
                     StaffId = "e54321",
@@ -117,7 +127,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             );
             
             Context.Student.AddRange(
-                LoggedInStudent,
+                Student,
                 new Student
                 {
                     StudentId = "s3604367",
@@ -146,7 +156,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 HttpContext = new DefaultHttpContext {User = userPrincipal}
             };
 
-            Controller.ControllerContext = controllerContext;
+            SlotController.ControllerContext = controllerContext;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
@@ -32,7 +34,9 @@ namespace Rmit.Asr.Application.Controllers
             return View(new AvailabilityRoom
             {
                 Date = DateTime.Now.Date,
-                AvailableRooms = _context.Room.GetAvailableRooms(DateTime.Now.Date)
+                AvailableRooms = _context.Room
+                    .GetAvailableRooms(DateTime.Now.Date)
+                    .OrderBy(r => r.Name)
             });
         }
 
@@ -47,8 +51,17 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
             if (!ModelState.IsValid) return View(room);
-            
-            room.AvailableRooms =  _context.Room.GetAvailableRooms(room.Date);;
+
+            if (room.Date >= DateTime.Now)
+            {
+                room.AvailableRooms = _context.Room
+                    .GetAvailableRooms(room.Date)
+                    .OrderBy(r => r.Name);
+            }
+            else
+            {
+                room.AvailableRooms = new List<Room>();
+            }
 
             return View(room);
         }

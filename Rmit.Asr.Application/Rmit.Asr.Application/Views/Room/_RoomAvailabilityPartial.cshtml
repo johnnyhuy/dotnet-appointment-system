@@ -29,7 +29,7 @@
                 <thead>
                 <tr>
                     <th class="vertical-middle">
-                        @Html.DisplayNameFor(model => model.RoomId)
+                        @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th class="text-right"><a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a></th>
                 </tr>
@@ -39,7 +39,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => room.RoomId)
+                            @Html.DisplayFor(modelItem => room.Name)
                         </td>
                         <td></td>
                     </tr>

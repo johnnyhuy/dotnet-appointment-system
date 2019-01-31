@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers
 {
@@ -40,12 +38,6 @@ namespace Rmit.Asr.Application.Controllers
         public IActionResult Sitemap()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new Error { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

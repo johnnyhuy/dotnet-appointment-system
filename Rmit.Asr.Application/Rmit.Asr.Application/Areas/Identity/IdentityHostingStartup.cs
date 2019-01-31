@@ -39,6 +39,8 @@ namespace Rmit.Asr.Application.Areas.Identity
                 services.AddScoped<UserManager<ApplicationUser>>();
                 services.AddScoped<SignInManager<Staff>>();
                 services.AddScoped<UserManager<Staff>>();
+                services.AddScoped<SignInManager<Student>>();
+                services.AddScoped<UserManager<Student>>();
             });
         }
     }

@@ -18,7 +18,7 @@
                 <select asp-for="RoomId" class="form-control">
                 @foreach (Room room in Model.Rooms)
                 {
-                    <option value="@room.RoomId">@room.RoomId.ToUpper()</option>
+                    <option value="@room.Name">@room.Name.ToUpper()</option>
                 }
                 </select>
             </div>
@@ -42,7 +42,7 @@
             <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.RoomId)
+                    @Html.DisplayNameFor(model => model.Room.Name)
                 </th>
                 <th>
                     Start Date
@@ -63,7 +63,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.RoomId)
+                        @Html.DisplayFor(modelItem => item.Room.Name)
                     </td>
                     <td>
                         @item.StartTime?.ToString("dddd, dd MMMM yyyy")

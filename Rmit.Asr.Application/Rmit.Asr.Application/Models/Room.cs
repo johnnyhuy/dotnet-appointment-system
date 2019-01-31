@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Rmit.Asr.Application.Models
 {
@@ -9,14 +11,21 @@ namespace Rmit.Asr.Application.Models
         /// </summary>
         public const int MaxRoomBookingPerDay = 2;
         
+        [Key]
+        [JsonIgnore]
+        public string Id { get; set; }
+        
         /// <summary>
         /// Room name.
         /// </summary>
-        public string RoomId { get; set; }
+        [Required]
+        [Display(Name = "Room Name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Slots related to the room.
         /// </summary>
+        [JsonIgnore]
         public ICollection<Slot> Slots { get; set; }
     }
 }
