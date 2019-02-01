@@ -12,7 +12,6 @@ namespace Rmit.Asr.Application.Models
         public const int MaxRoomBookingPerDay = 2;
         
         [Key]
-        [JsonIgnore]
         public string Id { get; set; }
         
         /// <summary>
