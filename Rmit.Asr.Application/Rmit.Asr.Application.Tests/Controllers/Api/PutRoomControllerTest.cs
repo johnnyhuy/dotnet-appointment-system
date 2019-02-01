@@ -30,7 +30,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void PutRoom_WithNonExistentRoom_ReturnNotFound()
+        public async void PutRoom_WithNonExistentRoom_ReturnBadRequest()
         {
             // Arrange
             var room = new Room
@@ -55,7 +55,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void PutRoom_WithAlreadyExistingRoom_ReturnNotFound()
+        public async void PutRoom_WithAlreadyExistingRoom_ReturnBadRequest()
         {
             // Arrange
             var room = new Room

@@ -26,7 +26,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public void CreateRoom_WithAlreadyExistRoom_ReturnNotFound()
+        public void CreateRoom_WithAlreadyExistRoom_ReturnBadRequest()
         {
             // Arrange
             var room = new Room

@@ -35,7 +35,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void DeleteSlot_WithNonExistentRoom_ReturnNotFound()
+        public async void DeleteSlot_WithNonExistentRoom_ReturnBadRequest()
         {
             // Arrange
             var slot = new Slot
@@ -64,7 +64,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void DeleteSlot_WithNonExistentSlot_ReturnNotFound()
+        public async void DeleteSlot_WithNonExistentSlot_ReturnBadRequest()
         {
             // Arrange
             var slot = new Slot

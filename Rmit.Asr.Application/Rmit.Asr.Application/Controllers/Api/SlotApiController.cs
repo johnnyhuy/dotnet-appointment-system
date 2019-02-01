@@ -42,6 +42,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpGet("student/{StudentId}")]
         public ActionResult<IEnumerable<Slot>> StudentIndex(Student student)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
@@ -57,6 +59,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpGet("staff/{StaffId}")]
         public ActionResult<IEnumerable<Slot>> StaffIndex(Staff staff)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
