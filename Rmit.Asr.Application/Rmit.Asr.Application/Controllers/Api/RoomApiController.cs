@@ -60,7 +60,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPut("{roomName}")]
         public ActionResult Put(string roomName, [FromBody] UpdateRoom room)
         {
-            if (!_context.Room.Any(r => r.Name == roomName))
+            Room updateRoom = _context.Room.FirstOrDefault(r => r.Name == roomName);
+            if (updateRoom == null)
             {
                 ModelState.AddModelError("Name", "Room does not exist.");
                 return BadRequest(ModelState);
@@ -71,8 +72,10 @@ namespace Rmit.Asr.Application.Controllers.Api
                 ModelState.AddModelError("Name", "Cannot update the room since the room already exists.");
                 return BadRequest(ModelState);
             }
+
+            updateRoom.Name = room.Name;
             
-            _context.Room.Update(room);
+            _context.Room.Update(updateRoom);
 
             _context.SaveChanges();
 

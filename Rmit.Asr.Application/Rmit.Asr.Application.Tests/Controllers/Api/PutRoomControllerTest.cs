@@ -1,6 +1,5 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
@@ -18,12 +17,12 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             };
 
             // Act
-            ActionResult result = ApiRoomController.Put("A", room);
+            ActionResult result = ApiRoomController.Put(RoomA.Name, room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
             
-            Assert.True(Context.Room.Any(r => r.Name == room.Name));
+            Assert.True(Context.Room.Any(r => r.Name == room.Name && r.Id == RoomA.Id));
         }
         
         [Fact]
@@ -65,7 +64,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();
 
             // Act
-            ActionResult result = ApiRoomController.Put("A", room);
+            ActionResult result = ApiRoomController.Put(RoomA.Name, room);
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result);
@@ -73,7 +72,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             string[] errors = serializableError.Values.Select(e => (string[]) e).First();
             Assert.Contains("Cannot update the room since the room already exists.", errors);
             
-            Assert.True(Context.Room.Any(r => r.Name == room.Name));
+            Assert.False(Context.Room.Any(r => r.Name == room.Name && r.Id == RoomA.Id));
         }
     }
 }
