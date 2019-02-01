@@ -8,20 +8,16 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
     public class PutRoomControllerTest : ControllerBaseTest
     {
         [Fact]
-        public async void PutRoom_BookStudent_ReturnOk()
+        public void PutRoom_BookStudent_ReturnOk()
         {
             // Arrange
             var room = new Room
             {
-                Name = "P"
+                Name = "ZZZZ"
             };
 
-            Context.Room.Add(room);
-
-            await Context.SaveChangesAsync();
-
             // Act
-            ActionResult result = ApiRoomController.Put(room.Name, room);
+            ActionResult result = ApiRoomController.Put("A", room);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
