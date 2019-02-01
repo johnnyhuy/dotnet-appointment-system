@@ -21,9 +21,9 @@ namespace Rmit.Asr.Application.Controllers
         private readonly ApplicationDataContext _context;
         private readonly UserManager<Staff> _staffManager;
         private readonly UserManager<Student> _studentManager;
-        private DateTimeProvider _dateTimeProvider;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public SlotController(ApplicationDataContext context, UserManager<Staff> staffManager, UserManager<Student> studentManager, DateTimeProvider dateTimeProvider)
+        public SlotController(ApplicationDataContext context, UserManager<Staff> staffManager, UserManager<Student> studentManager, IDateTimeProvider dateTimeProvider)
         {
             _context = context;
             _staffManager = staffManager;
