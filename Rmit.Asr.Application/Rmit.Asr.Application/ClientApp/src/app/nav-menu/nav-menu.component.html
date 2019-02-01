@@ -32,6 +32,11 @@
                         <span class='glyphicon glyphicon-th-list'></span> Rooms
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/admin/slots"]' (click)='collapse()'>
+                       <span class='glyphicon glyphicon-th-list'></span> list slots
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

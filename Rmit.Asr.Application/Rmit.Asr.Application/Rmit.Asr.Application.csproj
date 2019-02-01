@@ -24,6 +24,8 @@
     <Folder Include="Views\Staff\" />
     <Folder Include="wwwroot\favicon\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="ClientApp\src\app\services\" />
+    <Folder Include="ClientApp\src\app\slots\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,7 +73,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

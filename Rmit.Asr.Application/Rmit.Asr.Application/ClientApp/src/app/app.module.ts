@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from "@angular/http";
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -10,6 +11,10 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { SlotsComponent } from './slots/slots.component';
+
+import { SlotService } from './services/slot.service';
+
 
 @NgModule({
   declarations: [
@@ -18,20 +23,23 @@ import { RoomsComponent } from './rooms/rooms.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    RoomsComponent
+    RoomsComponent,
+    SlotsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    HttpModule,
     FormsModule,
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
       { path: 'admin/counter', component: CounterComponent },
       { path: 'admin/fetch-data', component: FetchDataComponent },
       { path: 'admin/rooms', component: RoomsComponent },
+      { path: 'admin/slots', component: SlotsComponent },
     ])
   ],
-  providers: [],
+  providers: [SlotService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
