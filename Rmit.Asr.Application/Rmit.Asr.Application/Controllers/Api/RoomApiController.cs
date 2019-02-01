@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
@@ -60,6 +61,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPut("{roomName}")]
         public ActionResult Put(string roomName, [FromBody] UpdateRoom room)
         {
+            roomName = WebUtility.UrlDecode(roomName);
+            
             Room updateRoom = _context.Room.FirstOrDefault(r => r.Name == roomName);
             if (updateRoom == null)
             {
@@ -85,17 +88,19 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Delete slot by room ID and start time.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="startDate"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        [HttpDelete("{roomId}/{startDate}/{startTime}")]
-        public ActionResult Delete(string roomId, DateTime startDate, DateTime startTime)
+        [HttpDelete("{roomName}/{startDate}/{startTime}")]
+        public ActionResult Delete(string roomName, DateTime startDate, DateTime startTime)
         {
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
+
+            roomName = WebUtility.UrlDecode(roomName);
             
             Room room = _context.Room
-                .FirstOrDefault(r => r.Name == roomId);
+                .FirstOrDefault(r => r.Name == roomName);
             
             if (room == null)
             {
@@ -104,7 +109,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
 
             Slot slot = _context.Slot
-                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
+                .FirstOrDefault(s => s.RoomId == roomName && s.StartTime == slotStartTime);
             
             if (slot == null)
             {

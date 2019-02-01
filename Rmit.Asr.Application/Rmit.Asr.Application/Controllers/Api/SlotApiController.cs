@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +93,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPut("{roomName}/{startDate}/{startTime}")]
         public ActionResult Put(string roomName, DateTime startDate, DateTime startTime, [FromBody] Slot slot)
         {
+            roomName = WebUtility.UrlDecode(roomName);
+            
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             slot.StartTime = slotStartTime;
 
@@ -140,6 +143,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpDelete("{roomName}/{startDate}/{startTime}")]
         public ActionResult Delete(string roomName, DateTime startDate, DateTime startTime)
         {
+            roomName = WebUtility.UrlDecode(roomName);
+            
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             
             Room room = _context.Room
