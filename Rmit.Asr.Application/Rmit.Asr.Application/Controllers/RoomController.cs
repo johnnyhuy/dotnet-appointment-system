@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +6,7 @@ using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
+using Rmit.Asr.Application.Providers;
 
 namespace Rmit.Asr.Application.Controllers
 {
@@ -17,10 +17,12 @@ namespace Rmit.Asr.Application.Controllers
     public class RoomController : Controller
     {
         private readonly ApplicationDataContext _context;
+        private DateTimeProvider _dateTimeProvider;
 
-        public RoomController(ApplicationDataContext context)
+        public RoomController(ApplicationDataContext context, DateTimeProvider dateTimeProvider)
         {
             _context = context;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         /// <summary>
@@ -33,9 +35,9 @@ namespace Rmit.Asr.Application.Controllers
         {
             return View(new AvailabilityRoom
             {
-                Date = DateTime.Now.Date,
+                Date = _dateTimeProvider.Now().Date,
                 AvailableRooms = _context.Room
-                    .GetAvailableRooms(DateTime.Now.Date)
+                    .GetAvailableRooms(_dateTimeProvider.Now().Date)
                     .OrderBy(r => r.Name)
             });
         }
@@ -52,7 +54,7 @@ namespace Rmit.Asr.Application.Controllers
         {
             if (!ModelState.IsValid) return View(room);
 
-            if (room.Date >= DateTime.Now)
+            if (room.Date >= _dateTimeProvider.Now())
             {
                 room.AvailableRooms = _context.Room
                     .GetAvailableRooms(room.Date)

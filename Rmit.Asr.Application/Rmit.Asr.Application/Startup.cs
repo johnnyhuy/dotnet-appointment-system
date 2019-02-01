@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rmit.Asr.Application.Data;
+using Rmit.Asr.Application.Providers;
 using static Rmit.Asr.Application.Data.SeedData;
 
 namespace Rmit.Asr.Application
@@ -58,6 +59,7 @@ namespace Rmit.Asr.Application
             
             services.AddSession();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         /// <summary>

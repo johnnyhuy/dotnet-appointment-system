@@ -22,7 +22,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 RoomId = RoomC.Id,
                 Room = RoomC,
                 StaffId = Staff.Id,
-                StartTime = new DateTime(2019, 1, 1, 8, 0, 0)
+                StartTime = SomeDate.AddHours(1)
             };
 
             // Act
