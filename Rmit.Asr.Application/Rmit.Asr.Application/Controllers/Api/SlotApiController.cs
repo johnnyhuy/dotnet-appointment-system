@@ -44,6 +44,12 @@ namespace Rmit.Asr.Application.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
+            if (!_context.Student.Any(s => s.StudentId == student.StudentId))
+            {
+                ModelState.AddModelError("StudentId", "Student does not exist.");
+                return BadRequest(ModelState);
+            }
+            
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
@@ -60,6 +66,12 @@ namespace Rmit.Asr.Application.Controllers.Api
         public ActionResult<IEnumerable<Slot>> StaffIndex(Staff staff)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            
+            if (!_context.Staff.Any(s => s.StaffId == staff.StaffId))
+            {
+                ModelState.AddModelError("StaffId", "Staff does not exist.");
+                return BadRequest(ModelState);
+            }
             
             return _context.Slot
                 .Include(s => s.Room)
