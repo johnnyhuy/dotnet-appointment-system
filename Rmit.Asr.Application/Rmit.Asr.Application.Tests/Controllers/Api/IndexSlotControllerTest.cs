@@ -87,14 +87,9 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
-            
-            var student = new Student
-            {
-                StudentId = Student.StudentId
-            };
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(student);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(Student.StudentId);
 
             // Assert
             Assert.Single(result.Value);
@@ -132,17 +127,12 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 }
             };
 
-            var staff = new Staff
-            {
-                StaffId = Staff.StaffId
-            };
-
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(staff);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(Staff.StaffId);
 
             // Assert
             Assert.Equal(2, result.Value.Count());
@@ -180,17 +170,12 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 }
             };
 
-            var staff = new Staff
-            {
-                StaffId = "I should not exist"
-            };
-
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(staff);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex("I should not exist");
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
@@ -231,17 +216,12 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 }
             };
 
-            var student = new Student
-            {
-                StudentId = "I should not exist"
-            };
-
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(student);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex("I should not exist");
 
             // Assert
             var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);

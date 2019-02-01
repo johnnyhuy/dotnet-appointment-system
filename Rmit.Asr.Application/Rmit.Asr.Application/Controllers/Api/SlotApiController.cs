@@ -39,12 +39,12 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked student slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("student/{StudentId}")]
-        public ActionResult<IEnumerable<Slot>> StudentIndex(Student student)
+        [HttpGet("student/{studentId}")]
+        public ActionResult<IEnumerable<Slot>> StudentIndex(string studentId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            if (!_context.Student.Any(s => s.StudentId == student.StudentId))
+            if (!_context.Student.Any(s => s.StudentId == studentId))
             {
                 ModelState.AddModelError("StudentId", "Student does not exist.");
                 return BadRequest(ModelState);
@@ -54,7 +54,7 @@ namespace Rmit.Asr.Application.Controllers.Api
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Student.StudentId == student.StudentId)
+                .Where(s => s.Student.StudentId == studentId)
                 .ToList();
         }
         
@@ -62,12 +62,12 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked staff slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("staff/{StaffId}")]
-        public ActionResult<IEnumerable<Slot>> StaffIndex(Staff staff)
+        [HttpGet("staff/{staffId}")]
+        public ActionResult<IEnumerable<Slot>> StaffIndex(string staffId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            if (!_context.Staff.Any(s => s.StaffId == staff.StaffId))
+            if (!_context.Staff.Any(s => s.StaffId == staffId))
             {
                 ModelState.AddModelError("StaffId", "Staff does not exist.");
                 return BadRequest(ModelState);
@@ -77,7 +77,7 @@ namespace Rmit.Asr.Application.Controllers.Api
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Staff.StaffId == staff.StaffId)
+                .Where(s => s.Staff.StaffId == staffId)
                 .ToList();
         }
 
