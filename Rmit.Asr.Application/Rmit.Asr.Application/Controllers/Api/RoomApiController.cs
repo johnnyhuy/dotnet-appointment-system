@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
+using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers.Api
 {
@@ -36,7 +37,7 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// </summary>
         /// <param name="room"></param>
         [HttpPost]
-        public ActionResult Create([FromBody] Room room)
+        public ActionResult Create([FromBody] CreateRoom room)
         {
             if (_context.Room.RoomExistsByName(room.Name))
             {
@@ -57,7 +58,7 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <param name="room"></param>
         /// <returns></returns>
         [HttpPut("{roomName}")]
-        public ActionResult Put(string roomName, [FromBody] Room room)
+        public ActionResult Put(string roomName, [FromBody] UpdateRoom room)
         {
             if (!_context.Room.Any(r => r.Name == roomName))
             {
