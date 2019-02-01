@@ -22,7 +22,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 RoomId = RoomC.Id,
                 Room = RoomC,
                 StaffId = Staff.Id,
-                StartTime = SomeDate.AddHours(1)
+                StartTime = DateTimeNow.AddHours(1)
             };
 
             // Act
@@ -298,6 +298,34 @@ namespace Rmit.Asr.Application.Tests.Controllers
             IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
             
             Assert.Contains(errorMessages, e => e == "You have already created a slot on the same time with a different room.");
+            Assert.False(SlotController.ModelState.IsValid);
+            
+            Assert.IsType<ViewResult>(result);
+
+            // Slot does not exist in the mock database
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime));
+        }
+        
+        [Fact]
+        public async Task CreateSlot_WithStartTimeInThePast_ReturnFail()
+        {
+            // Arrange
+            UserLoggedIn(StaffUsername);
+            
+            var slot = new CreateSlot
+            {
+                RoomId = "D",
+                StaffId = Staff.Id,
+                StartTime = DateTimeNow.Subtract(TimeSpan.FromDays(1))
+            };
+
+            // Act
+            IActionResult result = await SlotController.Create(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            Assert.Contains(errorMessages, e => e == "Slot cannot be created in the past.");
             Assert.False(SlotController.ModelState.IsValid);
             
             Assert.IsType<ViewResult>(result);
