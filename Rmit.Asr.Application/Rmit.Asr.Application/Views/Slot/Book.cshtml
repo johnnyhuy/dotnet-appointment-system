@@ -18,7 +18,7 @@
                 <select asp-for="RoomId" class="form-control">
                 @foreach (Room room in Model.Rooms)
                 {
-                    <option value="@room.Name">@room.Name.ToUpper()</option>
+                    <option value="@room.id">@room.Name.ToUpper()</option>
                 }
                 </select>
             </div>
