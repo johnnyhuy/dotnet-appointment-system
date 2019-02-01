@@ -1,11 +1,12 @@
 {
-  "name": "Rmit.Asr.Admin",
+  "name": "rmit.asr.admin",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --extract-css",
     "build": "ng build --extract-css",
+    "watch": "ng build --extract-css --watch",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test",
     "lint": "ng lint",
