@@ -17,7 +17,7 @@ namespace Rmit.Asr.Application.Controllers
     public class RoomController : Controller
     {
         private readonly ApplicationDataContext _context;
-        private IDateTimeProvider _dateTimeProvider;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public RoomController(ApplicationDataContext context, IDateTimeProvider dateTimeProvider)
         {

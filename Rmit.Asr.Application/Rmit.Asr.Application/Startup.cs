@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,6 +58,12 @@ namespace Rmit.Asr.Application
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider();
             
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+            
             services.AddSession();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -85,6 +92,7 @@ namespace Rmit.Asr.Application
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseAuthentication();
 
@@ -99,6 +107,19 @@ namespace Rmit.Asr.Application
             app.UseSession();
             
             Seed(serviceProvider).Wait();
+            
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer("start");
+                }
+            });
         }
     }
 }

@@ -13,18 +13,23 @@
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/"]' (click)='collapse()'>
+                    <a [routerLink]='["/admin"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-home'></span> Home
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/counter"]' (click)='collapse()'>
+                    <a [routerLink]='["/admin/counter"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-education'></span> Counter
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
+                    <a [routerLink]='["/admin/fetch-data"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
+                    </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/admin/rooms"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-th-list'></span> Rooms
                     </a>
                 </li>
             </ul>
