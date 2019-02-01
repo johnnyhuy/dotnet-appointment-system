@@ -53,14 +53,14 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Update a room.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="room"></param>
         /// <returns></returns>
-        [HttpPut("{roomId}")]
-        public ActionResult Put(string roomId, [FromBody] Room room)
+        [HttpPut("{roomName}")]
+        public ActionResult Put(string roomName, [FromBody] Room room)
         {
             Room updateRoom = _context.Room
-                .FirstOrDefault(r => r.Name == roomId);
+                .FirstOrDefault(r => r.Name == roomName);
             
             if (updateRoom == null)
             {
