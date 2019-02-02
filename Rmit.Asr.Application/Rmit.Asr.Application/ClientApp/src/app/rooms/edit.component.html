@@ -1,0 +1,14 @@
+<h1>Rooms</h1>
+
+<p class="lead">Edit a room form.</p>
+
+<div *ngIf="error" class="alert alert-danger">
+  <p *ngFor="let item of error.name">{{ item }}</p>
+</div>
+
+<form [formGroup]="editRoomForm" (ngSubmit)="edit()">
+  <label>
+    Room name:
+    <input type="text" formControlName="name">
+  </label>
+</form>

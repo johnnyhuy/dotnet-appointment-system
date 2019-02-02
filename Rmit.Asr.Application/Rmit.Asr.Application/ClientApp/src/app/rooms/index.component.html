@@ -1,0 +1,26 @@
+<h1>Rooms</h1>
+
+<p class="lead">List of rooms.</p>
+
+<app-alerts></app-alerts>
+
+<p *ngIf="!rooms"><em>Loading...</em></p>
+
+<table class='table' *ngIf="rooms">
+  <thead>
+    <tr>
+      <th>Room name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let room of rooms">
+      <td>{{ room.name }}</td>
+      <td>
+        <a [routerLink]='["/admin/rooms/edit/", room.name]'>
+          <span class='glyphicon glyphicon-th-list'></span> Edit
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
