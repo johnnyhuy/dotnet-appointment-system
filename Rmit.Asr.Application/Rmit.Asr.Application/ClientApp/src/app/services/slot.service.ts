@@ -23,9 +23,13 @@ export class SlotService
   getUsersSlots(usersID:string)
   {
         console.log("in get User Slots method");
+        if ( usersID == null || (!usersID.startsWith('s')&&!usersID.startsWith('e')) )
+            return console.log("incorrect ID entered...");
+
 
         if ( usersID.startsWith('s') )
             return this.http.get("http://localhost:5000/Api/Slot/Student/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
+
         if ( usersID.startsWith('e') )
             return  this.http.get("http://localhost:5000/Api/Slot/Staff/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
   }

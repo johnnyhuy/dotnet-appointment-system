@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SlotService } from '../services/slot.service';
+import { forEach } from '@angular/router/src/utils/collection';
+import { P } from '@angular/core/src/render3';
 
 @Component(
 {
@@ -18,6 +20,10 @@ export class SlotsComponent implements OnInit
     _http:HttpClient;
     _router: Router;
 
+    _allSlots:Slot[];
+    _filterList:Slot[];
+
+
     constructor(private http: HttpClient, private router: Router, slotService: SlotService)
     {
         //slotService.getSlots().subscribe(data => this.slotList = data);
@@ -28,18 +34,21 @@ export class SlotsComponent implements OnInit
 
     ngOnInit()
     {
-
     }
 
     onSubmit()
     {
-        console.log("In onSubmit");
-        console.log("_userID : " + this._userID);
+        if( this.slotList != null  || typeof this.slotList != "undefined" )
+            this.slotList.length=0;
+
         this._slotService.getUsersSlots(this._userID).subscribe(data=>this.slotList=data);
     }
 
     getAll()
     {
+        if( this.slotList != null || typeof this.slotList != "undefined" )
+            this.slotList.length=0;
+
         this._slotService.getSlots().subscribe(data => this.slotList = data);
     }
 

@@ -1,5 +1,5 @@
-<h1>slot Data</h1>
-<p>This component demonstrates fetching slot data from the server.</p>
+<h1>List Booked Slots</h1>
+<p>Enter the ID for the student or staff member to list all their booked slots</p>
 
 <div>
   <span>User Id: </span>
@@ -7,12 +7,13 @@
   <input type="submit" name="submit" value="Get Slots" (click)="onSubmit(UserID)">
 </div>
 
-<div>
+<!-- <div>
     <span>get all slots: </span>
     <input type="submit" name="submit" value="Get All Slots" (click)="getAll()">
-  </div>
+</div> -->
 
-<p *ngIf="!slotList"><em>Loading...</em></p>
+<!-- <p *ngIf="!slotList"><em>Loading...</em></p> -->
+
 <table class='table' *ngIf="slotList">
   <thead>
     <tr>
@@ -24,10 +25,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let slot of slotList">
-      <td>{{ slot.room.name }}</td>
-      <td><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
-      <td><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
-      <td>{{ slot.startTime }}</td>
+          <td *ngIf="slot.student" >{{ slot.room.name }}</td>
+          <td *ngIf="slot.student" ><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
+          <td *ngIf="slot.student" ><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
+          <td *ngIf="slot.student" >{{ slot.startTime }}</td>
     </tr>
   </tbody>
 </table>
