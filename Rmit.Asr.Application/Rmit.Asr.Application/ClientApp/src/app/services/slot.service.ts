@@ -25,9 +25,9 @@ export class SlotService
         console.log("in get User Slots method");
 
         if ( usersID.startsWith('s') )
-            return this.http.get("http://localhost:5000/Api/Student/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
+            return this.http.get("http://localhost:5000/Api/Slot/Student/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
         if ( usersID.startsWith('e') )
-            return  this.http.get("http://localhost:5000/Api/Staff/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
+            return  this.http.get("http://localhost:5000/Api/Slot/Staff/" + usersID).map((response:Response)=> response.json()).catch(this.errorHandler);
   }
 
   errorHandler(error: Response)
