@@ -13,16 +13,36 @@ export class SlotsComponent implements OnInit
 {
     public slotList: Slot[];
 
+    public _userID:string;
+    _slotService:SlotService;
+    _http:HttpClient;
+    _router: Router;
 
-    constructor(private http: HttpClient, private _router: Router, slotService: SlotService)
+    constructor(private http: HttpClient, private router: Router, slotService: SlotService)
     {
-        slotService.getSlots().subscribe(data => this.slotList = data);
+        //slotService.getSlots().subscribe(data => this.slotList = data);
+        this._slotService=slotService;
+        this._http=http;
+        this._router=router;
     }
 
     ngOnInit()
     {
 
     }
+
+    onSubmit()
+    {
+        console.log("In onSubmit");
+        console.log("_userID : " + this._userID);
+        this._slotService.getUsersSlots(this._userID).subscribe(data=>this.slotList=data);
+    }
+
+    getAll()
+    {
+        this._slotService.getSlots().subscribe(data => this.slotList = data);
+    }
+
 }
 
 
