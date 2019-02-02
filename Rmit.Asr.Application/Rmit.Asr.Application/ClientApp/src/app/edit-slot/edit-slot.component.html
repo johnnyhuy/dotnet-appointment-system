@@ -1,0 +1,33 @@
+ <h1>Edit Slots</h1>
+<p>Enter the ID for the student or staff member to list all their booked slots</p>
+
+
+<div>
+  <span>Room name: </span>
+  <input type="text" name="UserID" [(ngModel)]="_userID">
+  <span>Start date: </span>
+  <input type="text" name="StartDate" [(ngModel)]="_startDate">
+  <span>Start time: </span>
+  <input type="text" name="StartTime" [(ngModel)]="_startTime">
+
+  <input type="submit" name="submit" value="Get Slots" (click)="onSubmit()">
+</div>
+
+<table class='table' *ngIf="slot">
+  <thead>
+    <tr>
+      <th>Room name</th>
+      <th>Staff ID</th>
+      <th>Student ID</th>
+      <th>StartTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ slot.room.name }}</td>
+      <td><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
+      <td><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
+      <td>{{ slot.startTime }}</td>
+    </tr>
+  </tbody>
+</table>

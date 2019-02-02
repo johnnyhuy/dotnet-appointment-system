@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SlotService } from '../services/slot.service';
 
+import { Slot } from '../slot';
+
+
 @Component(
 {
   selector: 'app-slots',
-  templateUrl: './slots.component.html'
+  templateUrl: './slots.component.html',
 })
 
 export class SlotsComponent implements OnInit
@@ -20,7 +23,6 @@ export class SlotsComponent implements OnInit
 
     constructor(private http: HttpClient, private router: Router, slotService: SlotService)
     {
-        //slotService.getSlots().subscribe(data => this.slotList = data);
         this._slotService=slotService;
         this._http=http;
         this._router=router;
@@ -29,6 +31,7 @@ export class SlotsComponent implements OnInit
     ngOnInit()
     {
     }
+
 
     onSubmit()
     {
@@ -46,13 +49,4 @@ export class SlotsComponent implements OnInit
         this._slotService.getSlots().subscribe(data => this.slotList = data);
     }
 
-}
-
-
-interface Slot
-{
-    Room: string;
-    Staff: string;
-    Student: string;
-    StartTime: string;
 }

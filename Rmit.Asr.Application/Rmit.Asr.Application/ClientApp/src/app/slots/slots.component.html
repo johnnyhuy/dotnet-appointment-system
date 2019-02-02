@@ -1,3 +1,4 @@
+
 <h1>List Booked Slots</h1>
 <p>Enter the ID for the student or staff member to list all their booked slots</p>
 
@@ -7,12 +8,6 @@
   <input type="submit" name="submit" value="Get Slots" (click)="onSubmit(UserID)">
 </div>
 
-<!-- <div>
-    <span>get all slots: </span>
-    <input type="submit" name="submit" value="Get All Slots" (click)="getAll()">
-</div> -->
-
-<!-- <p *ngIf="!slotList"><em>Loading...</em></p> -->
 
 <table class='table' *ngIf="slotList">
   <thead>
@@ -32,4 +27,3 @@
     </tr>
   </tbody>
 </table>
-

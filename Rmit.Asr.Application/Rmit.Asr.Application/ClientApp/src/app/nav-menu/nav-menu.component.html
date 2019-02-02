@@ -37,6 +37,11 @@
                        <span class='glyphicon glyphicon-th-list'></span> list slots
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/admin/edit"]' (click)='collapse()'>
+                       <span class='glyphicon glyphicon-th-list'></span> edit slot
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -14,7 +14,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 
 import { SlotsComponent } from './slots/slots.component';
 import { EditSlotComponent } from './edit-slot/edit-slot.component';
-import { ListSlotComponent } from './list-slot/list-slot.component';
+
 
 import { SlotService } from './services/slot.service';
 
@@ -29,7 +29,6 @@ import { SlotService } from './services/slot.service';
     RoomsComponent,
     SlotsComponent,
     EditSlotComponent,
-    ListSlotComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,8 +41,8 @@ import { SlotService } from './services/slot.service';
       { path: 'admin/fetch-data', component: FetchDataComponent },
       { path: 'admin/rooms', component: RoomsComponent },
       { path: 'admin/slots', component: SlotsComponent },
-      { path: 'admin/edit-slot', component: EditSlotComponent },
-      { path: 'admin/list-slot', component: ListSlotComponent }
+      { path: 'admin/edit', component: EditSlotComponent },
+
     ])
   ],
   providers: [SlotService],
