@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SlotService } from '../services/slot.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { P } from '@angular/core/src/render3';
 
 @Component(
 {
@@ -19,10 +17,6 @@ export class SlotsComponent implements OnInit
     _slotService:SlotService;
     _http:HttpClient;
     _router: Router;
-
-    _allSlots:Slot[];
-    _filterList:Slot[];
-
 
     constructor(private http: HttpClient, private router: Router, slotService: SlotService)
     {
