@@ -9,7 +9,6 @@ import {Room} from "../models/room";
   selector: 'app-rooms-index',
   templateUrl: './index.component.html'
 })
-
 export class RoomsIndexComponent implements OnInit {
   public rooms: Room[]
 

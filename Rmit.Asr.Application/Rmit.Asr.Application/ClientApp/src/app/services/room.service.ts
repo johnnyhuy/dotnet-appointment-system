@@ -20,9 +20,9 @@ export class RoomService {
     return this.http.get<Room[]>(this.baseUrl + "api/room")
   }
 
-  deleteRoom(roomName)
+  createRoom(room)
   {
-    return this.http.delete(this.baseUrl + "api/room/:name", roomName)
+    return this.http.post(this.baseUrl + "api/room", room)
   }
 
   updateRoom(roomName, room)

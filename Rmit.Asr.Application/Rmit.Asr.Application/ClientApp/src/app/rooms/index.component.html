@@ -10,7 +10,11 @@
   <thead>
     <tr>
       <th>Room name</th>
-      <th>Actions</th>
+      <th>
+        <a [routerLink]='["/admin/rooms/create"]'>
+          <span class='glyphicon glyphicon-th-list'></span> Create
+        </a>
+      </th>
     </tr>
   </thead>
   <tbody>

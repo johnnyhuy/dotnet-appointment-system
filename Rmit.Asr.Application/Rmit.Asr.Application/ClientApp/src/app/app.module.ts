@@ -5,16 +5,17 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
+import {AlertsComponent} from './alerts/alerts/alerts.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {HomeComponent} from './home/home.component';
 import {CounterComponent} from './counter/counter.component';
 import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {RoomsIndexComponent} from './rooms/index.component';
 import {RoomsEditComponent} from './rooms/edit.component';
+import {RoomsCreateComponent} from "./rooms/create.component";
 
 import {RoomService} from "./services/room.service";
 import {AlertService} from "./services/alert.service";
-import {AlertsComponent} from './alerts/alerts/alerts.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {AlertsComponent} from './alerts/alerts/alerts.component';
     CounterComponent,
     FetchDataComponent,
     RoomsIndexComponent,
+    RoomsCreateComponent,
     RoomsEditComponent,
     AlertsComponent
   ],
@@ -37,6 +39,7 @@ import {AlertsComponent} from './alerts/alerts/alerts.component';
       { path: 'admin/counter', component: CounterComponent },
       { path: 'admin/fetch-data', component: FetchDataComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
+      { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }
     ])
   ],

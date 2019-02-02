@@ -9,14 +9,14 @@ import {AlertService} from "../services/alert.service";
 import {Room} from "../models/room";
 
 @Component({
-  selector: 'app-rooms-edit',
-  templateUrl: './edit.component.html'
+  selector: 'app-rooms-create',
+  templateUrl: './create.component.html'
 })
-export class RoomsEditComponent {
+export class RoomsCreateComponent {
   public rooms: Room[];
   public error: Room;
 
-  editRoomForm = this.fb.group({
+  createRoomForm = this.fb.group({
       name: ['', Validators.required]
     }
   );
@@ -37,10 +37,8 @@ export class RoomsEditComponent {
     }, error => console.error(error));
   }
 
-  edit() {
-    const roomId = this.route.snapshot.paramMap.get('id');
-
-    this.roomService.updateRoom(roomId, this.editRoomForm.value).subscribe(() => {
+  create() {
+    this.roomService.createRoom(this.createRoomForm.value).subscribe(() => {
       this.alertService.addAlert("Successfully updated the room!")
       this.router.navigateByUrl("/admin/rooms")
     }, (errorResult: HttpErrorResponse) => {

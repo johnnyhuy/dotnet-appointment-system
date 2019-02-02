@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 
-import {Router} from "@angular/router";
-
 @Injectable()
 export class AlertService {
   private message: string
@@ -18,11 +16,6 @@ export class AlertService {
       this.message = null
       return this.message
     }
-  }
-
-  constructor(
-    private router: Router
-  ) {
   }
 
   addAlert(message) {
