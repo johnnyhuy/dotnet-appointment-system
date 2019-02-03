@@ -30,8 +30,13 @@ export class SlotService
       return this.http.get<Slot[]>(`${this.baseUrl}api/slot/staff/${encodeURIComponent(userId)}`)
   }
 
-  editSlot(roomId:string, startDate:string, startTime:string, studentID: string)
+  editSlot(roomName:string, startDate:string, startTime:string, studentID: string)
   {
-    return this.http.put<Slot[]>(`${this.baseUrl}api/slot/${encodeURIComponent(roomId)}/${encodeURIComponent(startDate)}/${encodeURIComponent(startTime)}`, { 'studentId': studentID })
+    return this.http.put<Slot[]>(`${this.baseUrl}api/slot/${encodeURIComponent(roomName)}/${encodeURIComponent(startDate)}/${encodeURIComponent(startTime)}`, { 'studentId': studentID })
+  }
+
+  deleteSlot(roomName:string, startDate:string, startTime:string)
+  {
+    return this.http.delete<Slot[]>(`${this.baseUrl}api/slot/${encodeURIComponent(roomName)}/${encodeURIComponent(startDate)}/${encodeURIComponent(startTime)}`)
   }
 }
