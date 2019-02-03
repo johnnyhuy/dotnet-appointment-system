@@ -8,8 +8,6 @@ import {AppComponent} from './app.component';
 import {AlertsComponent} from './alerts/alerts/alerts.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {HomeComponent} from './home/home.component';
-import {CounterComponent} from './counter/counter.component';
-import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {RoomsIndexComponent} from './rooms/index.component';
 import {RoomsEditComponent} from './rooms/edit.component';
 import {RoomsCreateComponent} from "./rooms/create.component";
@@ -22,8 +20,6 @@ import {AlertService} from "./services/alert.service";
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     RoomsIndexComponent,
     RoomsCreateComponent,
     RoomsEditComponent,
@@ -36,8 +32,6 @@ import {AlertService} from "./services/alert.service";
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
-      { path: 'admin/counter', component: CounterComponent },
-      { path: 'admin/fetch-data', component: FetchDataComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
       { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }
