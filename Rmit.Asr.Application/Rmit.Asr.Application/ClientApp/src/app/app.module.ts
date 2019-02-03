@@ -44,7 +44,7 @@ import {SlotsEditComponent} from './slots/edit.component';
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
       { path: 'admin/slots', component: SlotsComponent },
-      { path: 'admin/slots/edit', component: SlotsEditComponent },
+      { path: 'admin/slots/edit/:id/:start_date/:start_time', component: SlotsEditComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
       { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }

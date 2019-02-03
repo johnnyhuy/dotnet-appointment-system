@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
+import * as moment from 'moment';
 
 import {ValidationService} from "../services/validation.service";
 import {SlotService} from '../services/slot.service';
@@ -29,7 +30,6 @@ export class SlotsComponent implements OnInit {
 
   getSlot() {
     if (!this.getSlotForm.valid) {
-      console.log('invalid')
       return
     }
 
@@ -53,6 +53,14 @@ export class SlotsComponent implements OnInit {
       }, (errorResult: HttpErrorResponse) => {
       this.error = errorResult.error
     });
+  }
+
+  getDate(date: string) {
+    return moment(date).format('MMMM Do YYYY')
+  }
+
+  date(format: string, date: string) {
+    return moment(date).format(format)
   }
 
   ngOnInit(): void {

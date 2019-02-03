@@ -2,7 +2,7 @@
   <h1 class="h2">List Booked Slots</h1>
 </div>
 <p class="lead">Here are all the slots made by staff on the system.</p>
-
+<app-alerts></app-alerts>
 <div class="col-4 px-0 mb-4">
   <div class="alert alert-danger" *ngIf="userId.invalid && (userId.dirty || userId.touched) || error">
     <div *ngIf="userId.invalid && (userId.dirty || userId.touched)">
@@ -30,7 +30,9 @@
         <th>Room name</th>
         <th>Staff ID</th>
         <th>Student ID</th>
-        <th>StartTime</th>
+        <th>Start Date</th>
+        <th>Start Time</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -38,7 +40,11 @@
         <td>{{ slot.room.name }}</td>
         <td><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
         <td><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
-        <td>{{ slot.startTime }}</td>
+        <td>{{ date('MMMM Do YYYY', slot.startTime) }}</td>
+        <td>{{ date('h:mm a', slot.startTime) }}</td>
+        <td class="align-middle text-right">
+          <a class="btn btn-secondary" [routerLink]='["/admin/slots/edit/", slot.room.name, date("YYYY-MM-DD", slot.startTime), date("HH:mm", slot.startTime)]'>Edit</a>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -30,9 +30,8 @@ export class SlotService
       return this.http.get<Slot[]>(`${this.baseUrl}api/slot/staff/${encodeURIComponent(userId)}`)
   }
 
-  static editSlot(roomID:string, startDate:string, startTime:string)
+  editSlot(roomId:string, startDate:string, startTime:string, studentID: string)
   {
-    if ( roomID == null || startDate == null || startTime==null )
-      return console.log("incorrect ID, date or time entered...");
+    return this.http.put<Slot[]>(`${this.baseUrl}api/slot/${encodeURIComponent(roomId)}/${encodeURIComponent(startDate)}/${encodeURIComponent(startTime)}`, { 'studentId': studentID })
   }
 }
