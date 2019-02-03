@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
 
 import {RoomService} from "../services/room.service"
 
@@ -13,12 +12,11 @@ export class RoomsIndexComponent implements OnInit {
   public rooms: Room[]
 
   constructor(
-    http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
     private roomService: RoomService
   ) {
-    roomService.getRooms().subscribe(result => {
-      this.rooms = result
+    roomService.getRooms().subscribe(rooms => {
+      this.rooms = rooms
     }, error => console.error(error))
   }
 

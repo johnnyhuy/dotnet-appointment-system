@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\dist" />
-    <Folder Include="ClientApp\src\app\models" />
     <Folder Include="Migrations\" />
     <Folder Include="Data\" />
     <Folder Include="Views\Staff\" />

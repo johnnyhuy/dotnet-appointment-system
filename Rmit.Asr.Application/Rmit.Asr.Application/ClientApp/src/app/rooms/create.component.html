@@ -4,7 +4,7 @@
 <p class="lead">Create a room form.</p>
 <div class="col-4 px-0">
   <div *ngIf="error" class="alert alert-danger">
-    <p *ngFor="let item of error.name">{{ item }}</p>
+    <p class="pb-0" *ngFor="let item of error.name">{{ item }}</p>
   </div>
   <form [formGroup]="createRoomForm" (ngSubmit)="create()">
     <div class="form-group">
