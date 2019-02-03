@@ -11,3 +11,7 @@
 .table thead th.vertical-middle, .table th.vertical-middle, .table td.vertical-middle {
     vertical-align: middle;
 }
+
+.rounded-lg {
+    border-radius: 1rem;
+}

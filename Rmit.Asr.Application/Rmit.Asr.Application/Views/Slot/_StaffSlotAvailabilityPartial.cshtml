@@ -6,6 +6,7 @@
 }
 
 <h1 class="pb-2">@ViewData["Title"]: @Model.Date?.ToString("dddd, dd MMMM yyyy")</h1>
+<p class="lead">Show staff availabilities by the date and slots booked.</p>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AvailabilityByDateIndex" method="get">
@@ -72,8 +73,8 @@
         else
         {
             <div class="col-12">
-                <h1>Staff are not available 😅</h1>
-                <p>There seems to be no slots at all!</p>
+                <h2>Staff are not available 😅</h2>
+                <p class="lead">There seems to be no slots at all!</p>
                 <a class="btn btn-primary" asp-controller="Slot" asp-action="Index">List slots</a>
             </div>
         }
