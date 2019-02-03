@@ -12,6 +12,7 @@ using Rmit.Asr.Application.Controllers;
 using Rmit.Asr.Application.Controllers.Api;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Providers;
 
 namespace Rmit.Asr.Application.Tests.Controllers
 {
@@ -34,6 +35,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         protected Room RoomB;
         protected Room RoomC;
         protected Room RoomD;
+        protected DateTime DateTimeNow;
 
         protected ControllerBaseTest()
         {
@@ -72,7 +74,9 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 .ReturnsAsync(Student);
             var studentManager = new UserManager<Student>(mockStudentStore.Object, null, null, null, null, null, null, null, null);
 
-            SlotController = new SlotController(Context, staffManager, studentManager);
+            DateTimeNow = new DateTime(2019, 11, 6, 9, 0, 0);
+            
+            SlotController = new SlotController(Context, staffManager, studentManager, new DateTimeProvider(DateTimeNow));
             ApiSlotController = new SlotApiController(Context);
             ApiRoomController = new RoomApiController(Context);
             

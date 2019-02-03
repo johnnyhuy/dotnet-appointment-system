@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using Rmit.Asr.Application.Data;
+using Rmit.Asr.Application.Providers;
 using static Rmit.Asr.Application.Data.SeedData;
 
 namespace Rmit.Asr.Application
@@ -54,10 +57,24 @@ namespace Rmit.Asr.Application
                     config.Filters.Add(new AuthorizeFilter(policy));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy
+                    {
+                        ProcessDictionaryKeys = true
+                    }
+                });
+            
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
             
             services.AddSession();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         /// <summary>
@@ -83,6 +100,7 @@ namespace Rmit.Asr.Application
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseAuthentication();
 
@@ -97,6 +115,19 @@ namespace Rmit.Asr.Application
             app.UseSession();
             
             Seed(serviceProvider).Wait();
+            
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer("start");
+                }
+            });
         }
     }
 }

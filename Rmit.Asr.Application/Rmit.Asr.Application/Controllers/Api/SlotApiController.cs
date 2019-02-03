@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,14 +40,22 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked student slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("student/{StudentId}")]
-        public ActionResult<IEnumerable<Slot>> StudentIndex(Student student)
+        [HttpGet("student/{studentId}")]
+        public ActionResult<IEnumerable<Slot>> StudentIndex(string studentId)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
+            if (!_context.Student.Any(s => s.StudentId == studentId))
+            {
+                ModelState.AddModelError("StudentId", "Student does not exist.");
+                return BadRequest(ModelState);
+            }
+            
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Student.StudentId == student.StudentId)
+                .Where(s => s.Student.StudentId == studentId)
                 .ToList();
         }
         
@@ -54,14 +63,22 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// Get booked staff slots.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("staff/{StaffId}")]
-        public ActionResult<IEnumerable<Slot>> StaffIndex(Staff staff)
+        [HttpGet("staff/{staffId}")]
+        public ActionResult<IEnumerable<Slot>> StaffIndex(string staffId)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
+            if (!_context.Staff.Any(s => s.StaffId == staffId))
+            {
+                ModelState.AddModelError("StaffId", "Staff does not exist.");
+                return BadRequest(ModelState);
+            }
+            
             return _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .Where(s => s.Staff.StaffId == staff.StaffId)
+                .Where(s => s.Staff.StaffId == staffId)
                 .ToList();
         }
 
@@ -76,6 +93,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpPut("{roomName}/{startDate}/{startTime}")]
         public ActionResult Put(string roomName, DateTime startDate, DateTime startTime, [FromBody] Slot slot)
         {
+            roomName = WebUtility.UrlDecode(roomName);
+            
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             slot.StartTime = slotStartTime;
 
@@ -124,6 +143,8 @@ namespace Rmit.Asr.Application.Controllers.Api
         [HttpDelete("{roomName}/{startDate}/{startTime}")]
         public ActionResult Delete(string roomName, DateTime startDate, DateTime startTime)
         {
+            roomName = WebUtility.UrlDecode(roomName);
+            
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
             
             Room room = _context.Room

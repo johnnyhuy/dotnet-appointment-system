@@ -71,7 +71,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void PutSlot_WithNonExistentSlot_ReturnNotFound()
+        public async void PutSlot_WithNonExistentSlot_ReturnBadRequest()
         {
             // Arrange
             var slot = new Slot
@@ -106,7 +106,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void PutSlot_WithNonExistentRoom_ReturnNotFound()
+        public async void PutSlot_WithNonExistentRoom_ReturnBadRequest()
         {
             // Arrange
             var slot = new Slot
@@ -141,7 +141,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public async void PutSlot_WithNonExistentStudent_ReturnNotFound()
+        public async void PutSlot_WithNonExistentStudent_ReturnBadRequest()
         {
             // Arrange
             var slot = new Slot

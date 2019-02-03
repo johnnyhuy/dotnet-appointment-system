@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +8,7 @@ using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
 using Rmit.Asr.Application.Models.ViewModels;
+using Rmit.Asr.Application.Providers;
 
 namespace Rmit.Asr.Application.Controllers
 {
@@ -21,12 +21,14 @@ namespace Rmit.Asr.Application.Controllers
         private readonly ApplicationDataContext _context;
         private readonly UserManager<Staff> _staffManager;
         private readonly UserManager<Student> _studentManager;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public SlotController(ApplicationDataContext context, UserManager<Staff> staffManager, UserManager<Student> studentManager)
+        public SlotController(ApplicationDataContext context, UserManager<Staff> staffManager, UserManager<Student> studentManager, IDateTimeProvider dateTimeProvider)
         {
             _context = context;
             _staffManager = staffManager;
             _studentManager = studentManager;
+            _dateTimeProvider = dateTimeProvider;
         }
         
         /// <summary>
@@ -120,9 +122,9 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("RoomName", $"Room has reached a maximum booking of {Room.MaxRoomBookingPerDay} per day.");
             }
 
-            if (slot.StartTime < DateTime.Now )
+            if (slot.StartTime < _dateTimeProvider.Now())
             {
-                ModelState.AddModelError("StartTime", $"The date and time chosen is in the past! Choose a Date after {DateTime.Now:dd-MM-yyyy}.");
+                ModelState.AddModelError("StartTime", "Slot cannot be created in the past.");
             }
 
             if (_context.Slot.GetStaffDailySlotCount(slot) >= Staff.MaxBookingPerDay)
@@ -366,11 +368,11 @@ namespace Rmit.Asr.Application.Controllers
         {
             var slot = new AvailabilitySlot
             {
-                Date = DateTime.Now.Date,
+                Date = _dateTimeProvider.Now().Date,
                 AvailableSlots = _context.Slot
                     .Include(s => s.Room)
                     .Include(s => s.Staff)
-                    .Where(s => s.StartTime.Value.Date == DateTime.Now.Date && string.IsNullOrEmpty(s.StudentId))
+                    .Where(s => s.StartTime.Value.Date == _dateTimeProvider.Now().Date && string.IsNullOrEmpty(s.StudentId))
             };
 
             return View(slot);
@@ -391,7 +393,7 @@ namespace Rmit.Asr.Application.Controllers
             slot.AvailableSlots = _context.Slot
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
-                .Where(s => s.StartTime > DateTime.Now)
+                .Where(s => s.StartTime > _dateTimeProvider.Now())
                 .Where(s => s.StartTime.Value.Date == slot.Date && string.IsNullOrEmpty(s.StudentId));
 
             return View(slot);

@@ -87,14 +87,9 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.Slot.AddRangeAsync(slots);
             
             await Context.SaveChangesAsync();    
-            
-            var student = new Student
-            {
-                StudentId = Student.StudentId
-            };
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(student);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex(Student.StudentId);
 
             // Assert
             Assert.Single(result.Value);
@@ -132,9 +127,47 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
                 }
             };
 
-            var staff = new Staff
+            await Context.Slot.AddRangeAsync(slots);
+            
+            await Context.SaveChangesAsync();    
+
+            // Act
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(Staff.StaffId);
+
+            // Assert
+            Assert.Equal(2, result.Value.Count());
+        }
+        
+        [Fact]
+        public async void StaffIndexSlot_WithNonExistentStaff_ReturnBadRequest()
+        {
+            // Arrange
+            var slots = new List<Slot>
             {
-                StaffId = Staff.StaffId
+                new Slot
+                {
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
+                    StudentId = null,
+                    StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+                },
+                new Slot
+                {
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
+                    StaffId = "e54321",
+                    StudentId = Student.Id,
+                    StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
+                },
+                new Slot
+                {
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
+                    StaffId = Staff.Id,
+                    StudentId = Student.Id,
+                    StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
+                }
             };
 
             await Context.Slot.AddRangeAsync(slots);
@@ -142,10 +175,59 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             await Context.SaveChangesAsync();    
 
             // Act
-            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex(staff);
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StaffIndex("I should not exist");
 
             // Assert
-            Assert.Equal(2, result.Value.Count());
+            var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
+            var serializableError = (SerializableError) badRequest.Value;
+            string[] errors = serializableError.Values.Select(e => (string[]) e).First();
+            Assert.Contains("Staff does not exist.", errors);
+        }
+        
+        [Fact]
+        public async void StudentIndexSlot_WithNonExistentStudent_ReturnBadRequest()
+        {
+            // Arrange
+            var slots = new List<Slot>
+            {
+                new Slot
+                {
+                    RoomId = RoomA.Id,
+                    Room = RoomA,
+                    StaffId = Staff.Id,
+                    StudentId = null,
+                    StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+                },
+                new Slot
+                {
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
+                    StaffId = "e54321",
+                    StudentId = Student.Id,
+                    StartTime = new DateTime(2019, 1, 1, 9, 0, 0)
+                },
+                new Slot
+                {
+                    RoomId = RoomB.Name,
+                    Room = RoomB,
+                    StaffId = Staff.Id,
+                    StudentId = Student.Id,
+                    StartTime = new DateTime(2019, 1, 2, 13, 0, 0)
+                }
+            };
+
+            await Context.Slot.AddRangeAsync(slots);
+            
+            await Context.SaveChangesAsync();    
+
+            // Act
+            ActionResult<IEnumerable<Slot>> result = ApiSlotController.StudentIndex("I should not exist");
+
+            // Assert
+            var badRequest = Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
+            var serializableError = (SerializableError) badRequest.Value;
+            string[] errors = serializableError.Values.Select(e => (string[]) e).First();
+            Assert.Contains("Student does not exist.", errors);
         }
     }
 }

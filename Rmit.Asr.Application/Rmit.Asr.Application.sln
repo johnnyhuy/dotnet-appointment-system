@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rmit.Asr.Application", "Rmit.Asr.Application\Rmit.Asr.Application.csproj", "{0C680770-BAC8-4593-A500-3B6E79026CB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rmit.Asr.Application", "Rmit.Asr.Application\Rmit.Asr.Application.csproj", "{0C680770-BAC8-4593-A500-3B6E79026CB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rmit.Asr.Application.Tests", "Rmit.Asr.Application.Tests\Rmit.Asr.Application.Tests.csproj", "{E9779D7A-86D0-451A-AEAA-BD04DB30B7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rmit.Asr.Application.Tests", "Rmit.Asr.Application.Tests\Rmit.Asr.Application.Tests.csproj", "{E9779D7A-86D0-451A-AEAA-BD04DB30B7BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

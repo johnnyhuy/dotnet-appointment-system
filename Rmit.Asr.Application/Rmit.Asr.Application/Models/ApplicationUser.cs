@@ -18,16 +18,14 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// First name of the user.
         /// </summary>
-        [Required]
         [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public virtual string FirstName { get; set; }
         
         /// <summary>
         /// Last name of the user.
         /// </summary>
-        [Required]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public virtual string LastName { get; set; }
         
         [JsonIgnore]
         public override string UserName { get; set; }

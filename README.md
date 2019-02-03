@@ -38,6 +38,24 @@ Applications using the authentication mode will not need to store any passwords 
 
 A downside to having social media login would be that the user must have the account required from the social media provider. For example, if an application only has OAuth2 authentication for Google then the user must login an existing account or register a new account with Google. Additionally, applications tend to store any information scoped by the social media provider such as emails and full names, which means there would be a larger spread of the users information across the application and the provider.
 
+## Use of Angular and the Web API
+
+Using a *JavaScript* front-end framework paired with a backend *web API* allows seamless client-side user interface control. In our case we've used Angular 5 and ASP .NET Core respectively as our application stack for the admin panel.
+
+[![SpaVsMpa](./Images/SpaVsMpa.jpg)](Images/SpaVsMpa.jpg)
+
+### Single-page applications
+
+Client browsers traditionally require HTML pages to be served from the web server, this is called **multi-page applications**. However, **single-page applications** (SPAs) require only one page load and multiple asynchronous calls to the server via AJAX. AJAX a JavaScript web technology aims to solve a problem of requesting and receiving data without repetitively reloading the web page.
+
+Data can be transferred through multiple well known formats including JSON and XML. The client can make an API call to the web server to receive data and dynamically re-structure the web page.
+
+### Advantages & disadvantages
+
+Using a single-page application does have its benefits in terms of performance and user experience. The web server will have a significant decrease in HTML page loads and more lightweight data sent to the client browser. Along with proper stylesheet and script caching, this can potentially decrease page load times compared to traditional page loading. Offline capability is also a feature where users can perform processes without the server in contact.
+
+One of the main disadvantages  to having a JavaScript framework and web API is the performance it may hinder on client-side devices that cannot handle a heave JavaScript framework such as Angular or Vue. Another problem is that it the setup will come with additional overhead in terms of technologies used to solve a data retrieval problem.
+
 ## References
 
 This is a list I've compiled, which has influenced code change and design pattern usage.

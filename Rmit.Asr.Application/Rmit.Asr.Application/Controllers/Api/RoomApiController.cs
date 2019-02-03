@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.Extensions;
+using Rmit.Asr.Application.Models.ViewModels;
 
 namespace Rmit.Asr.Application.Controllers.Api
 {
@@ -36,7 +38,7 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// </summary>
         /// <param name="room"></param>
         [HttpPost]
-        public ActionResult Create([FromBody] Room room)
+        public ActionResult Create([FromBody] CreateRoom room)
         {
             if (_context.Room.RoomExistsByName(room.Name))
             {
@@ -53,27 +55,27 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Update a room.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="room"></param>
         /// <returns></returns>
-        [HttpPut("{roomId}")]
-        public ActionResult Put(string roomId, [FromBody] Room room)
+        [HttpPut("{roomName}")]
+        public ActionResult Put(string roomName, [FromBody] UpdateRoom room)
         {
-            Room updateRoom = _context.Room
-                .FirstOrDefault(r => r.Name == roomId);
+            roomName = WebUtility.UrlDecode(roomName);
             
+            Room updateRoom = _context.Room.FirstOrDefault(r => r.Name == roomName);
             if (updateRoom == null)
             {
                 ModelState.AddModelError("Name", "Room does not exist.");
                 return BadRequest(ModelState);
             }
-            
+
             if (_context.Room.Any(r => r.Name == room.Name))
             {
                 ModelState.AddModelError("Name", "Cannot update the room since the room already exists.");
                 return BadRequest(ModelState);
             }
-            
+
             updateRoom.Name = room.Name;
             
             _context.Room.Update(updateRoom);
@@ -86,17 +88,19 @@ namespace Rmit.Asr.Application.Controllers.Api
         /// <summary>
         /// Delete slot by room ID and start time.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="roomName"></param>
         /// <param name="startDate"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        [HttpDelete("{roomId}/{startDate}/{startTime}")]
-        public ActionResult Delete(string roomId, DateTime startDate, DateTime startTime)
+        [HttpDelete("{roomName}/{startDate}/{startTime}")]
+        public ActionResult Delete(string roomName, DateTime startDate, DateTime startTime)
         {
             DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
+
+            roomName = WebUtility.UrlDecode(roomName);
             
             Room room = _context.Room
-                .FirstOrDefault(r => r.Name == roomId);
+                .FirstOrDefault(r => r.Name == roomName);
             
             if (room == null)
             {
@@ -105,7 +109,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
 
             Slot slot = _context.Slot
-                .FirstOrDefault(s => s.RoomId == roomId && s.StartTime == slotStartTime);
+                .FirstOrDefault(s => s.RoomId == roomName && s.StartTime == slotStartTime);
             
             if (slot == null)
             {

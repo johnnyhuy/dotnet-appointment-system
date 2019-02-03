@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Rmit.Asr.Application.Models;
+using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 
 namespace Rmit.Asr.Application.Tests.Controllers.Api
@@ -11,7 +12,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         public void CreateRoom_BookStudent_ReturnOk()
         {
             // Arrange
-            var room = new Room
+            var room = new CreateRoom
             {
                 Name = "G"
             };
@@ -26,10 +27,10 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
         }
         
         [Fact]
-        public void CreateRoom_WithAlreadyExistRoom_ReturnNotFound()
+        public void CreateRoom_WithAlreadyExistRoom_ReturnBadRequest()
         {
             // Arrange
-            var room = new Room
+            var room = new CreateRoom
             {
                 Name = "A"
             };
