@@ -246,6 +246,11 @@ namespace Rmit.Asr.Application.Controllers
                 ModelState.AddModelError("StartTime", "Slot does not exist.");
             }
 
+            if (slot.StartTime < _dateTimeProvider.Now())
+            {
+                ModelState.AddModelError("StartTime", "cannot book a slot from the past.");
+            }
+
             if (_context.Slot.Any(s => s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StudentId == slot.StudentId))
             {
                 ModelState.AddModelError("StartTime", "Student has reached their maximum bookings for this day.");
