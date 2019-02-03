@@ -6,15 +6,15 @@
   <form [formGroup]="deleteSlotForm" (ngSubmit)="delete()">
     <div class="form-group">
       <label for="roomName">Room name:</label>
-      <input type="text" class="form-control" id="roomName" [ngModel]="slot.room.name" formControlName="roomName" disabled>
+      <input type="text" class="form-control" id="roomName" formControlName="roomName">
     </div>
     <div class="form-group">
       <label for="startTime">Start time:</label>
-      <input type="text" [ngModel]="startTime" class="form-control" id="startTime" formControlName="startTime" disabled>
+      <input type="text" class="form-control" id="startTime" formControlName="startTime">
     </div>
     <div class="form-group">
       <label for="startDate">Start date:</label>
-      <input type="text" [ngModel]="startDate" class="form-control" id="startDate" formControlName="startDate" disabled>
+      <input type="text" class="form-control" id="startDate" formControlName="startDate">
     </div>
     <div class="form-group">
       <label for="staffId">Staff ID:</label>
@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
       <label for="studentId">Student ID:</label>
-      <input type="text" [value]="slot.student.studentId" class="form-control" id="studentId" disabled>
+      <input type="text" [value]="slot.student?.studentId" class="form-control" id="studentId" disabled>
     </div>
     <button type="submit" class="btn btn-primary">Delete</button>
     <a class="btn btn-secondary" [routerLink]='["/admin/slots"]'>Back to slots list</a>

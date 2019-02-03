@@ -53,9 +53,9 @@ export class SlotsDeleteComponent implements OnInit
     })
 
     this.deleteSlotForm = this.fb.group({
-      roomName: '',
-      startDate: '',
-      startTime: ''
+      roomName: {value: this.roomName, disabled: true},
+      startDate: {value: this.startDate, disabled: true},
+      startTime: {value: this.startTime, disabled: true}
     })
   }
 
