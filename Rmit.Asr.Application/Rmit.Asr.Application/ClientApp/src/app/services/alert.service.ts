@@ -9,7 +9,6 @@ export class AlertService {
     if (this.alerted) {
       this.alerted = false
 
-      console.log("Get alert: " + this.message)
       return this.message
     }
     else {

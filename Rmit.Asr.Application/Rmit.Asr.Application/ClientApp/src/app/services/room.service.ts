@@ -2,6 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {Room} from "../models/room";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class RoomService {
@@ -15,7 +16,7 @@ export class RoomService {
     this.baseUrl = baseUrl;
   }
 
-  getRooms()
+  getRooms(): Observable<Room[]>
   {
     return this.http.get<Room[]>(this.baseUrl + "api/room")
   }
