@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {AlertsComponent} from './alerts/alerts/alerts.component';
+import {AlertsComponent} from './alerts/alerts.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {HomeComponent} from './home/home.component';
 import {RoomsIndexComponent} from './rooms/index.component';
