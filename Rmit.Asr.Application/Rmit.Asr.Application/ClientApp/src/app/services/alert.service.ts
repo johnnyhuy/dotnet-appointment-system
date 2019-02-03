@@ -8,7 +8,6 @@ export class AlertService {
   get alert() {
     if (this.alerted) {
       this.alerted = false
-
       return this.message
     }
     else {

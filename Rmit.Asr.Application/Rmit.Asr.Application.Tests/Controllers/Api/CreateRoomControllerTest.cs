@@ -1,6 +1,5 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Rmit.Asr.Application.Models;
 using Rmit.Asr.Application.Models.ViewModels;
 using Xunit;
 

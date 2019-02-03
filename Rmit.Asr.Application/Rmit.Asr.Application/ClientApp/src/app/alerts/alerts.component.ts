@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {AlertService} from "../services/alert.service";
 
@@ -7,7 +7,22 @@ import {AlertService} from "../services/alert.service";
   templateUrl: './alerts.component.html'
 })
 export class AlertsComponent {
-  public message: string;
+  private _message: string
+
+  @Input()
+  inputMessage: string
+
+  get message() {
+    if (this.inputMessage) {
+      return this.inputMessage
+    } else {
+      return this._message
+    }
+  }
+
+  set message(value) {
+    this._message = value
+  }
 
   constructor(
     private alertService: AlertService

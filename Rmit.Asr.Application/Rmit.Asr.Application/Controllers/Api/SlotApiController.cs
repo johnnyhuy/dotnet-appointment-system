@@ -124,10 +124,9 @@ namespace Rmit.Asr.Application.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            updateSlot.StudentId = student?.StudentId;
+            updateSlot.StudentId = student?.Id;
 
-            _context.Slot.Update(slot);
-
+            _context.Slot.Update(updateSlot);
             _context.SaveChanges();
 
             return Ok();

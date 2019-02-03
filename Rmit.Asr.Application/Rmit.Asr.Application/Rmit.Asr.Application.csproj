@@ -20,12 +20,13 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\dist" />
-    <Folder Include="ClientApp\src\app\models" />
     <Folder Include="Migrations\" />
     <Folder Include="Data\" />
     <Folder Include="Views\Staff\" />
     <Folder Include="wwwroot\favicon\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="ClientApp\src\app\services\" />
+    <Folder Include="ClientApp\src\app\slots\" />
   </ItemGroup>
 
   <ItemGroup>

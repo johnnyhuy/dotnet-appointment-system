@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Edit Slot</h1>
+</div>
+<p class="lead">Edit a slot form.</p>
+<div class="col-4 px-0">
+  <div *ngIf="error" class="alert alert-danger">
+    <div *ngFor="let message of error">{{ message }}</div>
+  </div>
+  <div class="form-group">
+    <label for="roomName">Room name:</label>
+    <input type="text" class="form-control" id="roomName" [value]="roomName" disabled>
+  </div>
+  <div class="form-group">
+    <label for="startDateTime">Start time:</label>
+    <input type="text" [value]="startDateTime" class="form-control" id="startDateTime" disabled>
+  </div>
+  <form [formGroup]="editSlotForm" (ngSubmit)="edit()">
+    <div class="form-group">
+      <label for="studentId">Student ID:</label>
+      <input type="text" formControlName="studentId" class="form-control" id="studentId" placeholder="s1234567, s3604367" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" [routerLink]='["/admin/rooms"]'>Back to room list</a>
+  </form>
+</div>

@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {AppComponent} from './app.component';
 import {AlertsComponent} from './alerts/alerts.component';
@@ -15,12 +16,19 @@ import {RoomsCreateComponent} from "./rooms/create.component";
 
 import {RoomService} from "./services/room.service";
 import {AlertService} from "./services/alert.service";
+import {SlotService} from './services/slot.service';
+import {ValidationService} from "./services/validation.service";
+
+import {SlotsComponent} from './slots/slots.component';
+import {SlotsEditComponent} from './slots/edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    SlotsComponent,
+    SlotsEditComponent,
     RoomsIndexComponent,
     RoomsCreateComponent,
     RoomsEditComponent,
@@ -32,16 +40,21 @@ import {AlertService} from "./services/alert.service";
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    FlatpickrModule.forRoot(),
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
+      { path: 'admin/slots', component: SlotsComponent },
+      { path: 'admin/slots/edit/:id/:start_date/:start_time', component: SlotsEditComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
       { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }
     ])
   ],
   providers: [
+    AlertService,
     RoomService,
-    AlertService
+    SlotService,
+    ValidationService
   ],
   bootstrap: [AppComponent]
 })

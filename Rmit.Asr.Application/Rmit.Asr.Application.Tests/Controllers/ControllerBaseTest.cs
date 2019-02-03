@@ -31,6 +31,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
         protected RoomApiController ApiRoomController;
         protected Staff Staff;
         protected Student Student;
+        protected Student OtherStudent;
         protected Room RoomA;
         protected Room RoomB;
         protected Room RoomC;
@@ -62,6 +63,13 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 FirstName = "Shawn",
                 LastName = "Taylor",
                 UserName = StudentUsername
+            };
+            OtherStudent = new Student
+            {
+                StudentId = "s3604367",
+                FirstName = "Johnny",
+                LastName = "Doe",
+                Email = "s3604367@student.rmit.edu.au"
             };
             
             var mockStaffStore = new Mock<IUserStore<Staff>>();
@@ -132,13 +140,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
             
             Context.Student.AddRange(
                 Student,
-                new Student
-                {
-                    StudentId = "s3604367",
-                    FirstName = "Johnny",
-                    LastName = "Doe",
-                    Email = "s3604367@student.rmit.edu.au"
-                }
+                OtherStudent
             );
 
             Context.SaveChanges();
