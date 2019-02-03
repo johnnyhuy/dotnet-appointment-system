@@ -23,7 +23,7 @@ namespace Rmit.Asr.Application.Tests.Controllers
                 Room = RoomA,
                 StaffId = Staff.Id,
                 StudentId = null,
-                StartTime = new DateTime(2019, 1, 1, 13, 0, 0)
+                StartTime = DateTimeNow.AddHours(1)
             };
 
             Context.Slot.Add(createdSlot);
