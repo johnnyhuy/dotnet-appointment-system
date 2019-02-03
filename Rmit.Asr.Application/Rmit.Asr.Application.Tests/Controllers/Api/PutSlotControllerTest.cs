@@ -27,7 +27,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
 
             var updateSlot = new Slot
             {
-                StudentId = "s3604367"
+                StudentId = OtherStudent.StudentId
             };
 
             // Act
@@ -36,7 +36,7 @@ namespace Rmit.Asr.Application.Tests.Controllers.Api
             // Assert
             Assert.IsAssignableFrom<OkResult>(result);
             
-            Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == "s3604367"));
+            Assert.True(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == OtherStudent.Id));
         }
         
         [Fact]

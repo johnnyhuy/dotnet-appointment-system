@@ -116,7 +116,6 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
             
             Slot updateSlot = _context.Slot
-                .AsNoTracking()
                 .FirstOrDefault(s => s.RoomId == room.Id && s.StartTime == slotStartTime);
             
             if (updateSlot == null)
