@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {AlertsComponent} from './alerts/alerts.component';
@@ -30,6 +31,7 @@ import {AlertService} from "./services/alert.service";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
       { path: 'admin/rooms', component: RoomsIndexComponent },

@@ -1,30 +1,28 @@
-<h1>Rooms</h1>
-
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Rooms</h1>
+</div>
 <p class="lead">List of rooms.</p>
-
 <app-alerts></app-alerts>
 
 <p *ngIf="!rooms"><em>Loading...</em></p>
 
-<table class='table' *ngIf="rooms">
-  <thead>
-    <tr>
-      <th>Room name</th>
-      <th>
-        <a [routerLink]='["/admin/rooms/create"]'>
-          <span class='glyphicon glyphicon-th-list'></span> Create
-        </a>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let room of rooms">
-      <td>{{ room.name }}</td>
-      <td>
-        <a [routerLink]='["/admin/rooms/edit/", room.name]'>
-          <span class='glyphicon glyphicon-th-list'></span> Edit
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="col-4 px-0">
+  <table class='table' *ngIf="rooms">
+    <thead>
+      <tr>
+        <th class="align-middle">Room name</th>
+        <th class="align-middle text-right">
+          <a class="btn btn-success" [routerLink]='["/admin/rooms/create"]'>Create</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td class="align-middle">{{ room.name }}</td>
+        <td class="align-middle text-right">
+          <a class="btn btn-secondary" [routerLink]='["/admin/rooms/edit/", room.name]'>Edit</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
