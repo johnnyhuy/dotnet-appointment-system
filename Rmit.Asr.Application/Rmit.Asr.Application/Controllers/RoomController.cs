@@ -52,6 +52,8 @@ namespace Rmit.Asr.Application.Controllers
         [Authorize(Roles = Staff.RoleName)]
         public IActionResult AvailabilityIndex([Bind("Date")]AvailabilityRoom room)
         {
+            room.AvailableRooms = new List<Room>();
+            
             if (!ModelState.IsValid) return View(room);
 
             if (room.Date >= _dateTimeProvider.Now())
@@ -59,10 +61,6 @@ namespace Rmit.Asr.Application.Controllers
                 room.AvailableRooms = _context.Room
                     .GetAvailableRooms(room.Date)
                     .OrderBy(r => r.Name);
-            }
-            else
-            {
-                room.AvailableRooms = new List<Room>();
             }
 
             return View(room);

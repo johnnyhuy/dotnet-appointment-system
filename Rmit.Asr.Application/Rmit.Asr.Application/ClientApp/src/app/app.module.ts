@@ -1,22 +1,26 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from "@angular/http";
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { RoomsComponent } from './rooms/rooms.component';
+import {AppComponent} from './app.component';
+import {AlertsComponent} from './alerts/alerts.component';
+import {NavMenuComponent} from './nav-menu/nav-menu.component';
+import {HomeComponent} from './home/home.component';
+import {RoomsIndexComponent} from './rooms/index.component';
+import {RoomsEditComponent} from './rooms/edit.component';
+import {RoomsCreateComponent} from "./rooms/create.component";
 
-import { SlotsComponent } from './slots/slots.component';
-import { EditSlotComponent } from './edit-slot/edit-slot.component';
+import {RoomService} from "./services/room.service";
+import {AlertService} from "./services/alert.service";
+
+import {SlotsComponent} from './slots/slots.component';
+import {EditSlotComponent} from './edit-slot/edit-slot.component';
 
 
-import { SlotService } from './services/slot.service';
+import {SlotService} from './services/slot.service';
 
 
 @NgModule({
@@ -24,28 +28,33 @@ import { SlotService } from './services/slot.service';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    RoomsComponent,
     SlotsComponent,
     EditSlotComponent,
+    RoomsIndexComponent,
+    RoomsCreateComponent,
+    RoomsEditComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    HttpModule,
     FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
-      { path: 'admin/counter', component: CounterComponent },
-      { path: 'admin/fetch-data', component: FetchDataComponent },
-      { path: 'admin/rooms', component: RoomsComponent },
       { path: 'admin/slots', component: SlotsComponent },
       { path: 'admin/edit', component: EditSlotComponent },
-
+      { path: 'admin/rooms', component: RoomsIndexComponent },
+      { path: 'admin/rooms/create', component: RoomsCreateComponent },
+      { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }
     ])
   ],
-  providers: [SlotService],
+  providers: [
+    AlertService,
+    RoomService,
+    SlotService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

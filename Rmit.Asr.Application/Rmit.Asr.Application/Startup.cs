@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using Rmit.Asr.Application.Data;
 using Rmit.Asr.Application.Providers;
 using static Rmit.Asr.Application.Data.SeedData;
@@ -56,7 +57,14 @@ namespace Rmit.Asr.Application
                     config.Filters.Add(new AuthorizeFilter(policy));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy
+                    {
+                        ProcessDictionaryKeys = true
+                    }
+                });
             
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

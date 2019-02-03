@@ -12,15 +12,13 @@ namespace Rmit.Asr.Application.Models
         public const int MaxRoomBookingPerDay = 2;
         
         [Key]
-        [JsonIgnore]
         public string Id { get; set; }
         
         /// <summary>
         /// Room name.
         /// </summary>
-        [Required]
         [Display(Name = "Room Name")]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// Slots related to the room.
