@@ -34,13 +34,13 @@
                         @if (User.IsInRole(Student.RoleName))
                         {
                             <th class="text-right">
-                                <a class="btn btn-success" asp-controller="Slot" asp-action="Book">Book a slot</a>
-                                <a class="btn btn-danger" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
+                                <a class="btn btn-success rounded-lg mr-2" asp-controller="Slot" asp-action="Book">Book a slot</a>
+                                <a class="btn btn-danger rounded-lg" asp-controller="Slot" asp-action="Cancel">Cancel a slot</a>
                             </th>
                         }
                         else if (User.IsInRole(Staff.RoleName))
                         {
-                        <th class="text-right"><a class="btn btn-success" asp-controller="Slot" asp-action="Create">Create a slot</a></th>
+                        <th class="text-right"><a class="btn btn-success rounded-lg" asp-controller="Slot" asp-action="Create">Create a slot</a></th>
                         }
                     </tr>
                 </thead>
@@ -71,7 +71,7 @@
                                 <form asp-controller="Slot" asp-action="Book">
                                     <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
                                     <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
-                                    <input type="submit" value="Book" class="btn btn-secondary"/>
+                                    <input type="submit" value="Book" class="btn btn-secondary rounded-lg"/>
                                 </form>
                             }
                             @if (slot.Student?.Id == UserManager.GetUserId(User))
@@ -79,7 +79,7 @@
                                 <form asp-controller="Slot" asp-action="Cancel">
                                     <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control"/>
                                     <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control"/>
-                                    <input type="submit" value="Cancel" class="btn btn-secondary"/>
+                                    <input type="submit" value="Cancel" class="btn btn-secondary rounded-lg"/>
                                 </form>
                             }
                             </td>
@@ -90,7 +90,7 @@
                                 <form asp-controller="Slot" asp-action="Remove">
                                     <input type="hidden" asp-for="@slot.RoomId" name="@nameof(slot.RoomId)" class="form-control" />
                                     <input type="hidden" asp-for="@slot.StartTime" name="@nameof(slot.StartTime)" class="form-control" />
-                                    <input type="submit" value="Delete" class="btn btn-secondary" />
+                                    <input type="submit" value="Delete" class="btn btn-secondary rounded-lg" />
                                 </form>
                             </td>
                         }
@@ -115,7 +115,7 @@ else
     <div>
         <h1>No slots found 😅</h1>
         <p>There seems to be no slots at all! Let's get started.</p>
-        <a class="btn btn-primary" asp-controller="Slot" asp-action="Create">Create a slot</a>
+        <a class="btn btn-primary rounded-lg" asp-controller="Slot" asp-action="Create">Create a slot</a>
     </div>
 }
 

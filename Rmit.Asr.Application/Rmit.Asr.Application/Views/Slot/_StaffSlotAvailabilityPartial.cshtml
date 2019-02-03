@@ -18,7 +18,7 @@
                 <input asp-for="Date" id="datePicker" class="form-control" type="text" value="@Model.Date?.ToString("yyyy-MM-dd")" placeholder="Select Date.." data-id="datetime"/>
             </div>
             <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary rounded-lg" />
                 <a class="btn" asp-controller="Slot" asp-action="Index">Slot list</a>
             </div>
         </form>
@@ -75,7 +75,7 @@
             <div class="col-12">
                 <h2>Staff are not available 😅</h2>
                 <p class="lead">There seems to be no slots at all!</p>
-                <a class="btn btn-primary" asp-controller="Slot" asp-action="Index">List slots</a>
+                <a class="btn btn-primary rounded-lg" asp-controller="Slot" asp-action="Index">List slots</a>
             </div>
         }
     </div>

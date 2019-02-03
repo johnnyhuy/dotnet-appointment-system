@@ -10,7 +10,7 @@
       <tr>
         <th class="align-middle">Room name</th>
         <th class="align-middle text-right">
-          <a class="btn btn-success" [routerLink]='["/admin/rooms/create"]'>Create</a>
+          <a class="btn btn-success rounded-lg" [routerLink]='["/admin/rooms/create"]'>Create</a>
         </th>
       </tr>
     </thead>
@@ -18,7 +18,7 @@
       <tr *ngFor="let room of rooms">
         <td class="align-middle">{{ room.name }}</td>
         <td class="align-middle text-right">
-          <a class="btn btn-secondary" [routerLink]='["/admin/rooms/edit/", room.name]'>Edit</a>
+          <a class="btn btn-secondary rounded-lg" [routerLink]='["/admin/rooms/edit/", room.name]'>Edit</a>
         </td>
       </tr>
     </tbody>
