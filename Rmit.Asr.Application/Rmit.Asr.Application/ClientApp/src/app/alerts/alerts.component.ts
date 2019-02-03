@@ -4,8 +4,7 @@ import {AlertService} from "../services/alert.service";
 
 @Component({
   selector: 'app-alerts',
-  templateUrl: './alerts.component.html',
-  styleUrls: ['./alerts.component.css']
+  templateUrl: './alerts.component.html'
 })
 export class AlertsComponent {
   public message: string;
