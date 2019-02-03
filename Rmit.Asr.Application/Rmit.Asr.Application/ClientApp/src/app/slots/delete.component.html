@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Delete Slot</h1>
+</div>
+<p class="lead">Confirmation to delete a slot.</p>
+<div class="col-4 px-0" *ngIf="slot">
+  <form [formGroup]="deleteSlotForm" (ngSubmit)="delete()">
+    <div class="form-group">
+      <label for="roomName">Room name:</label>
+      <input type="text" class="form-control" id="roomName" [ngModel]="slot.room.name" formControlName="roomName" disabled>
+    </div>
+    <div class="form-group">
+      <label for="startTime">Start time:</label>
+      <input type="text" [ngModel]="startTime" class="form-control" id="startTime" formControlName="startTime" disabled>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start date:</label>
+      <input type="text" [ngModel]="startDate" class="form-control" id="startDate" formControlName="startDate" disabled>
+    </div>
+    <div class="form-group">
+      <label for="staffId">Staff ID:</label>
+      <input type="text" [value]="slot.staff.staffId" class="form-control" id="staffId" disabled>
+    </div>
+    <div class="form-group">
+      <label for="studentId">Student ID:</label>
+      <input type="text" [value]="slot.student.studentId" class="form-control" id="studentId" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a class="btn btn-secondary" [routerLink]='["/admin/slots"]'>Back to slots list</a>
+  </form>
+</div>

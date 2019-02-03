@@ -81,6 +81,40 @@ namespace Rmit.Asr.Application.Controllers.Api
                 .Where(s => s.Staff.StaffId == staffId)
                 .ToList();
         }
+        
+        /// <summary>
+        /// Get slot by start time and room name.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{roomName}/{startDate}/{startTime}")]
+        public ActionResult<Slot> Get(string roomName, DateTime startDate, DateTime startTime)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
+            DateTime slotStartTime = startDate.Date.Add(startTime.TimeOfDay);
+
+            Room room = _context.Room
+                .FirstOrDefault(r => r.Name == roomName);
+            
+            if (room == null)
+            {
+                ModelState.AddModelError("RoomId", "Room does not exist.");
+                return BadRequest(ModelState);
+            }
+            
+            Slot getSlot = _context.Slot
+                .Include(s => s.Staff)
+                .Include(s => s.Student)
+                .FirstOrDefault(s => s.RoomId == room.Id && s.StartTime == slotStartTime);
+            
+            if (getSlot == null)
+            {
+                ModelState.AddModelError("StartTime", "Slot does not exist.");
+                return BadRequest(ModelState);
+            }
+            
+            return getSlot;
+        }
 
         /// <summary>
         /// Update a slot.

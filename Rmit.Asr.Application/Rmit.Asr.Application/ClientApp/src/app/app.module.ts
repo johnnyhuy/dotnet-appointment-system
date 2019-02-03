@@ -19,16 +19,18 @@ import {AlertService} from "./services/alert.service";
 import {SlotService} from './services/slot.service';
 import {ValidationService} from "./services/validation.service";
 
-import {SlotsComponent} from './slots/slots.component';
+import {SlotsIndexComponent} from './slots/index.component';
 import {SlotsEditComponent} from './slots/edit.component';
+import {SlotsDeleteComponent} from './slots/delete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    SlotsComponent,
+    SlotsIndexComponent,
     SlotsEditComponent,
+    SlotsDeleteComponent,
     RoomsIndexComponent,
     RoomsCreateComponent,
     RoomsEditComponent,
@@ -43,8 +45,9 @@ import {SlotsEditComponent} from './slots/edit.component';
     FlatpickrModule.forRoot(),
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
-      { path: 'admin/slots', component: SlotsComponent },
+      { path: 'admin/slots', component: SlotsIndexComponent },
       { path: 'admin/slots/edit/:id/:start_date/:start_time', component: SlotsEditComponent },
+      { path: 'admin/slots/delete/:id/:start_date/:start_time', component: SlotsDeleteComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
       { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }

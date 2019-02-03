@@ -3,7 +3,7 @@
 </div>
 <p class="lead">Here are all the slots made by staff on the system.</p>
 <div class="col-6 px-0 mb-4">
-  <app-alerts [inputMessage]="message"></app-alerts>
+  <app-alerts></app-alerts>
   <div class="alert alert-danger" *ngIf="userId.invalid && (userId.dirty || userId.touched) || error">
     <div *ngIf="userId.invalid && (userId.dirty || userId.touched)">
       <div *ngIf="!!userId.errors?.invalidUserId">
@@ -43,12 +43,7 @@
         <td class="align-middle">{{ date('MMMM DD YYYY', slot.startTime) }}</td>
         <td class="align-middle">{{ date('h:mm a', slot.startTime) }}</td>
         <td class="align-middle text-right">
-          <form class="d-inline" [formGroup]="deleteSlotForm" (ngSubmit)="deleteSlot()">
-            <input type="hidden" formControlName="roomName" [ngModel]="slot.room.name">
-            <input type="hidden" formControlName="startTime" [ngModel]="date('HH:mm', slot.startTime)">
-            <input type="hidden" formControlName="startDate" [ngModel]="date('YYYY-MM-DD', slot.startTime)">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          <a class="btn btn-danger" [routerLink]='["/admin/slots/delete/", slot.room.name, date("YYYY-MM-DD", slot.startTime), date("HH:mm", slot.startTime)]'>Delete</a>
           <a class="btn btn-secondary" [routerLink]='["/admin/slots/edit/", slot.room.name, date("YYYY-MM-DD", slot.startTime), date("HH:mm", slot.startTime)]'>Edit</a>
         </td>
       </tr>

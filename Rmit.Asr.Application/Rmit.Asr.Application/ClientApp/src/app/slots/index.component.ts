@@ -11,15 +11,13 @@ import {Slot} from '../models/slot';
 import {AlertService} from "../services/alert.service";
 
 @Component({
-  selector: 'app-slots',
-  templateUrl: './slots.component.html',
+  selector: 'app-slots-index',
+  templateUrl: './index.component.html',
 })
-export class SlotsComponent implements OnInit {
+export class SlotsIndexComponent implements OnInit {
   public slots: Slot[];
   public error: string[];
   public getSlotForm: FormGroup;
-  public deleteSlotForm: FormGroup;
-  public message: string;
 
   constructor(
     private router: Router,
@@ -27,7 +25,6 @@ export class SlotsComponent implements OnInit {
     private alertService: AlertService,
     private fb: FormBuilder
   ) {
-    this.getAll()
   }
 
   get userId() { return this.getSlotForm.get('userId'); }
@@ -59,17 +56,6 @@ export class SlotsComponent implements OnInit {
     })
   }
 
-  deleteSlot() {
-    this.slotService.deleteSlot(this.deleteSlotForm.value.roomName, this.deleteSlotForm.value.startDate, this.deleteSlotForm.value.startTime).subscribe(() => {
-      this.message = "Successfully deleted the slot!"
-      this.getAll()
-    }, (errorResult: HttpErrorResponse) => {
-      this.error = Object.keys(errorResult.error).reduce(function (r, k) {
-        return r.concat(errorResult.error[k]);
-      }, [])
-    })
-  }
-
   getDate(date: string) {
     return moment(date).format('MMMM DD YYYY')
   }
@@ -79,14 +65,10 @@ export class SlotsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAll()
+
     this.getSlotForm = this.fb.group({
         userId: ['', ValidationService.invalidUserIdValidator]
-      }
-    )
-    this.deleteSlotForm = this.fb.group({
-        roomName: '',
-        startDate: '',
-        startTime: ''
       }
     )
   }
