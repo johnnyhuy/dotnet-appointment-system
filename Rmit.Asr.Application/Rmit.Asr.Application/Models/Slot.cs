@@ -39,7 +39,6 @@ namespace Rmit.Asr.Application.Models
         /// <summary>
         /// Student ID who booked the slot.
         /// </summary>
-        [JsonIgnore]
         [Display(Name = "Student ID")]
         public string StudentId { get; set; }
         

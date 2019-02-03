@@ -116,6 +116,7 @@ namespace Rmit.Asr.Application.Controllers.Api
             }
             
             Slot updateSlot = _context.Slot
+                .AsNoTracking()
                 .FirstOrDefault(s => s.RoomId == room.Id && s.StartTime == slotStartTime);
             
             if (updateSlot == null)
@@ -124,10 +125,9 @@ namespace Rmit.Asr.Application.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            updateSlot.StudentId = student?.StudentId;
+            updateSlot.StudentId = student?.Id;
 
-            _context.Slot.Update(slot);
-
+            _context.Slot.Update(updateSlot);
             _context.SaveChanges();
 
             return Ok();
