@@ -248,7 +248,7 @@ namespace Rmit.Asr.Application.Controllers
 
             if (slot.StartTime < _dateTimeProvider.Now())
             {
-                ModelState.AddModelError("StartTime", "cannot book a slot from the past.");
+                ModelState.AddModelError("StartTime", "Slot cannot be booked in the past.");
             }
 
             if (_context.Slot.Any(s => s.StartTime.Value.Date == slot.StartTime.Value.Date && s.StudentId == slot.StudentId))

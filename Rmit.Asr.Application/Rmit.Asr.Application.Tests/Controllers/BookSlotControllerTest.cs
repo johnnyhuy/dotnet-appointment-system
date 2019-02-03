@@ -216,5 +216,51 @@ namespace Rmit.Asr.Application.Tests.Controllers
 
             Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
         }
+        
+        [Fact]
+        public async Task BookSlot_WithStartTimeInThePast_ReturnFail()
+        {
+            // Arrange
+            UserLoggedIn(StudentUsername);
+            
+            var createdSlot = new Slot
+            {
+                RoomId = RoomA.Id,
+                StaffId = Staff.Id,
+                StudentId = "s3604367",
+                StartTime = DateTimeNow.Subtract(TimeSpan.FromDays(1)),
+                Student = new Student
+                {
+                    Id = "s3604367",
+                    StudentId = "s3604367",
+                    FirstName = "Johnny",
+                    LastName = "Doe",
+                    Email = "s3604367@student.rmit.edu.au"
+                }
+            };
+
+            Context.Slot.Add(createdSlot);
+            
+            await Context.SaveChangesAsync();
+            
+            var slot = new BookSlot
+            {
+                RoomId = createdSlot.RoomId,
+                StartTime = createdSlot.StartTime
+            };
+
+            // Act
+            IActionResult result = await SlotController.Book(slot);
+
+            // Assert
+            IEnumerable<string> errorMessages = SlotController.ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage);
+            
+            Assert.Contains(errorMessages, e => e == "Slot cannot be booked in the past.");
+            Assert.False(SlotController.ModelState.IsValid);
+            
+            Assert.IsType<ViewResult>(result);
+
+            Assert.False(Context.Slot.Any(s => s.RoomId == slot.RoomId && s.StartTime == slot.StartTime && s.StudentId == slot.StudentId));
+        }
     }
 }
