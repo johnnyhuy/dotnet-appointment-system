@@ -1,52 +1,64 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { SlotService } from '../services/slot.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
 
-import { Slot } from '../slot';
+import {ValidationService} from "../services/validation.service";
+import {SlotService} from '../services/slot.service';
 
+import {Slot} from '../models/slot';
 
-@Component(
-{
+@Component({
   selector: 'app-slots',
   templateUrl: './slots.component.html',
 })
+export class SlotsComponent implements OnInit {
+  public slots: Slot[];
+  public error: string[];
+  public getSlotForm: FormGroup;
 
-export class SlotsComponent implements OnInit
-{
-    public slotList: Slot[];
+  constructor(
+    private router: Router,
+    private slotService: SlotService,
+    private fb: FormBuilder,
+  ) {
+    this.getAll()
+  }
 
-    public _userID:string;
-    _slotService:SlotService;
-    _http:HttpClient;
-    _router: Router;
+  get userId() { return this.getSlotForm.get('userId'); }
 
-    constructor(private http: HttpClient, private router: Router, slotService: SlotService)
-    {
-        this._slotService=slotService;
-        this._http=http;
-        this._router=router;
+  getSlot() {
+    if (!this.getSlotForm.valid) {
+      console.log('invalid')
+      return
     }
 
-    ngOnInit()
-    {
-    }
+    this.slotService.getUsersSlots(this.getSlotForm.value.userId).subscribe(slots => {
+      this.slots = slots
+    }, (errorResult: HttpErrorResponse) => {
+      this.error = Object.keys(errorResult.error).reduce(function (r, k) {
+        return r.concat(errorResult.error[k]);
+      }, []);
+    })
+  }
 
+  resetSlots() {
+    this.getSlotForm.value.userId = ''
+    this.getAll()
+  }
 
-    onSubmit()
-    {
-        if( this.slotList != null  || typeof this.slotList != "undefined" )
-            this.slotList.length=0;
+  getAll() {
+    this.slotService.getSlots().subscribe(slots => {
+      this.slots = slots
+      }, (errorResult: HttpErrorResponse) => {
+      this.error = errorResult.error
+    });
+  }
 
-        this._slotService.getUsersSlots(this._userID).subscribe(data=>this.slotList=data);
-    }
-
-    getAll()
-    {
-        if( this.slotList != null || typeof this.slotList != "undefined" )
-            this.slotList.length=0;
-
-        this._slotService.getSlots().subscribe(data => this.slotList = data);
-    }
-
+  ngOnInit(): void {
+    this.getSlotForm = this.fb.group({
+        userId: ['', ValidationService.invalidUserIdValidator]
+      }
+    );
+  }
 }

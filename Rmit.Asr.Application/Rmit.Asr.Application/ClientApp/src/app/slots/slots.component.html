@@ -1,29 +1,45 @@
-
-<h1>List Booked Slots</h1>
-<p>Enter the ID for the student or staff member to list all their booked slots</p>
-
-<div>
-  <span>User Id: </span>
-  <input type="text" name="UserID" [(ngModel)]="_userID">
-  <input type="submit" name="submit" value="Get Slots" (click)="onSubmit(UserID)">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">List Booked Slots</h1>
 </div>
+<p class="lead">Here are all the slots made by staff on the system.</p>
 
-
-<table class='table' *ngIf="slotList">
-  <thead>
-    <tr>
-      <th>Room name</th>
-      <th>Staff ID</th>
-      <th>Student ID</th>
-      <th>StartTime</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let slot of slotList">
-          <td *ngIf="slot.student" >{{ slot.room.name }}</td>
-          <td *ngIf="slot.student" ><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
-          <td *ngIf="slot.student" ><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
-          <td *ngIf="slot.student" >{{ slot.startTime }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="col-4 px-0 mb-4">
+  <div class="alert alert-danger" *ngIf="userId.invalid && (userId.dirty || userId.touched) || error">
+    <div *ngIf="userId.invalid && (userId.dirty || userId.touched)">
+      <div *ngIf="!!userId.errors?.invalidUserId">
+        Invalid user ID as it must start with either 's' or 'e'
+      </div>
+    </div>
+    <div *ngIf="error">
+      <div *ngFor="let message of error">{{ message }}</div>
+    </div>
+  </div>
+  <form [formGroup]="getSlotForm" (ngSubmit)="getSlot()">
+    <div class="form-group">
+      <label for="userId">User Id:</label>
+      <input type="text" formControlName="userId" class="form-control" id="userId" placeholder="Student ID or staff ID" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Get slots</button>
+    <a class="btn btn-secondary" [routerLink]='["/admin/slots"]' (click)="resetSlots()">Back to all slots</a>
+  </form>
+</div>
+<div class="col-4 px-0">
+  <table class='table' *ngIf="slots">
+    <thead>
+      <tr>
+        <th>Room name</th>
+        <th>Staff ID</th>
+        <th>Student ID</th>
+        <th>StartTime</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let slot of slots">
+        <td>{{ slot.room.name }}</td>
+        <td><span *ngIf="slot.staff">{{ slot.staff.staffId }}</span></td>
+        <td><span *ngIf="slot.student">{{ slot.student.studentId }}</span></td>
+        <td>{{ slot.startTime }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

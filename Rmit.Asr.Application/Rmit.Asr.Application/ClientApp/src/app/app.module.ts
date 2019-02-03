@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {AppComponent} from './app.component';
 import {AlertsComponent} from './alerts/alerts.component';
@@ -15,13 +16,11 @@ import {RoomsCreateComponent} from "./rooms/create.component";
 
 import {RoomService} from "./services/room.service";
 import {AlertService} from "./services/alert.service";
+import {SlotService} from './services/slot.service';
+import {ValidationService} from "./services/validation.service";
 
 import {SlotsComponent} from './slots/slots.component';
-import {EditSlotComponent} from './edit-slot/edit-slot.component';
-
-
-import {SlotService} from './services/slot.service';
-
+import {SlotsEditComponent} from './slots/edit.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +28,7 @@ import {SlotService} from './services/slot.service';
     NavMenuComponent,
     HomeComponent,
     SlotsComponent,
-    EditSlotComponent,
+    SlotsEditComponent,
     RoomsIndexComponent,
     RoomsCreateComponent,
     RoomsEditComponent,
@@ -41,10 +40,11 @@ import {SlotService} from './services/slot.service';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    FlatpickrModule.forRoot(),
     RouterModule.forRoot([
       { path: 'admin', component: HomeComponent, pathMatch: 'full' },
       { path: 'admin/slots', component: SlotsComponent },
-      { path: 'admin/edit', component: EditSlotComponent },
+      { path: 'admin/slots/edit', component: SlotsEditComponent },
       { path: 'admin/rooms', component: RoomsIndexComponent },
       { path: 'admin/rooms/create', component: RoomsCreateComponent },
       { path: 'admin/rooms/edit/:id', component: RoomsEditComponent }
@@ -53,7 +53,8 @@ import {SlotService} from './services/slot.service';
   providers: [
     AlertService,
     RoomService,
-    SlotService
+    SlotService,
+    ValidationService
   ],
   bootstrap: [AppComponent]
 })
