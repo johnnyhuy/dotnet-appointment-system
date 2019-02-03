@@ -45,11 +45,6 @@ body {
 
 .sidebar .nav-link .feather {
   margin-right: 4px;
-  color: #999;
-}
-
-.sidebar .nav-link.active {
-  color: #007bff;
 }
 
 .sidebar .nav-link:hover .feather,
@@ -97,4 +92,22 @@ body {
 .form-control-dark:focus {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+/* Highlighting rules for nav menu items */
+.sidebar .nav-item.link-active a,
+.sidebar .nav-item.link-active a:hover,
+.sidebar .nav-item.link-active a:focus {
+  fill: currentColor;
+  background-color: theme-color('primary');
+  color: $white;
+}
+
+/* Keep the nav menu independent of scrolling and on top of other items */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }

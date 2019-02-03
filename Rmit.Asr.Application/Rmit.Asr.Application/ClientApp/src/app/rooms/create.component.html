@@ -2,14 +2,17 @@
   <h1 class="h2">Create Room</h1>
 </div>
 <p class="lead">Create a room form.</p>
-
-<div *ngIf="error" class="alert alert-danger">
-  <p *ngFor="let item of error.name">{{ item }}</p>
+<div class="col-4 px-0">
+  <div *ngIf="error" class="alert alert-danger">
+    <p *ngFor="let item of error.name">{{ item }}</p>
+  </div>
+  <form [formGroup]="createRoomForm" (ngSubmit)="create()">
+    <div class="form-group">
+      <label for="roomName">Room name:</label>
+      <input type="text" name="name" class="form-control" id="roomName" aria-describedby="roomHelp" placeholder="Room name e.g. A, Office B">
+      <small id="roomHelp" class="form-text text-muted">This name will change any slot assigned to it.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" [routerLink]='["/admin/rooms"]'>Back to room list</a>
+  </form>
 </div>
-
-<form [formGroup]="createRoomForm" (ngSubmit)="create()">
-  <label>
-    Room name:
-    <input type="text" formControlName="name">
-  </label>
-</form>

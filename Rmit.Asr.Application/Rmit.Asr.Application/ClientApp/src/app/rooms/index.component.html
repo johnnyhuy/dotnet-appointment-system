@@ -2,11 +2,9 @@
   <h1 class="h2">Rooms</h1>
 </div>
 <p class="lead">List of rooms.</p>
-<app-alerts></app-alerts>
-
-<p *ngIf="!rooms"><em>Loading...</em></p>
-
 <div class="col-4 px-0">
+  <p *ngIf="!rooms"><em>Loading...</em></p>
+  <app-alerts></app-alerts>
   <table class='table' *ngIf="rooms">
     <thead>
       <tr>
