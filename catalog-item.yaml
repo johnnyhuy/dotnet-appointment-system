@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dotnet-appointment-system
+  title: Dotnet Appointment System
+  description: A simple appointment system built with .NET Core
+  tags:
+    - dotnet
+spec:
+  type: library
+  lifecycle: experimental
+  owner: johnnyhuy
